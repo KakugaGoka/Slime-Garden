@@ -1,0 +1,20 @@
+Slime Garden Feature Work
+Kico Feature Work
+	Slime AI and Assets
+	Tree and Fruit Assets
+	Garden Design and Assets
+	Race Stats and AI
+	Procedural Assets for Races
+	Slime Audio
+	Garden Theme
+	Race Theme
+
+Collin Feature Work
+	Debug Garden (Complete)
+	Character Controller
+	Interaction System
+	Spline System for Races
+	Tree and Fruit Interactions
+	Main Menu
+	Save/Load System
+	Game Manager
