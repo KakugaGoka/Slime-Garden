@@ -13,7 +13,7 @@ Collin Feature Work
 	Debug Garden (Complete)
 	Character Controller (Complete)	
 	Interaction System (Complete)
-	Spline System for Races
+	Spline System for Races (Complete)
 	Tree and Fruit Interactions
 	Main Menu
 	Save/Load System
