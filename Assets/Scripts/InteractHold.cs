@@ -37,6 +37,7 @@ public class InteractHold : MonoBehaviour {
             m_Rigidbody.useGravity = false;
             m_Rigidbody.detectCollisions = false;
         }
+        this.gameObject.transform.parent = player.heldObjectLocation;
         this.gameObject.transform.localPosition = holdPosition;
         isHeld = true;
         player.isHolding = true;
