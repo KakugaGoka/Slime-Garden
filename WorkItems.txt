@@ -11,8 +11,8 @@ Kico Feature Work
 
 Collin Feature Work
 	Debug Garden (Complete)
-	Character Controller
-	Interaction System
+	Character Controller (Complete)	
+	Interaction System (Complete)
 	Spline System for Races
 	Tree and Fruit Interactions
 	Main Menu
