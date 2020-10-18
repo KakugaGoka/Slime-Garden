@@ -15,8 +15,12 @@ public class PlayerCharacterController : MonoBehaviour {
     public Canvas hud;
     [Tooltip("The game's pause menu")]
     public Canvas pauseMenu;
+    [Tooltip("The text box that contains the player's current money.")]
+    public Text wallet;
 
     [Header("General")]
+    [Tooltip("The current amount of wealth had by the player.")]
+    public int wealth;
     [Tooltip("Force applied downward when in the air")]
     public float gravityDownForce = 20f;
     [Tooltip("Physic layers checked to consider the player grounded")]
@@ -122,6 +126,9 @@ public class PlayerCharacterController : MonoBehaviour {
         }
 
         if (GameFlowManager.paused) { return; } // don't allow updates during pause.
+
+        wealth = Mathf.Clamp(wealth, 0, 999999999);
+        wallet.text = "Wealth: " + wealth.ToString() + "©";
 
         hasJumpedThisFrame = false;
 

@@ -5,10 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(InteractHold))]
 public class FruitController : MonoBehaviour {
     private Rigidbody m_RigidBody;
-    private float age = 0;
 
     public float currentAge = 0;
     public float maxAge = 600;
+
+    [HideInInspector]
+    public string prefabName;
 
     void Start() {
         m_RigidBody = GetComponent<Rigidbody>();
