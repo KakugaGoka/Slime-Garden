@@ -22,9 +22,9 @@ public class PlayerInputHandler : MonoBehaviour {
         Cursor.visible = false;
     }
 
-    private void LateUpdate() {
-        m_FireInputWasHeld = GetFireInputHeld();
-    }
+    //private void LateUpdate() {
+    //    m_FireInputWasHeld = GetFireInputHeld();
+    //}
 
     public bool CanProcessInput() {
         return Cursor.lockState == CursorLockMode.Locked;
@@ -94,21 +94,21 @@ public class PlayerInputHandler : MonoBehaviour {
         return false;
     }
 
-    public bool GetFireInputDown() {
-        return GetFireInputHeld() && !m_FireInputWasHeld;
-    }
+    //public bool GetFireInputDown() {
+    //    return GetFireInputHeld() && !m_FireInputWasHeld;
+    //}
 
-    public bool GetFireInputReleased() {
-        return !GetFireInputHeld() && m_FireInputWasHeld;
-    }
+    //public bool GetFireInputReleased() {
+    //    return !GetFireInputHeld() && m_FireInputWasHeld;
+    //}
 
-    public bool GetFireInputHeld() {
-        if (CanProcessInput()) {
-            return Input.GetButton(GameConstants.k_ButtonNameFire);
-        }
+    //public bool GetFireInputHeld() {
+    //    if (CanProcessInput()) {
+    //        return Input.GetButton(GameConstants.k_ButtonNameFire);
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 
     public bool GetSprintInputHeld() {
         if (CanProcessInput()) {

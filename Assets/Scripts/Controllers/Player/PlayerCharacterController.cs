@@ -11,10 +11,6 @@ public class PlayerCharacterController : MonoBehaviour {
     public AudioSource audioSource;
     [Tooltip("The empty object to parent held items under.")]
     public Transform heldObjectLocation;
-    [Tooltip("The player's heads up display")]
-    public Canvas hud;
-    [Tooltip("The game's pause menu")]
-    public Canvas pauseMenu;
     [Tooltip("The text box that contains the player's current money.")]
     public Text wallet;
 
@@ -104,6 +100,8 @@ public class PlayerCharacterController : MonoBehaviour {
     const float k_GroundCheckDistanceInAir = 0.07f;
 
     void Start() {
+        DontDestroyOnLoad(this);
+
         // fetch components on the same gameObject
         m_Controller = GetComponent<CharacterController>();
 
@@ -120,9 +118,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
     void Update() {
         if(m_InputHandler.GetPauseInputDown()) {
-            GameFlowManager.paused = !GameFlowManager.paused;
-            hud.gameObject.SetActive(!GameFlowManager.paused);
-            pauseMenu.gameObject.SetActive(GameFlowManager.paused);
+            GameFlowManager.main.Pause();
         }
 
         if (GameFlowManager.paused) { return; } // don't allow updates during pause.

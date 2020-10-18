@@ -13,6 +13,8 @@ public class GameFlowManager : MonoBehaviour
     public List<ShopController> shops { get; private set; }
     public float timeOfDay { get; private set; }
     public PlayerCharacterController player { get; private set; }
+    public Canvas HUD;
+    public Canvas pauseMenu;
 
     public static string savePath;
 
@@ -47,7 +49,6 @@ public class GameFlowManager : MonoBehaviour
     }
 
     void Update() {
-        Time.timeScale = paused ? 0 : 1;
         TrackTime();
     }
 
@@ -91,64 +92,19 @@ public class GameFlowManager : MonoBehaviour
         main.shops.Remove(shop);
     }
 
-    public void SaveGame() {
-        PlayerPrefs.SetInt("currentScene", SceneManager.GetActiveScene().buildIndex);
-        SavePlayerData();
-        SaveGardenData();
-        Debug.Log("Game Saved");
+    public void Pause() {
+        paused = !paused;
+        Cursor.lockState = paused ? CursorLockMode.None: CursorLockMode.Locked;
+        Time.timeScale = paused ? 0 : 1;
+        main.HUD.gameObject.SetActive(!paused);
+        main.pauseMenu.gameObject.SetActive(paused);
     }
 
-    private void SavePlayerData() {
-
+    public void QuitFromGame() {
+        SceneManager.LoadScene(0);
     }
 
-    private void SaveGardenData() {
-        //foreach (var file in Directory.GetFiles(savePath)) {
-        //    File.Delete(file);
-        //}
-
-        //foreach (var obj in enemies) {
-        //    string enemyName = obj.name.Replace(' ', '_');
-        //    EnemyController enemy = obj.GetComponent<EnemyController>();
-        //    if (enemy != null) {
-        //        EnemyInfo info = new EnemyInfo(enemyName, obj.transform.position.x, obj.transform.position.y, enemy.currentHealth);
-        //        string entityJSON = JsonUtility.ToJson(info);
-        //        string filePath = savePath + enemyName + ".json";
-        //        File.WriteAllText(filePath, entityJSON);
-        //        Debug.Log("Saved :: " + enemyName + "to JSON");
-        //    }
-        //}
-        //foreach (var obj in blocks) {
-        //    string blockName = obj.name.Replace(' ', '_');
-        //    HitBlockController block = obj.GetComponentInChildren<HitBlockController>();
-        //    if (block != null) {
-        //        BlockInfo info = new BlockInfo(blockName, block.activated);
-        //        string entityJSON = JsonUtility.ToJson(info);
-        //        string filePath = savePath + blockName + ".json";
-        //        File.WriteAllText(filePath, entityJSON);
-        //        Debug.Log("Saved :: " + blockName + "to JSON");
-        //    }
-
-        //}
-    }
-
-    public void LoadGame() {
-        StartCoroutine("LoadGameEnumerator", "currentScene");
-    }
-
-    IEnumerator<object> LoadGameEnumerator(string level) {
-        //var asyncLoadLevel = SceneManager.LoadSceneAsync(PlayerPrefs.GetInt(level));
-        //while (!asyncLoadLevel.isDone) {
-        //    print("Loading the Scene");
-        //    yield return null;
-        //}
-        //paused = false;
-        //var wait = new WaitForFixedUpdate();
-        //yield return wait;
-        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        //player.loadPlayer = true;
-        //LoadEntities();
-        //Debug.Log("Game Loaded");
-        yield return null;
+    public void QuitFromMenu() {
+        Application.Quit();
     }
 }
