@@ -39,7 +39,6 @@ public class TreeController : MonoBehaviour {
     [SerializeField]
     public float timeInbetweenFalls = 5f;
 
-
     private float currentScale = 0.1f;
     private float currentAge = 0;
     private bool canProduceFruit = false;
@@ -50,6 +49,7 @@ public class TreeController : MonoBehaviour {
     void Start() {
         treeLeavesTransform.localPosition = new Vector3(0, Random.Range(1.5f, 2.5f), 0);
         FruitPlacement();
+        GameFlowManager.AddTree(this);
     }
 
     void Update() {

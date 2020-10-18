@@ -168,7 +168,7 @@ public class PlayerCharacterController : MonoBehaviour {
         if (m_InteractMessage) {
             if (m_Interactable) {
                 if (m_Interactable.interactable) {
-                    m_InteractMessage.Set(m_Interactable.interactionMessage, m_Interactable.interactionColor);
+                    m_InteractMessage.Set(m_Interactable.interactionMessage, m_Interactable.messageColor);
                     if (m_InputHandler.GetInteractInputDown()) {
                         m_Interactable.onInteract.Invoke(this);
                     }

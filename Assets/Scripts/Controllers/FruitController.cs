@@ -5,9 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(InteractHold))]
 public class FruitController : MonoBehaviour {
     private Rigidbody m_RigidBody;
+    private float age = 0;
+
+    public float currentAge = 0;
+    public float maxAge = 600;
 
     void Start() {
         m_RigidBody = GetComponent<Rigidbody>();
+    }
+
+    void Update() {
+        currentAge += Time.deltaTime;
+        if (currentAge >= maxAge) {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision) {
