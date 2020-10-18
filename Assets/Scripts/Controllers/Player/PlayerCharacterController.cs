@@ -174,7 +174,7 @@ public class PlayerCharacterController : MonoBehaviour {
                     }
                 }
             } else {
-                m_InteractMessage.Set("", GameConstants.k_White);
+                m_InteractMessage.Set("", Color.white);
             }
         }
     }
