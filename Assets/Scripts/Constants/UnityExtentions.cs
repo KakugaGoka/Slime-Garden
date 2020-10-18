@@ -126,6 +126,12 @@ namespace UnityEngine {
             }
             return sizes;
         }
+
+        public static bool VisibleFromCamera(this Camera camera, Renderer renderer) {
+            Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(camera);
+            return GeometryUtility.TestPlanesAABB(frustumPlanes, renderer.bounds);
+        }
+
     }
 }
 
