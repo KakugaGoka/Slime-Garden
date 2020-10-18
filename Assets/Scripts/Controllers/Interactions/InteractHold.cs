@@ -16,11 +16,7 @@ public class InteractHold : MonoBehaviour {
 
     private void Awake() {
         m_InteractController = GetComponent<InteractController>();
-
         m_Rigidbody = GetComponent<Rigidbody>();
-
-        m_InteractController.interactionMessage = "Pick up (E)";
-        m_InteractController.messageColor = ColorConstant.Green;
 
         m_InteractController.onInteract += OnInteract;
         this.onDrop += OnDrop;
