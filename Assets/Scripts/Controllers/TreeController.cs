@@ -53,7 +53,7 @@ public class TreeController : MonoBehaviour {
     }
 
     void Update() {
-        if (currentAge <= maxAge) { currentAge = Mathf.Clamp(currentAge + Time.deltaTime, 0, maxAge + 1); }
+        if (currentAge <= maxAge) { currentAge = Mathf.Clamp(AddTime(ref currentAge), 0, maxAge + 1); }
         if (currentScale != 1f) { GetScale(); }
         if (currentAge >= maxAge && fruit != null) {
             if (canProduceFruit) {
@@ -69,19 +69,19 @@ public class TreeController : MonoBehaviour {
                                 didDropFruit = true;
                             }
                         } else {
-                            timer += Time.deltaTime;
+                            AddTime(ref timer);
                         }
                     } else {
                         if (timer >= timeBeforeFalls) {
                             timer = 0;
                             canDropFruit = true;
                         } else {
-                            timer += Time.deltaTime;
+                            AddTime(ref timer);
                         }
                     }
                 }
             } else {
-                timer += Time.deltaTime;
+                AddTime(ref timer);
                 if (timer >= timeBetweenProduction) {
                     canProduceFruit = true;
                     timer = 0;
@@ -132,4 +132,7 @@ public class TreeController : MonoBehaviour {
         currentScale = Mathf.Clamp(value, 0.1f, 1);
         gameObject.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
     }
+
+    float AddTime(ref float value) => value += Time.deltaTime * Random.Range(0.1f, 1);
+
 }

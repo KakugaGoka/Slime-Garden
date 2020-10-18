@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 3013352925431508547}
   - component: {fileID: 3013352925431508548}
   m_Layer: 0
-  m_Name: Tree
+  m_Name: Fruit Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   startingAge: 0
   maxAge: 15
   fruitSpots: []
-  fruit: {fileID: 2779578528386371325, guid: 04bc93f9a752580408bb386d077bbc18, type: 3}
+  fruit: {fileID: 0}
   timeBetweenProduction: 5
   timeBeforeFalls: 5
   timeInbetweenFalls: 5
