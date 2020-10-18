@@ -11,6 +11,10 @@ public class PlayerCharacterController : MonoBehaviour {
     public AudioSource audioSource;
     [Tooltip("The empty object to parent held items under.")]
     public Transform heldObjectLocation;
+    [Tooltip("The player's heads up display")]
+    public Canvas hud;
+    [Tooltip("The game's pause menu")]
+    public Canvas pauseMenu;
 
     [Header("General")]
     [Tooltip("Force applied downward when in the air")]
@@ -111,6 +115,14 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     void Update() {
+        if(m_InputHandler.GetPauseInputDown()) {
+            GameFlowManager.paused = !GameFlowManager.paused;
+            hud.gameObject.SetActive(!GameFlowManager.paused);
+            pauseMenu.gameObject.SetActive(GameFlowManager.paused);
+        }
+
+        if (GameFlowManager.paused) { return; } // don't allow updates during pause.
+
         hasJumpedThisFrame = false;
 
         bool wasGrounded = isGrounded;

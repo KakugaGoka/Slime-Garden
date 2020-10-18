@@ -23,6 +23,8 @@ public class GameFlowManager : MonoBehaviour
     [Range(0f, 50f)]
     public float timeScale = 0.25f;
 
+    public static bool paused = false;
+
     void Awake()
     {
         DontDestroyOnLoad(this);
@@ -37,6 +39,11 @@ public class GameFlowManager : MonoBehaviour
     }
 
     void Update() {
+        Time.timeScale = paused ? 0 : 1;
+        TrackTime();
+    }
+
+    private void TrackTime() {
         timeOfDay += Time.deltaTime * 240 * timeScale;
         TimeSpan time = TimeSpan.FromSeconds((double)timeOfDay);
         int day = time.Days % 7;

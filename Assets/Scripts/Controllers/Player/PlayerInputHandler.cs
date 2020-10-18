@@ -76,6 +76,15 @@ public class PlayerInputHandler : MonoBehaviour {
         return false;
     }
 
+    public bool GetPauseInputDown() {
+
+        if (CanProcessInput()) {
+            return Input.GetButtonDown(GameConstants.k_ButtonNameCancel);
+        }
+
+        return false;
+    }
+
     public bool GetDropInputDown() {
 
         if (CanProcessInput()) {
