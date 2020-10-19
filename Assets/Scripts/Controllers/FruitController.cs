@@ -6,8 +6,21 @@ using UnityEngine;
 public class FruitController : MonoBehaviour {
     private Rigidbody m_RigidBody;
 
+    public float currentAge = 0;
+    public float maxAge = 600;
+
+    [HideInInspector]
+    public string prefabName;
+
     void Start() {
         m_RigidBody = GetComponent<Rigidbody>();
+    }
+
+    void Update() {
+        currentAge += Time.deltaTime;
+        if (currentAge >= maxAge) {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision) {

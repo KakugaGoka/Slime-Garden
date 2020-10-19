@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler), typeof(AudioSource))]
 public class PlayerCharacterController : MonoBehaviour {
+
     [Header("References")]
     [Tooltip("Reference to the main camera used for the player")]
     public Camera playerCamera;
@@ -11,8 +12,12 @@ public class PlayerCharacterController : MonoBehaviour {
     public AudioSource audioSource;
     [Tooltip("The empty object to parent held items under.")]
     public Transform heldObjectLocation;
+    [Tooltip("The text box that contains the player's current money.")]
+    public Text wallet;
 
     [Header("General")]
+    [Tooltip("The current amount of wealth had by the player.")]
+    public int wealth;
     [Tooltip("Force applied downward when in the air")]
     public float gravityDownForce = 20f;
     [Tooltip("Physic layers checked to consider the player grounded")]
@@ -111,6 +116,15 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     void Update() {
+        if(m_InputHandler.GetPauseInputDown()) {
+            GameFlowManager.Pause();
+        }
+
+        if (GameFlowManager.paused) { return; } // don't allow updates during pause.
+
+        wealth = Mathf.Clamp(wealth, 0, 999999999);
+        wallet.text = "Wealth: " + wealth.ToString() + "©";
+
         hasJumpedThisFrame = false;
 
         bool wasGrounded = isGrounded;
@@ -168,7 +182,7 @@ public class PlayerCharacterController : MonoBehaviour {
         if (m_InteractMessage) {
             if (m_Interactable) {
                 if (m_Interactable.interactable) {
-                    m_InteractMessage.Set(m_Interactable.interactionMessage, m_Interactable.interactionColor);
+                    m_InteractMessage.Set(m_Interactable.interactionMessage, m_Interactable.messageColor);
                     if (m_InputHandler.GetInteractInputDown()) {
                         m_Interactable.onInteract.Invoke(this);
                     }
@@ -390,4 +404,10 @@ public class PlayerCharacterController : MonoBehaviour {
         isCrouching = crouched;
         return true;
     }
+
+    public float GetCameraAngle() => m_CameraVerticalAngle;
+    public void SetCameraAngle(float angle) {
+        m_CameraVerticalAngle = angle;
+    }
+
 }

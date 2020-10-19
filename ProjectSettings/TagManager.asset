@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - InteractMessage
+  - HUD
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
