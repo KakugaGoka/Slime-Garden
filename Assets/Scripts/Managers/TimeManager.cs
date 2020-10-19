@@ -15,7 +15,10 @@ public class TimeManager : MonoBehaviour {
     [Range(0f, 86400f)]
     public float cycleTimeScale = 1f;
 
-    public enum DaysOfTheWeek {
+    static int secondsInAMinute = 60;
+    static int minutesInAnHour = 60;
+    static int hoursInADay = 24;
+    enum DaysOfTheWeek {
         Sunday,
         Monday,
         Tuesday,
@@ -25,7 +28,7 @@ public class TimeManager : MonoBehaviour {
         Saturday
     }
 
-    public float currentTimeInGame;
+    public float currentTimeInGame = 12 * secondsInAnHour;
     public Vector3 dayHourMinute = Vector3.zero; //Only used by the inspector
 
     public int currentSeconds { get { return (int)currentTimeInGame % secondsInAMinute; } }
@@ -33,7 +36,18 @@ public class TimeManager : MonoBehaviour {
     public int currentHours { get { return (int)currentTimeInGame / secondsInAnHour % hoursInADay; } }
     public int currentDays { get { return (int)currentTimeInGame / secondsInADay; } }
 
-    private string clockString { get { return currentHours + ":" + currentMinutes; } }
+    private string clockString { get {
+            string minitues = currentMinutes.ToString();
+            if (currentMinutes < 10) {
+                minitues = "0" + minitues;
+            }
+            string hours = currentHours.ToString();
+            if (currentHours < 10) {
+                hours = "0" + hours;
+            }
+            return hours + ":" + minitues; 
+        } 
+    }
     public string dayOfTheWeek {
         get {
             int weekLength = Enum.GetNames(typeof(DaysOfTheWeek)).Length;
@@ -47,12 +61,9 @@ public class TimeManager : MonoBehaviour {
     }
 
     public static TimeManager main;
-    static int secondsInAMinute = 60;
-    static int minutesInAnHour = 60;
-    static int hoursInADay = 24;
     static int secondsInAnHour { get { return secondsInAMinute * minutesInAnHour; } }
-    static int minutesInADay { get { return minutesInAnHour * hoursInADay; } }
     static int secondsInADay { get { return minutesInADay * secondsInAMinute; } }
+    static int minutesInADay { get { return minutesInAnHour * hoursInADay; } }
 
     void Start() {
         if (main == null) {

@@ -149,18 +149,18 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     void LateUpdate() {
-        //if(isHolding) {
-        //    EdibleController food = heldItem.GetComponent<EdibleController>();
-        //    if (food) {
-        //        if (Input.GetKeyDown(";")) {
-        //            Slime slime = GameObject.Find("Green Slime").GetComponent<Slime>();
-        //            if (slime) {
-        //                heldItem.onDrop.Invoke(this);
-        //                food.onEat.Invoke(slime);
-        //            } 
-        //        }
-        //    }
-        //}
+        if (isHolding) {
+            EdibleController food = heldItem.GetComponent<EdibleController>();
+            if (food) {
+                if (Input.GetKeyDown(";")) {
+                    Slime slime = GameObject.Find("Green Slime").GetComponent<Slime>();
+                    if (slime) {
+                        heldItem.onDrop.Invoke(this);
+                        food.onEat.Invoke(slime);
+                    }
+                }
+            }
+        }
         HandleInteractionCheck();
         HandleDropObject();
     }

@@ -43,9 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 502dc2fd65dd048439a4fdc8684afff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockTime: {fileID: 0}
-  clockDay: {fileID: 0}
-  timeScale: 1
-  currentTime: 0
-  currentHour: 0
-  currentDay: 0
+  clock: {fileID: 0}
+  gameTimeScale: 1
+  cycleTimeScale: 1
+  currentTimeInGame: 43200
+  dayHourMinute: {x: 0, y: 0, z: 0}
