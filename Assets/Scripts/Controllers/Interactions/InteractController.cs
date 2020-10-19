@@ -10,8 +10,6 @@ public class InteractController : MonoBehaviour {
 
     public UnityAction<PlayerCharacterController> onInteract;
 
-    public Color interactionColor { get; private set; }
-
     [HideInInspector]
     public bool interactable = false;
 }
