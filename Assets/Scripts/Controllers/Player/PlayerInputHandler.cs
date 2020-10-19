@@ -66,7 +66,6 @@ public class PlayerInputHandler : MonoBehaviour {
 
         return false;
     }
-
     public bool GetInteractInputDown() {
 
         if (CanProcessInput()) {
