@@ -1,9 +1,18 @@
 Slime Garden Feature Work
 Kico Feature Work
 	Slime AI and Assets
+		AI ->
+			Wander - Just needs to walk/hop/roll to random points
+			Eat - Look for food and eat it
+		Assests ->
+			Shader - goopy? matcap?
+			bounce - mesh def/soft body/scaling?
 	Tree and Fruit Assets
+		Is this needed or are we good with the silly dev art?
 	Garden Design and Assets
+		Should we just texture the debug garden and expand?
 	Race Stats and AI
+		Splines are in, just need to follow those?
 	Procedural Assets for Races
 	Slime Audio
 	Garden Theme
