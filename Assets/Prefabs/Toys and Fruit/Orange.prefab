@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6574206599846516076}
   - component: {fileID: 3555602075650264526}
   - component: {fileID: 6515134544770715013}
+  - component: {fileID: -6202987520840693531}
   m_Layer: 0
   m_Name: Orange
   m_TagString: Untagged
@@ -96,6 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56b65d14155acc409560b03daa29c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAge: 0
+  maxAge: 600
+  satiation: 1
+  prefabName: 
 --- !u!135 &6119402655230563777
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -135,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionMessage: Pick Up Orange (E)
-  messageColor: 4
+  messageColor: {r: 1, g: 1, b: 1, a: 1}
   interactable: 0
 --- !u!54 &6515134544770715013
 Rigidbody:
@@ -153,3 +158,15 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &-6202987520840693531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6515134544770715014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3440a4842dbd2fa459c375caa0726d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

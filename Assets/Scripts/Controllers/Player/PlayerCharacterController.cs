@@ -149,6 +149,18 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     void LateUpdate() {
+        //if(isHolding) {
+        //    EdibleController food = heldItem.GetComponent<EdibleController>();
+        //    if (food) {
+        //        if (Input.GetKeyDown(";")) {
+        //            Slime slime = GameObject.Find("Green Slime").GetComponent<Slime>();
+        //            if (slime) {
+        //                heldItem.onDrop.Invoke(this);
+        //                food.onEat.Invoke(slime);
+        //            } 
+        //        }
+        //    }
+        //}
         HandleInteractionCheck();
         HandleDropObject();
     }
@@ -157,6 +169,8 @@ public class PlayerCharacterController : MonoBehaviour {
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Collide)) {
             if (hit.distance <= playerReach) {
                 InteractController interactController = hit.collider.GetComponentInParent<InteractController>();
+                InteractHold holdController = hit.collider.GetComponentInParent<InteractHold>();
+                if (holdController && isHolding) { return; }
                 if (interactController) {
                     if (m_Interactable) {
                         m_Interactable.interactable = false;
