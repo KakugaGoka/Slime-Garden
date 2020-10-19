@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler), typeof(AudioSource))]
 public class PlayerCharacterController : MonoBehaviour {
+
     [Header("References")]
     [Tooltip("Reference to the main camera used for the player")]
     public Camera playerCamera;
@@ -100,8 +101,6 @@ public class PlayerCharacterController : MonoBehaviour {
     const float k_GroundCheckDistanceInAir = 0.07f;
 
     void Start() {
-        DontDestroyOnLoad(this);
-
         // fetch components on the same gameObject
         m_Controller = GetComponent<CharacterController>();
 
@@ -118,7 +117,7 @@ public class PlayerCharacterController : MonoBehaviour {
 
     void Update() {
         if(m_InputHandler.GetPauseInputDown()) {
-            GameFlowManager.main.Pause();
+            GameFlowManager.Pause();
         }
 
         if (GameFlowManager.paused) { return; } // don't allow updates during pause.

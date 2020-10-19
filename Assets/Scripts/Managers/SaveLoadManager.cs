@@ -3,34 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SaveLoadManager : MonoBehaviour
-{
+public class SaveLoadManager : MonoBehaviour {
     public static SaveLoadManager main;
+    public static bool isMenuOpen = true;
     private static PlayerCharacterController player;
+    private static StaticCoroutine instance;
 
     void Start() {
         DontDestroyOnLoad(this);
         if (main == null) {
             main = this;
         } else {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
-        player = GameFlowManager.main.player;
+        instance = gameObject.AddComponent<StaticCoroutine>();
     }
 
-    public void SaveGame() {
+    void Update() {
+
+        Cursor.lockState = isMenuOpen ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    public static void SaveAndQuit() {
+        SaveGame();
+        GameFlowManager.paused = false;
+        QuitFromGame();
+    }
+
+    public static void SaveGame() {
         PlayerPrefs.SetInt("currentScene", SceneManager.GetActiveScene().buildIndex);
         SavePlayerData();
         //SaveGardenData();
         Debug.Log("Game Saved");
     }
 
-    public void LoadGame() {
-        StartCoroutine("LoadGameEnumerator", "currentScene");
+    public static void LoadGame() {
+        instance.StartCoroutine(LoadGameEnumerator("currentScene"));
     }
 
-    private void SavePlayerData() {
+    private static void SavePlayerData() {
         PlayerPrefs.SetFloat("POSX", player.transform.position.x);
         PlayerPrefs.SetFloat("POSY", player.transform.position.y);
         PlayerPrefs.SetFloat("POSZ", player.transform.position.z);
@@ -40,7 +52,7 @@ public class SaveLoadManager : MonoBehaviour
         PlayerPrefs.SetInt("Wealth", player.wealth);
     }
 
-    private void LoadPlayerData() {
+    private static void LoadPlayerData() {
         player.transform.position = new Vector3(PlayerPrefs.GetFloat("POSX"),
                                                 PlayerPrefs.GetFloat("POSY"),
                                                 PlayerPrefs.GetFloat("POSZ"));
@@ -50,7 +62,7 @@ public class SaveLoadManager : MonoBehaviour
         player.wealth = PlayerPrefs.GetInt("Wealth");
     }
 
-    private void SaveGardenData() {
+    private static void SaveGardenData() {
         //foreach (var file in Directory.GetFiles(savePath)) {
         //    File.Delete(file);
         //}
@@ -80,21 +92,32 @@ public class SaveLoadManager : MonoBehaviour
         //}
     }
 
-    private void LoadGardenData() {
+    private static void LoadGardenData() {
 
     }
 
-    IEnumerator<object> LoadGameEnumerator(string level) {
-        var asyncLoadLevel = SceneManager.LoadSceneAsync(PlayerPrefs.GetInt(level));
+    static IEnumerator<object> LoadGameEnumerator(string level) {
+        int scene = PlayerPrefs.GetInt(level) == 0 ? 1 : PlayerPrefs.GetInt(level);
+        var asyncLoadLevel = SceneManager.LoadSceneAsync(scene);
         while (!asyncLoadLevel.isDone) {
             print("Loading the Scene");
             yield return null;
         }
         var wait = new WaitForFixedUpdate();
         yield return wait;
+        isMenuOpen = false;
+        player = GameFlowManager.main.player;
         LoadPlayerData();
         //LoadGardenData();
         Debug.Log("Game Loaded");
         yield return null;
+    }
+
+    public static void QuitFromGame() {
+        SceneManager.LoadScene(0);
+    }
+
+    public static void QuitFromMenu() {
+        Application.Quit();
     }
 }

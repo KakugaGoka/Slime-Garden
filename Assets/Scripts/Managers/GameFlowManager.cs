@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEditor;
 
 public class GameFlowManager : MonoBehaviour
 {
@@ -34,11 +31,10 @@ public class GameFlowManager : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(this);
         if (main == null) {
             main = this;
         } else {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
         trees = new List<TreeController>();
@@ -49,10 +45,14 @@ public class GameFlowManager : MonoBehaviour
     }
 
     void Update() {
+        Time.timeScale = paused ? 0 : 1;
         TrackTime();
     }
 
     private void TrackTime() {
+        if (sun == null || world == null || clock == null || dayOfTheWeek == null) {
+            return;
+        }
         timeOfDay += Time.deltaTime * 240 * timeScale;
         TimeSpan time = TimeSpan.FromSeconds((double)timeOfDay);
         int day = time.Days % 7;
@@ -92,19 +92,10 @@ public class GameFlowManager : MonoBehaviour
         main.shops.Remove(shop);
     }
 
-    public void Pause() {
+    public static void Pause() {
         paused = !paused;
-        Cursor.lockState = paused ? CursorLockMode.None: CursorLockMode.Locked;
-        Time.timeScale = paused ? 0 : 1;
+        SaveLoadManager.isMenuOpen = paused;
         main.HUD.gameObject.SetActive(!paused);
         main.pauseMenu.gameObject.SetActive(paused);
-    }
-
-    public void QuitFromGame() {
-        SceneManager.LoadScene(0);
-    }
-
-    public void QuitFromMenu() {
-        Application.Quit();
     }
 }
