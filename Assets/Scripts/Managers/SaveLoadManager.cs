@@ -46,20 +46,20 @@ public class SaveLoadManager : MonoBehaviour {
         PlayerPrefs.SetFloat("POSX", player.transform.position.x);
         PlayerPrefs.SetFloat("POSY", player.transform.position.y);
         PlayerPrefs.SetFloat("POSZ", player.transform.position.z);
-        PlayerPrefs.SetFloat("ROTX", player.transform.rotation.x);
-        PlayerPrefs.SetFloat("ROTY", player.transform.rotation.y);
-        PlayerPrefs.SetFloat("ROTZ", player.transform.rotation.z);
+        PlayerPrefs.SetFloat("ROTX", player.GetCameraAngle());
+        PlayerPrefs.SetFloat("ROTY", player.transform.rotation.eulerAngles.y);
         PlayerPrefs.SetInt("Wealth", player.wealth);
+        PlayerPrefs.SetFloat("CurrentTime", GameFlowManager.main.timeOfDay);
     }
 
     private static void LoadPlayerData() {
         player.transform.position = new Vector3(PlayerPrefs.GetFloat("POSX"),
                                                 PlayerPrefs.GetFloat("POSY"),
                                                 PlayerPrefs.GetFloat("POSZ"));
-        player.transform.rotation = Quaternion.Euler(PlayerPrefs.GetFloat("ROTX"),
-                                                     PlayerPrefs.GetFloat("ROTY"),
-                                                     PlayerPrefs.GetFloat("ROTZ"));
+        player.transform.rotation = Quaternion.Euler(0, PlayerPrefs.GetFloat("ROTY"), 0);
+        player.SetCameraAngle(PlayerPrefs.GetFloat("ROTX"));
         player.wealth = PlayerPrefs.GetInt("Wealth");
+        GameFlowManager.SetTime(PlayerPrefs.GetFloat("CurrentTime", 21600f));
     }
 
     private static void SaveGardenData() {
@@ -103,12 +103,12 @@ public class SaveLoadManager : MonoBehaviour {
             print("Loading the Scene");
             yield return null;
         }
-        var wait = new WaitForFixedUpdate();
-        yield return wait;
         isMenuOpen = false;
         player = GameFlowManager.main.player;
         LoadPlayerData();
         //LoadGardenData();
+        var wait = new WaitForFixedUpdate();
+        yield return wait;
         Debug.Log("Game Loaded");
         yield return null;
     }

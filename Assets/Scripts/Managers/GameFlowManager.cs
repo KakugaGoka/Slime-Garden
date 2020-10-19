@@ -98,4 +98,8 @@ public class GameFlowManager : MonoBehaviour
         main.HUD.gameObject.SetActive(!paused);
         main.pauseMenu.gameObject.SetActive(paused);
     }
+
+    public static void SetTime(float time) {
+        main.timeOfDay = time;
+    }
 }

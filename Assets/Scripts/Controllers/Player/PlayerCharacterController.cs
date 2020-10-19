@@ -404,4 +404,10 @@ public class PlayerCharacterController : MonoBehaviour {
         isCrouching = crouched;
         return true;
     }
+
+    public float GetCameraAngle() => m_CameraVerticalAngle;
+    public void SetCameraAngle(float angle) {
+        m_CameraVerticalAngle = angle;
+    }
+
 }
