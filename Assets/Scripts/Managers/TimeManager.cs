@@ -7,6 +7,9 @@ public class TimeManager : MonoBehaviour {
     [Tooltip("This is the Text item in your HUD that you would like to have the time printed out to.")]
     public Text clock;
 
+    [Tooltip("The current amount of time spent in game, in seconds.")]
+    public float currentTimeInGame = 12 * secondsInAnHour;
+
     [Tooltip("This controls how fast the game simulation is. 1 is realtime")]
     [Range(0f, 100f)]
     public float gameTimeScale = 1f;
@@ -27,10 +30,7 @@ public class TimeManager : MonoBehaviour {
         Friday,
         Saturday
     }
-
-    public float currentTimeInGame = 12 * secondsInAnHour;
-    public Vector3 dayHourMinute = Vector3.zero; //Only used by the inspector
-
+    
     public int currentSeconds { get { return (int)currentTimeInGame % secondsInAMinute; } }
     public int currentMinutes { get { return (int)currentTimeInGame / secondsInAMinute % minutesInAnHour; } }
     public int currentHours { get { return (int)currentTimeInGame / secondsInAnHour % hoursInADay; } }

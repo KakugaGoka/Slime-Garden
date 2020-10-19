@@ -133,7 +133,7 @@ public class PlayerCharacterController : MonoBehaviour {
         // landing
         if (isGrounded && !wasGrounded) {
             // land SFX
-            if (landSFX != null) {
+            if (landSFX) {
                 audioSource.PlayOneShot(landSFX);
             }
         }
@@ -149,18 +149,18 @@ public class PlayerCharacterController : MonoBehaviour {
     }
 
     void LateUpdate() {
-        if (isHolding) {
-            EdibleController food = heldItem.GetComponent<EdibleController>();
-            if (food) {
-                if (Input.GetKeyDown(";")) {
-                    Slime slime = GameObject.Find("Green Slime").GetComponent<Slime>();
-                    if (slime) {
-                        heldItem.onDrop.Invoke(this);
-                        food.onEat.Invoke(slime);
-                    }
-                }
-            }
-        }
+        //if (isHolding) {
+        //    EdibleController food = heldItem.GetComponent<EdibleController>();
+        //    if (food) {
+        //        if (Input.GetKeyDown(";")) {
+        //            Slime slime = GameObject.Find("Green Slime").GetComponent<Slime>();
+        //            if (slime) {
+        //                heldItem.onDrop.Invoke(this);
+        //                food.onEat.Invoke(slime);
+        //            }
+        //        }
+        //    }
+        //}
         HandleInteractionCheck();
         HandleDropObject();
     }
@@ -297,7 +297,9 @@ public class PlayerCharacterController : MonoBehaviour {
                         characterVelocity += Vector3.up * jumpForce;
 
                         // play sound
-                        audioSource.PlayOneShot(jumpSFX);
+                        if (jumpSFX) {
+                            audioSource.PlayOneShot(jumpSFX);
+                        }
 
                         // remember last time we jumped because we need to prevent snapping to ground for a short time
                         m_LastTimeJumped = Time.time;
@@ -313,7 +315,9 @@ public class PlayerCharacterController : MonoBehaviour {
                 float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
                 if (m_footstepDistanceCounter >= 1f / chosenFootstepSFXFrequency) {
                     m_footstepDistanceCounter = 0f;
-                    audioSource.PlayOneShot(footstepSFX);
+                    if (footstepSFX) {
+                        audioSource.PlayOneShot(footstepSFX);
+                    }
                 }
 
                 // keep track of distance traveled for footsteps sound
