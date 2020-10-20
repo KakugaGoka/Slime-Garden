@@ -153,7 +153,7 @@ public class PlayerCharacterController : MonoBehaviour {
         //    EdibleController food = heldItem.GetComponent<EdibleController>();
         //    if (food) {
         //        if (Input.GetKeyDown(";")) {
-        //            Slime slime = GameObject.Find("Green Slime").GetComponent<Slime>();
+        //            SlimeController slime = GameObject.Find("Green Slime").GetComponent<SlimeController>();
         //            if (slime) {
         //                heldItem.onDrop.Invoke(this);
         //                food.onEat.Invoke(slime);
