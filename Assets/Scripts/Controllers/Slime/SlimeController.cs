@@ -199,21 +199,25 @@ public class SlimeController : MonoBehaviour
                 targetPosition = chosen.transform.position;
 
                 if (foodDist < 0.7f) {
-                    EatFood( chosen.GetComponent<FruitController>() );
+                    //EatFood( chosen.GetComponent<FruitController>() );
+                    EdibleController foodComp = chosen.GetComponent<EdibleController>();
+                    if (foodComp) {
+                        foodComp.onEat.Invoke(this);
+                    }
                 }
             }
         }
     }
 
-    private void EatFood( FruitController fruit )
-    {
-        hopping += fruit.hopping;
-        rolling += fruit.rolling;
-        floating += fruit.floating;
-        range += fruit.range;
-        hunger -= fruit.satiation * 30;
-        fruit.Eat( gameObject.GetComponent<SlimeController>() );
-    }
+    //private void EatFood( FruitController fruit )
+    //{
+    //    hopping += fruit.hopping;
+    //    rolling += fruit.rolling;
+    //    floating += fruit.floating;
+    //    range += fruit.range;
+    //    hunger -= fruit.satiation * 30;
+    //    fruit.Eat( gameObject.GetComponent<SlimeController>() );
+    //}
 
     private void OnDrawGizmos()
     {
