@@ -35,7 +35,7 @@ public class TimeManagerInspector : Editor
         GUILayout.BeginHorizontal();
         GUILayout.Label("", GUILayout.Width(labelWidth));
         if (GUILayout.Button("Set Time", GUILayout.Height(30f))) {
-            TimeManager.main.SetTime(new Vector3(Day, Minute, Hour));
+            TimeManager.main.SetTime(new Vector3(Day, Hour , Minute));
         }
         GUILayout.EndHorizontal();
     }

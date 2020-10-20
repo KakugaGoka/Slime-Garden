@@ -36,7 +36,7 @@ public class FruitController : MonoBehaviour {
         }
     }
 
-    private void Eat(Slime slime) {
+    private void Eat(SlimeController slime) {
         Debug.Log("YOU ATE THE FRUIT!!!");
     }
 }

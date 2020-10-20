@@ -48,6 +48,7 @@ public class TimeManager : MonoBehaviour {
             return hours + ":" + minitues; 
         } 
     }
+
     public string dayOfTheWeek {
         get {
             int weekLength = Enum.GetNames(typeof(DaysOfTheWeek)).Length;
@@ -81,7 +82,7 @@ public class TimeManager : MonoBehaviour {
     }
 
     public float TimeToDegrees() {
-        return (currentTimeInGame / secondsInADay) * 360 + 270; // convert to degrees, and then offset by 180 to make Vector3.down happen at noon.
+        return (currentTimeInGame / secondsInADay) * 360 + 270; // convert to degrees, and then offset by 270 to make Vector3.down happen at noon.
     }
 
     public void SetTime(float timeInSeconds) {
