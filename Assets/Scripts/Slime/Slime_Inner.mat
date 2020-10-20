@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Slime_Inner
-  m_Shader: {fileID: -6465566751694194690, guid: 83ab39dd7dcfdaf46a4c53ee7cbafc3e,
+  m_Shader: {fileID: -6465566751694194690, guid: 5dc0e54931fcaf34db4471e7f275f087,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -25,4 +25,4 @@ Material:
     - Vector1_24B98E8: 1
     - Vector1_6B81EE51: 4.75
     m_Colors:
-    - Color_8A28B5E1: {r: 0.3514724, g: 0.5377358, b: 0.086240664, a: 1}
+    - Color_8A28B5E1: {r: 0.09019608, g: 1, b: 0, a: 1}

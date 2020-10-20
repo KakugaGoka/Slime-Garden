@@ -64,10 +64,6 @@ public class Slime : MonoBehaviour
         return Vector3.zero;
     }
 
-    private void OnDrawGizmos()
-    {
-    }
-
     private void Turn()
     {
         Vector3 lookDir = gameObject.lookAt( targetPosition );
@@ -87,19 +83,3 @@ public class Slime : MonoBehaviour
         rb.AddForce( jumpVector * jumpForce );
     }
 }
-
-//v2f vert( appdata v )
-//{
-//    v2f o;
-//    o.vertex = UnityObjectToClipPos( v.vertex );
-//    o.worldNormal = mul( (float3x3)UNITY_MATRIX_V, UnityObjectToWorldNormal( v.normal ) ).xy * 0.3 + 0.5;  //UnityObjectToClipPos(v.normal)*0.5 + 0.5;
-//    return o;
-//}
-//fixed4 frag( v2f i ) : SV_Target
-//{
-//    // sample the texture
-//    fixed4 col = tex2D( _MainTex, i.worldNormal );
-//    // apply fog
-//    return col;
-//}
-//ENDCG
