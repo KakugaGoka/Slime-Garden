@@ -4,14 +4,14 @@ using UnityEngine.Events;
 public class EdibleController : MonoBehaviour
 {
 
-    public UnityAction<Slime> onEat;
+    public UnityAction<SlimeController> onEat;
 
     void Awake()
     {
         onEat += isEaten;
     }
 
-    private void isEaten(Slime slime) {
+    private void isEaten(SlimeController slime) {
         Destroy(gameObject);
     }
 }
