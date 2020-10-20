@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
+  m_RequiresDepthTextureOption: 1
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
@@ -343,6 +343,8 @@ MonoBehaviour:
   playerCamera: {fileID: 1780070649602018181}
   audioSource: {fileID: 1780070650992521982}
   heldObjectLocation: {fileID: 1780070649307323734}
+  wallet: {fileID: 0}
+  wealth: 0
   gravityDownForce: 20
   groundCheckLayers:
     serializedVersion: 2

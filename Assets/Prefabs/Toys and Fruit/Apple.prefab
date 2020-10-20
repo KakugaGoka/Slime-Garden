@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 138245539583930739}
   - component: {fileID: 292583494898047979}
   - component: {fileID: 6172764048339506490}
+  - component: {fileID: 2218985682451075646}
   - component: {fileID: 2888249794431751866}
   - component: {fileID: 2865738220611294743}
   - component: {fileID: 5593869411307753141}
@@ -97,6 +98,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56b65d14155acc409560b03daa29c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentAge: 0
+  maxAge: 600
+  satiation: 1
+  prefabName: 
+--- !u!114 &2218985682451075646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2779578528386371325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3440a4842dbd2fa459c375caa0726d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &2888249794431751866
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -136,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionMessage: Pick Up Apple (E)
-  messageColor: 4
+  messageColor: {r: 1, g: 1, b: 1, a: 1}
   interactable: 0
 --- !u!54 &3949176032771732924
 Rigidbody:

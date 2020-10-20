@@ -56,7 +56,7 @@ public class SaveLoadManager : MonoBehaviour
         PlayerPrefs.SetFloat( "ROTX", player.GetCameraAngle() );
         PlayerPrefs.SetFloat( "ROTY", player.transform.rotation.eulerAngles.y );
         PlayerPrefs.SetInt( "Wealth", player.wealth );
-        PlayerPrefs.SetFloat( "CurrentTime", GameFlowManager.main.timeInGame );
+        PlayerPrefs.SetFloat( "CurrentTime", TimeManager.main.currentTimeInGame );
     }
 
     private static void LoadPlayerData()
@@ -67,7 +67,7 @@ public class SaveLoadManager : MonoBehaviour
         player.transform.rotation = Quaternion.Euler( 0, PlayerPrefs.GetFloat( "ROTY" ), 0 );
         player.SetCameraAngle( PlayerPrefs.GetFloat( "ROTX" ) );
         player.wealth = PlayerPrefs.GetInt( "Wealth" );
-        GameFlowManager.SetTime( PlayerPrefs.GetFloat( "CurrentTime", 21600f ) );
+        TimeManager.main.SetTime( PlayerPrefs.GetFloat( "CurrentTime", 21600f ) );
     }
 
     private static void SaveGardenData()

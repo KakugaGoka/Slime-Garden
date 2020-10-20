@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using static Unity.Mathematics.math;
 
 [RequireComponent( typeof( Rigidbody ) )]
+[RequireComponent( typeof( MeshRenderer ) )]
 [System.Serializable]
 public class Slime : MonoBehaviour
 {

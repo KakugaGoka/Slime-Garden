@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Debug_Water
+  m_Shader: {fileID: -6465566751694194690, guid: 842302b84d716364ca3118f41e9eb819,
+    type: 3}
+  m_ShaderKeywords: _SPECULAR_SETUP
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - SHADOWCASTER
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_16FDD437: 0.033
+    - Vector1_1AC62AF6: 4
+    - Vector1_24B98E8: 1
+    - Vector1_2F2A924B: 7.5
+    - Vector1_2FC77D82: 0.5
+    - Vector1_5210E4C: 10
+    - Vector1_6B81EE51: 1
+    - Vector1_AF202C63: 1
+    - Vector1_C5765454: 100
+    - Vector1_D5BD8EB8: 1
+    - Vector1_D6BEDD00: 1
+    - Vector1_E8F57E8D: 1
+    - Vector1_FADF97F2: 10
+    m_Colors:
+    - Color_24F19865: {r: 0, g: 0, b: 1, a: 0}
+    - Color_37D6BA91: {r: 0, g: 1, b: 1, a: 0}
+    - Color_5EB0B2DC: {r: 1, g: 1, b: 1, a: 0}
+    - Color_8A28B5E1: {r: 0, g: 1, b: 1, a: 0}
+    - Color_D860E17E: {r: 1, g: 1, b: 1, a: 0}
+    - Color_EDA9A011: {r: 0, g: 0.44687712, b: 0.5566037, a: 0}
+--- !u!114 &8372363607145022118
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
