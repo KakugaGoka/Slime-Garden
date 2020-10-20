@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3949176032771732924}
   m_Layer: 0
   m_Name: Apple
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,6 +101,10 @@ MonoBehaviour:
   currentAge: 0
   maxAge: 600
   satiation: 1
+  hopping: 1
+  rolling: 0
+  floating: 0
+  range: 0
   prefabName: 
 --- !u!114 &2218985682451075646
 MonoBehaviour:

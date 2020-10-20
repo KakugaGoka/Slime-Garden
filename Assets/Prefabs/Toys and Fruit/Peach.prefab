@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8621522832904709755}
   m_Layer: 0
   m_Name: Peach
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,6 +100,10 @@ MonoBehaviour:
   currentAge: 0
   maxAge: 600
   satiation: 1
+  hopping: 0
+  rolling: 0
+  floating: 1
+  range: 0
   prefabName: 
 --- !u!135 &6757453137730348036
 SphereCollider:

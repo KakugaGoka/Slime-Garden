@@ -45,6 +45,17 @@ namespace UnityEngine
             }
         }
 
+        public static void SetGlobalScale( this Transform transform, Vector3 globalScale )
+        {
+            transform.localScale = Vector3.one;
+            transform.localScale = new Vector3( globalScale.x / transform.lossyScale.x, globalScale.y / transform.lossyScale.y, globalScale.z / transform.lossyScale.z );
+        }
+
+        public static int LastIndex<T>( this T[] array )
+        {
+            return array.Length - 1;
+        }
+
         public static bool CompareTo( this Transform a, Transform b )
         {
             return
