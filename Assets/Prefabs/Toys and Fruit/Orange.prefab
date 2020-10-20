@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionMessage: Pick Up Orange (E)
-  messageColor: {r: 1, g: 1, b: 1, a: 1}
+  messageColor: {r: 1, g: 0, b: 0.9, a: 1}
   interactable: 0
 --- !u!54 &6515134544770715013
 Rigidbody:

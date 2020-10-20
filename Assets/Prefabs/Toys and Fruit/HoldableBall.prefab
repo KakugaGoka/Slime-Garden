@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionMessage: Pick Up Ball (E)
-  messageColor: {r: 1, g: 1, b: 1, a: 1}
+  messageColor: {r: 0, g: 0.8584906, b: 0.1727717, a: 1}
   interactable: 0
 --- !u!114 &3569989922837576553
 MonoBehaviour:

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Slime_Inner
+  m_Name: Red_Slime
   m_Shader: {fileID: -6465566751694194690, guid: 5dc0e54931fcaf34db4471e7f275f087,
     type: 3}
   m_ShaderKeywords: 
@@ -23,6 +23,9 @@ Material:
     m_Floats:
     - Vector1_2090FF8D: 0.1
     - Vector1_24B98E8: 1
+    - Vector1_2895CB21: 0.5
     - Vector1_6B81EE51: 4.75
+    - Vector1_CACC174B: 0.1
+    - Vector1_FBA06674: 1
     m_Colors:
-    - Color_8A28B5E1: {r: 0.09019608, g: 1, b: 0, a: 1}
+    - Color_8A28B5E1: {r: 0.8, g: 0, b: 0.007843138, a: 1}
