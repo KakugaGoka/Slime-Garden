@@ -7,18 +7,17 @@ public class SlimeMenuController : MonoBehaviour
 {
     [Serializable]
     public struct StatUI {
-        public Text value;
-        public Image fillBar;
+        public Text text;
+        public Slider slider;
 
-        public StatUI(Text value, Image fillBar) {
-            this.value = value;
-            this.fillBar = fillBar;
+        public StatUI(Text text, Slider slider) {
+            this.text = text;
+            this.slider = slider;
         }
 
-        public void SetValue(float val, float max) {
-            value.text = ((int)val).ToString();
-            Vector2 maxDelta = new Vector2(90, 20);
-            fillBar.rectTransform.sizeDelta = new Vector2(Mathf.Clamp((val/max) * (maxDelta.x/max), 0, maxDelta.x), maxDelta.y);
+        public void Set(float current, float max) {
+            text.text = ((int)current).ToString();
+            slider.value = Mathf.Clamp(current / max, 0, 1);
         }
     }
 
@@ -28,6 +27,4 @@ public class SlimeMenuController : MonoBehaviour
     public StatUI rolling;
     public StatUI floating;
     public StatUI range;
-
-    public bool isActive { get { return gameObject.activeInHierarchy; } }
 }
