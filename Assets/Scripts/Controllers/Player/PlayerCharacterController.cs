@@ -15,8 +15,11 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip( "The empty object to parent held items under." )]
     public Transform heldObjectLocation;
 
-    [Tooltip( "The text box that contains the player's current money." )]
+    [Tooltip("The text box that contains the player's current money.")]
     public Text wallet;
+
+    [Tooltip("The text box that contains the player's current money.")]
+    public SlimeMenuController slimeMenu;
 
     [Header( "General" )]
     [Tooltip( "The current amount of wealth had by the player." )]
@@ -171,65 +174,45 @@ public class PlayerCharacterController : MonoBehaviour
 
     private void LateUpdate()
     {
-        //if (isHolding) {
-        //    EdibleController food = heldItem.GetComponent<EdibleController>();
-        //    if (food) {
-        //        if (Input.GetKeyDown(";")) {
-        //            SlimeController slime = GameObject.Find("Green Slime").GetComponent<SlimeController>();
-        //            if (slime) {
-        //                heldItem.onDrop.Invoke(this);
-        //                food.onEat.Invoke(slime);
-        //            }
-        //        }
-        //    }
-        //}
         if (!heldItem) { 
             isHolding = false;
             m_Interactable = null;
+            slimeMenu.gameObject.SetActive(false);
         }
         HandleInteractionCheck();
         HandleDropObject();
     }
 
-    private void HandleInteractionCheck()
-    {
+    private void HandleInteractionCheck() {
+        if (isHolding) {
+            SetSlimeMenuData(heldItem.GetComponent<SlimeController>());
+        }
         if (Physics.Raycast( playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Collide )) {
             if (hit.distance <= playerReach) {
                 InteractController interactController = hit.collider.GetComponentInParent<InteractController>();
                 InteractHold holdController = hit.collider.GetComponentInParent<InteractHold>();
-                if (holdController && isHolding) { return; }
+                if (holdController && isHolding) {
+                    SetSlimeMenuData(heldItem.GetComponent<SlimeController>());
+                    return; 
+                }
                 if (interactController) {
-                    if (m_Interactable) {
-                        m_Interactable.interactable = false;
-                        m_Interactable = interactController;
-                        m_Interactable.interactable = true;
-                    }
-                    else {
-                        m_Interactable = interactController;
-                        m_Interactable.interactable = true;
-                    }
+                    m_Interactable = interactController;
                 }
                 else {
                     if (m_Interactable) {
-                        m_Interactable.interactable = false;
                         m_Interactable = null;
                     }
                 }
             }
             else {
-                if (m_Interactable) {
-                    m_Interactable.interactable = false;
-                }
                 m_Interactable = null;
             }
         }
         if (m_InteractMessage) {
             if (m_Interactable) {
-                if (m_Interactable.interactable) {
-                    m_InteractMessage.Set( m_Interactable.interactionMessage, m_Interactable.messageColor );
-                    if (m_InputHandler.GetInteractInputDown()) {
-                        m_Interactable.onInteract.Invoke( this );
-                    }
+                m_InteractMessage.Set( m_Interactable.interactionMessage, m_Interactable.messageColor );
+                if (m_InputHandler.GetInteractInputDown()) {
+                    m_Interactable.onInteract.Invoke( this );
                 }
             }
             else {
@@ -243,6 +226,20 @@ public class PlayerCharacterController : MonoBehaviour
         if (isHolding && m_InputHandler.GetDropInputDown() && heldItem != null) {
             heldItem.onDrop.Invoke( this );
         }
+    }
+
+    public void SetSlimeMenuData(SlimeController slime) {
+        if (!slime) {
+            slimeMenu.gameObject.SetActive(false);
+            return;
+        }
+        slimeMenu.gameObject.SetActive(true);
+        slimeMenu.slimeName.text = slime.gameObject.name;
+        slimeMenu.hunger.SetValue(slime.hunger, 100);
+        slimeMenu.hopping.SetValue(slime.hopping, 100);
+        slimeMenu.rolling.SetValue(slime.rolling, 100);
+        slimeMenu.floating.SetValue(slime.floating, 100);
+        slimeMenu.range.SetValue(slime.range, 100);
     }
 
     private void GroundCheck()

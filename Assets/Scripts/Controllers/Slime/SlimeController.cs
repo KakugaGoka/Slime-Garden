@@ -11,8 +11,6 @@ using System.Collections;
 [Serializable]
 public class SlimeController : MonoBehaviour
 {
-    private TimeManager time;
-
     private Rigidbody rb;
     private SphereCollider sphereCollider;
 
@@ -65,7 +63,6 @@ public class SlimeController : MonoBehaviour
 
     private void Start()
     {
-        time = TimeManager.main;
         rb = gameObject.GetComponent<Rigidbody>();
         sphereCollider = gameObject.GetComponent<SphereCollider>();
         player = GameObject.FindGameObjectWithTag( "Player" );
@@ -75,8 +72,8 @@ public class SlimeController : MonoBehaviour
     private void Update()
     {
         sphereCollider.radius = radius;
-        hunger += Time.deltaTime * time.gameTimeScale;
-        lastHopTimer -= Time.deltaTime * time.gameTimeScale;
+        hunger += Time.deltaTime;
+        lastHopTimer -= Time.deltaTime;
         Wander();
         Navigate();
     }
