@@ -91,8 +91,6 @@ public class SlimeShaderController : MonoBehaviour {
         ChangeFaceTexture(faces.happy);
         GetAll();
         SetAllInShader();
-
-        m_Renderer.material = m_Material;
     }
 
     public void ChangeFaceTexture(Texture2D face) {
@@ -194,6 +192,8 @@ public class SlimeShaderController : MonoBehaviour {
         SetSpeckleBrightnessInShader();
         SetSpeckleDensityInShader();
         SetSpinRateInShader();
+
+        m_Renderer.material = m_Material;
     }
 
 }
