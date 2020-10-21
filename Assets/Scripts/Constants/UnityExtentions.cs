@@ -34,15 +34,10 @@ namespace UnityEngine
             return gameObject.transform.position;
         }
 
-        public static void MoveTo( this Transform self, Transform goal, ref Vector3 posVelocity, ref Vector3 rotVelocity, ref Vector3 scaVelocity, float maxSpeed, ref bool isDone )
+        public static void MoveTo( this Transform self, Transform goal, ref Vector3 posVelocity, ref Vector3 rotVelocity, float maxSpeed)
         {
             self.localPosition = Vector3.SmoothDamp( self.localPosition, goal.localPosition, ref posVelocity, Time.deltaTime, maxSpeed );
             self.localRotation = QuaternionSmoothDamp( self.localRotation, goal.localRotation, ref rotVelocity, Time.deltaTime, maxSpeed );
-            self.localScale = Vector3.SmoothDamp( self.localScale, goal.localScale, ref scaVelocity, Time.deltaTime, maxSpeed );
-            bool compare = self.CompareTo( goal );
-            if (self.CompareTo( goal )) {
-                isDone = !isDone;
-            }
         }
 
         public static void SetGlobalScale( this Transform transform, Vector3 globalScale )

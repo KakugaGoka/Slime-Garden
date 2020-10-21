@@ -46,6 +46,8 @@ public class SlimeController : MainController
     [SerializeField]
     public float range;
 
+    public bool npc = false;
+
     private float lastHopTimer;
 
     private bool grounded {
@@ -66,8 +68,15 @@ public class SlimeController : MainController
         public Texture2D sad;
         public Texture2D hungry;
     }
+    public enum CurrentFace { 
+        Happy,
+        Angry,
+        Sad,
+        Hungry,
+    }
     [HideInInspector]
     public Faces faces;
+    public CurrentFace currentFace = CurrentFace.Happy;
     public Color color;
     public float amplitude;
     public float frequency;
@@ -95,11 +104,14 @@ public class SlimeController : MainController
             shaderSet = true;
         }
         SetInShader();
-        ChangeFaceTexture(faces.happy);
+        ChangeFaceTexture(currentFace);
     }
 
     private void Update()
     {
+        if (npc) {
+            return;
+        }
         hunger += Time.deltaTime;
         lastHopTimer -= Time.deltaTime;
         Wander();
@@ -261,10 +273,27 @@ public class SlimeController : MainController
         m_Renderer.material.SetFloat("_SpeckleDensity", speckleDensity); //Property Reference for Speckle Density found in the shader.
         m_Renderer.material.SetFloat("_SpeckleBrightness", speckleBrightness); //Property Reference for Speckle Brightness found in the shader.
         m_Renderer.material.SetColor("_Color", color); //Property Reference for Color found in the shader.
+        ChangeFaceTexture(currentFace);
     }
 
-    public void ChangeFaceTexture(Texture2D face) {
-        if (!face) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
-        m_Renderer.material.SetTexture("_FaceTexture", face);
+    public void ChangeFaceTexture(CurrentFace face) {
+        switch (face) {
+            case CurrentFace.Happy:
+                if (!faces.happy) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
+                m_Renderer.material.SetTexture("_FaceTexture", faces.happy);
+                return;
+            case CurrentFace.Angry:
+                if (!faces.angry) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
+                m_Renderer.material.SetTexture("_FaceTexture", faces.angry);
+                return;
+            case CurrentFace.Sad:
+                if (!faces.sad) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
+                m_Renderer.material.SetTexture("_FaceTexture", faces.sad);
+                return;
+            case CurrentFace.Hungry:
+                if (!faces.hungry) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
+                m_Renderer.material.SetTexture("_FaceTexture", faces.hungry);
+                return;
+        }
     }
 }

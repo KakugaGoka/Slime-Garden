@@ -35,7 +35,6 @@ public class InteractOpen : MonoBehaviour {
     float m_WaitedTime;
     Vector3 m_PosVelocity = Vector3.zero;
     Vector3 m_RotVelocity = Vector3.zero;
-    Vector3 m_ScaVelocity = Vector3.zero;
     InteractController m_InteractController;
     OpenableState m_CurrentOpenableState;
 
@@ -51,10 +50,6 @@ public class InteractOpen : MonoBehaviour {
     }
 
     private void LateUpdate() {
-        if (!canBeClosed && m_CurrentOpenableState == OpenableState.Open && m_InteractController.interactionMessage != cannotCloseMessage) {
-            m_InteractController.interactionMessage = cannotCloseMessage;
-        }
-
         if (m_IsOpen && !m_SpawnItems) {
             m_SpawnItems = true;
         }
@@ -74,37 +69,44 @@ public class InteractOpen : MonoBehaviour {
                 m_SpawnCount++;
             }
         }
+
+        if (!canBeClosed && m_CurrentOpenableState == OpenableState.Open && m_InteractController.interactionMessage != cannotCloseMessage) {
+            m_InteractController.interactionMessage = cannotCloseMessage;
+            return;
+        }
+
+        if (m_CurrentOpenableState == OpenableState.Closed && !objectToMove.transform.Equals(closedPosition)) {
+            objectToMove.transform.MoveTo(closedPosition, ref m_PosVelocity, ref m_RotVelocity, speed);
+        } else if (m_CurrentOpenableState == OpenableState.Open && !objectToMove.transform.Equals(openPosition)) {
+            objectToMove.transform.MoveTo(openPosition, ref m_PosVelocity, ref m_RotVelocity, speed);
+        }
     }
 
     void OnInteract(PlayerCharacterController player) {
         if (m_CurrentOpenableState == OpenableState.Open && canBeClosed) {
             m_CurrentOpenableState = OpenableState.Closed;
-            StopCoroutine(OpenThisOpenable());
-            StartCoroutine(CloseThisOpenable());
         } else if (m_CurrentOpenableState == OpenableState.Closed) {
             m_CurrentOpenableState = OpenableState.Open;
-            StopCoroutine(CloseThisOpenable());
-            StartCoroutine(OpenThisOpenable());
         }
     }
 
-    private IEnumerator OpenThisOpenable() {
-        while (!objectToMove.transform.Equals(openPosition)) {
-            if (m_CurrentOpenableState == OpenableState.Closed) { yield break; }
-            objectToMove.transform.MoveTo(openPosition, ref m_PosVelocity, ref m_RotVelocity, ref m_ScaVelocity, speed, ref m_IsOpen);
-            if (m_IsOpen) { yield break; }
-            yield return null;
-        }
-        yield break;
-    }
+    //private IEnumerator OpenThisOpenable() {
+    //    while (!objectToMove.transform.Equals(openPosition)) {
+    //        if (m_CurrentOpenableState == OpenableState.Closed) { yield break; }
+    //        objectToMove.transform.MoveTo(openPosition, ref m_PosVelocity, ref m_RotVelocity, speed, ref m_IsOpen);
+    //        if (m_IsOpen) { yield break; }
+    //        yield return null;
+    //    }
+    //    yield break;
+    //}
 
-    private IEnumerator CloseThisOpenable() {
-        while (!objectToMove.transform.Equals(closedPosition)) {
-            if (m_CurrentOpenableState == OpenableState.Open) { yield break; }
-            objectToMove.transform.MoveTo(closedPosition, ref m_PosVelocity, ref m_RotVelocity, ref m_ScaVelocity, speed, ref m_IsOpen);
-            if (!m_IsOpen) { yield break; }
-            yield return null;
-        }
-        yield break;
-    }
+    //private IEnumerator CloseThisOpenable() {
+    //    while (!objectToMove.transform.Equals(closedPosition)) {
+    //        if (m_CurrentOpenableState == OpenableState.Open) { yield break; }
+    //        objectToMove.transform.MoveTo(closedPosition, ref m_PosVelocity, ref m_RotVelocity, speed, ref m_IsOpen);
+    //        if (!m_IsOpen) { yield break; }
+    //        yield return null;
+    //    }
+    //    yield break;
+    //}
 }
