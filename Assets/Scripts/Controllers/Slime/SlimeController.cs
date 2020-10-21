@@ -65,7 +65,7 @@ public class SlimeController : MonoBehaviour
 
     private void Start()
     {
-        time = GameObject.FindGameObjectWithTag( "Time" ).GetComponent<TimeManager>();
+        time = TimeManager.main;
         rb = gameObject.GetComponent<Rigidbody>();
         sphereCollider = gameObject.GetComponent<SphereCollider>();
         player = GameObject.FindGameObjectWithTag( "Player" );

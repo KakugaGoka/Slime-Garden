@@ -8,7 +8,7 @@ TagManager:
   - HUD
   - PauseMenu
   - Food
-  - Time
+  - Slime
   layers:
   - Default
   - TransparentFX

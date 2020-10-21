@@ -4032,6 +4032,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Green Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993494, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Slime
+      objectReference: {fileID: 0}
     - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
         type: 3}
       propertyPath: jumpTimer
@@ -4524,13 +4529,38 @@ MonoBehaviour:
     angry: {fileID: 0}
     sad: {fileID: 0}
     hungry: {fileID: 0}
-  amplitude: 0.1
-  frequency: 5
-  brightness: 0.2
-  spinRate: 5
-  cellType: 1
-  cellDensity: 1
-  speckleDensity: 5
+  amplitude:
+    current: 0.1
+    min: 0.05
+    max: 0.5
+  frequency:
+    current: 5
+    min: 1
+    max: 10
+  brightness:
+    current: 0.2
+    min: 0.05
+    max: 0.5
+  spinRate:
+    current: 1
+    min: 0.1
+    max: 1.5
+  cellType:
+    current: 1
+    min: 0.1
+    max: 1.5
+  cellDensity:
+    current: 1
+    min: 0.1
+    max: 1.5
+  speckleDensity:
+    current: 5
+    min: 1
+    max: 10
+  speckleBrightness:
+    current: 0
+    min: 0
+    max: 1
 --- !u!4 &1576864517393593336
 Transform:
   m_ObjectHideFlags: 0
@@ -5326,11 +5356,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TimeManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5107821357961352577, guid: 526c8ca7cb22fb34cbaa4749282e8da4,
-        type: 3}
-      propertyPath: m_TagString
-      value: Time
       objectReference: {fileID: 0}
     - target: {fileID: 5107821357961352578, guid: 526c8ca7cb22fb34cbaa4749282e8da4,
         type: 3}
