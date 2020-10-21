@@ -75,6 +75,8 @@ public class SlimeShaderController : MonoBehaviour {
         m_Renderer = GetComponent<MeshRenderer>();
         if (!m_Renderer) { Debug.LogError("Renderer for SlimeShaderController is null"); }
 
+        if (!slimeShader) { Debug.LogError("Shader for SlimeShaderController is null"); }
+
         m_Material = new Material(slimeShader);
         if (!m_Material) { Debug.LogError("Material for SlimeShaderController is null"); }
 
@@ -91,6 +93,32 @@ public class SlimeShaderController : MonoBehaviour {
         ChangeFaceTexture(faces.happy);
         GetAll();
         SetAllInShader();
+    }
+
+    private void GetAll() {
+        GetAmplitude();
+        GetBrightness();
+        GetCellDensity();
+        GetCellType();
+        GetColor();
+        GetFrequency();
+        GetSpeckleBrightness();
+        GetSpeckleDensity();
+        GetSpinRate();
+    }
+
+    public void SetAllInShader() {
+        SetAmplitudeInShader();
+        SetBrightnessInShader();
+        SetCellDensityInShader();
+        SetCellTypeInShader();
+        SetColorInShader();
+        SetFrequencyInShader();
+        SetSpeckleBrightnessInShader();
+        SetSpeckleDensityInShader();
+        SetSpinRateInShader();
+
+        m_Renderer.material = m_Material;
     }
 
     public void ChangeFaceTexture(Texture2D face) {
@@ -135,65 +163,39 @@ public class SlimeShaderController : MonoBehaviour {
     }
 
     private void SetAmplitudeInShader() {
-        m_Material.SetFloat("Vector1_2090FF8D", amplitude.current); //Property Reference for Amplitude found in the shader.
+        m_Material.SetFloat("_Amplitude", amplitude.current); //Property Reference for Amplitude found in the shader.
     }
 
     private void SetFrequencyInShader() {
-        m_Material.SetFloat("Vector1_6B81EE51", frequency.current); //Property Reference for Frequency found in the shader.
+        m_Material.SetFloat("_Frequency", frequency.current); //Property Reference for Frequency found in the shader.
     }
 
     private void SetBrightnessInShader() {
-        m_Material.SetFloat("Vector1_CACC174B", brightness.current); //Property Reference for Brightness found in the shader.
+        m_Material.SetFloat("_Brightness", brightness.current); //Property Reference for Brightness found in the shader.
     }
 
     private void SetSpinRateInShader() {
-        m_Material.SetFloat("Vector1_FBA06674", spinRate.current); //Property Reference for Spin Rate found in the shader.
+        m_Material.SetFloat("_SpinRate", spinRate.current); //Property Reference for Spin Rate found in the shader.
     }
 
     private void SetCellTypeInShader() {
-        m_Material.SetFloat("Vector1_2895CB21", cellType.current); //Property Reference for Cell Type found in the shader.
+        m_Material.SetFloat("_CellType", cellType.current); //Property Reference for Cell Type found in the shader.
     }
 
     private void SetCellDensityInShader() {
-        m_Material.SetFloat("Vector1_3BCBD354", cellDensity.current); //Property Reference for Cell Density found in the shader.
+        m_Material.SetFloat("_CellDensity", cellDensity.current); //Property Reference for Cell Density found in the shader.
     }
 
     private void SetSpeckleDensityInShader() {
-        m_Material.SetFloat("Vector1_F061520B", speckleDensity.current); //Property Reference for Speckle Density found in the shader.
+        m_Material.SetFloat("_SpeckleDensity", speckleDensity.current); //Property Reference for Speckle Density found in the shader.
     }
 
     private void SetSpeckleBrightnessInShader() {
-        m_Material.SetFloat("Vector1_88BA7B7B", speckleBrightness.current); //Property Reference for Speckle Brightness found in the shader.
+        m_Material.SetFloat("_SpeckleBrightness", speckleBrightness.current); //Property Reference for Speckle Brightness found in the shader.
     }
 
     private void SetColorInShader() {
-        m_Material.SetColor("Color_8A28B5E1", slimeColor); //Property Reference for Color found in the shader.
-    }
-
-    private void GetAll() {
-        GetAmplitude();
-        GetBrightness();
-        GetCellDensity();
-        GetCellType();
-        GetColor();
-        GetFrequency();
-        GetSpeckleBrightness();
-        GetSpeckleDensity();
-        GetSpinRate();
-    }
-
-    public void SetAllInShader() {
-        SetAmplitudeInShader();
-        SetBrightnessInShader();
-        SetCellDensityInShader();
-        SetCellTypeInShader();
-        SetColorInShader();
-        SetFrequencyInShader();
-        SetSpeckleBrightnessInShader();
-        SetSpeckleDensityInShader();
-        SetSpinRateInShader();
-
-        m_Renderer.material = m_Material;
+        m_Material.SetColor("_Color", slimeColor); //Property Reference for Color found in the shader.
     }
 
 }
