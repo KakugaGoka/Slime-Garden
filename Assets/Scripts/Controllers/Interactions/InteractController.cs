@@ -9,7 +9,4 @@ public class InteractController : MonoBehaviour {
     public Color messageColor = Color.white;
 
     public UnityAction<PlayerCharacterController> onInteract;
-
-    [HideInInspector]
-    public bool interactable = false;
 }
