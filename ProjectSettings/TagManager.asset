@@ -9,6 +9,8 @@ TagManager:
   - PauseMenu
   - Food
   - Slime
+  - Tree
+  - Toy
   layers:
   - Default
   - TransparentFX

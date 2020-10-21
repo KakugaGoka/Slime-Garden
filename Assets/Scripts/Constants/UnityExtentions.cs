@@ -84,7 +84,9 @@ namespace UnityEngine
                 return new T[] { item };
             }
             T[] result = new T[array.Length + 1];
-            array.CopyTo( result, 0 );
+            for (int i = 0; i < array.Length; i++) {
+                result[i] = array[i];
+            }
             result[array.Length] = item;
             return result;
         }

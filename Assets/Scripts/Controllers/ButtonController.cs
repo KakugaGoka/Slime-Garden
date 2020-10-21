@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public delegate void ClickAction();
 
 public enum ClickActions {
+    NewGame,
     LoadGame,
     SaveAndQuitToMenu,
     QuitGame,
-    ResumeGame
+    ResumeGame,
+    QuitToMenu
 }
 
 public class ButtonController : MonoBehaviour
@@ -29,6 +29,10 @@ public class ButtonController : MonoBehaviour
                 clickAction = SaveLoadManager.SaveAndQuit; break;
             case ClickActions.ResumeGame:
                 clickAction = GameFlowManager.Pause; break;
+            case ClickActions.NewGame:
+                clickAction = SaveLoadManager.NewGame; break;
+            case ClickActions.QuitToMenu:
+                clickAction = SaveLoadManager.QuitFromGame; break;
         }
 
         m_Button = GetComponent<Button>();

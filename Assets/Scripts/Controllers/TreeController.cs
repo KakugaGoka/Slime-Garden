@@ -1,15 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class TreeController : MonoBehaviour {
-
-    [Tooltip("")]
-    [SerializeField]
-    public MeshFilter treeLeavesMesh;
-
-    [Tooltip("")]
-    [SerializeField]
-    public Transform treeLeavesTransform;
+[Serializable]
+public class TreeController : MainController {
 
     [Tooltip("The starting age of the tree.")]
     [SerializeField]
@@ -18,6 +12,10 @@ public class TreeController : MonoBehaviour {
     [Tooltip("The age that the tree will begin to produce fruit.")]
     [SerializeField]
     public float maxAge = 300;
+
+    [Tooltip("The age that the tree is currently.")]
+    [SerializeField]
+    public float currentAge = 0;
 
     [Tooltip("To positions along the leaves mesh that fruit will grow.")]
     [SerializeField]
@@ -39,15 +37,21 @@ public class TreeController : MonoBehaviour {
     [SerializeField]
     public float timeInbetweenFalls = 5f;
 
+    private MeshFilter treeLeavesMesh;
+    private Transform treeLeavesTransform;
     private float currentScale = 0.1f;
-    private float currentAge = 0;
-    private bool canProduceFruit = false;
-    private bool canDropFruit = false;
-    private bool didDropFruit = false;
+    [HideInInspector]
+    public bool canProduceFruit = false;
+    [HideInInspector]
+    public bool canDropFruit = false;
+    [HideInInspector]
+    public bool didDropFruit = false;
     private float timer = 0;
 
     void Start() {
-        treeLeavesTransform.localPosition = new Vector3(0, Random.Range(1.5f, 2.5f), 0);
+        treeLeavesTransform = transform.Find("Leaves");
+        treeLeavesMesh = treeLeavesTransform.GetComponent<MeshFilter>();
+        treeLeavesTransform.localPosition = new Vector3(0, UnityEngine.Random.Range(1.5f, 2.5f), 0);
         FruitPlacement();
         GameFlowManager.AddTree(this);
     }
@@ -91,7 +95,7 @@ public class TreeController : MonoBehaviour {
     }
 
     void FruitPlacement() {
-        int fruit = Random.Range(2, 5);
+        int fruit = UnityEngine.Random.Range(2, 5);
         List<Vector3> fruitList = new List<Vector3>();
         for (int i = 0; i < fruit; i++) {
             fruitList.Add(treeLeavesMesh.mesh.GetRandomPointOnMesh());
@@ -117,7 +121,7 @@ public class TreeController : MonoBehaviour {
     }
 
     void DropFruit() {
-        int fruitToDrop = Random.Range(0, treeLeavesTransform.childCount - 1);
+        int fruitToDrop = UnityEngine.Random.Range(0, treeLeavesTransform.childCount - 1);
         var fruit = treeLeavesTransform.GetChild(fruitToDrop);
         fruit.transform.parent = null;
         Rigidbody rigidbody = fruit.gameObject.GetComponent<Rigidbody>();
@@ -133,6 +137,6 @@ public class TreeController : MonoBehaviour {
         gameObject.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
     }
 
-    float AddTime(ref float value) => value += Time.deltaTime * Random.Range(0.1f, 1);
+    float AddTime(ref float value) => value += Time.deltaTime * UnityEngine.Random.Range(0.1f, 1);
 
 }

@@ -13,8 +13,6 @@ public class GameFlowManager : MonoBehaviour
     public Canvas HUD;
     public Canvas pauseMenu;
 
-    public static string savePath;
-
     public static bool paused = false;
 
 
@@ -31,7 +29,6 @@ public class GameFlowManager : MonoBehaviour
         shops = new List<ShopController>();
 
         player = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<PlayerCharacterController>();
-        savePath = Application.persistentDataPath + "/Saves";
     }
 
     public static void AddTree( TreeController tree )

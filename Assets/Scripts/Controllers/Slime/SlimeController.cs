@@ -9,7 +9,7 @@ using System.Collections;
 [RequireComponent( typeof( SphereCollider ) )]
 [RequireComponent( typeof( MeshRenderer ) )]
 [Serializable]
-public class SlimeController : MonoBehaviour
+public class SlimeController : MainController
 {
     private Rigidbody rb;
     private SphereCollider sphereCollider;
@@ -24,9 +24,6 @@ public class SlimeController : MonoBehaviour
 
     [SerializeField]
     public float hunger;
-
-    [SerializeField]
-    public float radius;
 
     public float HungerLimit = 30;
     private bool hungry { get { return hunger > HungerLimit; } }
@@ -61,17 +58,48 @@ public class SlimeController : MonoBehaviour
 
     private float groundDist;
 
+    private MeshRenderer m_Renderer;
+    [Serializable]
+    public struct Faces {
+        public Texture2D happy;
+        public Texture2D angry;
+        public Texture2D sad;
+        public Texture2D hungry;
+    }
+    [HideInInspector]
+    public Faces faces;
+    public Color color;
+    public float amplitude;
+    public float frequency;
+    public float brightness;
+    public float spinRate;
+    public float cellType;
+    public float cellDensity;
+    public float speckleDensity;
+    public float speckleBrightness;
+    public bool shaderSet = false;
+
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         sphereCollider = gameObject.GetComponent<SphereCollider>();
         player = GameObject.FindGameObjectWithTag( "Player" );
         navPath = new NavMeshPath();
+        m_Renderer = GetComponent<MeshRenderer>();
+        faces.happy = Resources.Load<Texture2D>("Textures/Smiley");
+        faces.angry = Resources.Load<Texture2D>("Textures/Smiley");
+        faces.sad = Resources.Load<Texture2D>("Textures/Smiley");
+        faces.hungry = Resources.Load<Texture2D>("Textures/Smiley");
+        if (!shaderSet) {
+            SlimeShaderController.ResetAllShaderValues(this);
+            shaderSet = true;
+        }
+        SetInShader();
+        ChangeFaceTexture(faces.happy);
     }
 
     private void Update()
     {
-        sphereCollider.radius = radius;
         hunger += Time.deltaTime;
         lastHopTimer -= Time.deltaTime;
         Wander();
@@ -81,9 +109,11 @@ public class SlimeController : MonoBehaviour
     private void Navigate()
     {
         if (path != null) {
-            path[0] = ProjectToNavMesh( gameObject.Pos(), 10f );
-            pathDist = Vector3.Distance( gameObject.Pos(), path[1] );
-            goalDist = Vector3.Distance( gameObject.Pos(), targetPosition );
+            if (path.Length > 1) {
+                path[0] = ProjectToNavMesh(gameObject.Pos(), 10f);
+                pathDist = Vector3.Distance(gameObject.Pos(), path[1]);
+                goalDist = Vector3.Distance(gameObject.Pos(), targetPosition);
+            }
         }
         if (pathDist < 2 || targetPosition == Vector3.zero) {
             if (NavMesh.CalculatePath( gameObject.Pos(), targetPosition, -1, navPath )) {
@@ -191,25 +221,16 @@ public class SlimeController : MonoBehaviour
                 targetPosition = chosen.transform.position;
 
                 if (foodDist < 0.7f) {
-                    //EatFood( chosen.GetComponent<FruitController>() );
                     EdibleController foodComp = chosen.GetComponent<EdibleController>();
                     if (foodComp) {
                         foodComp.onEat.Invoke(this);
                     }
                 }
             }
+        } else {
+            targetPosition = FindWanderPoint();
         }
     }
-
-    //private void EatFood( FruitController fruit )
-    //{
-    //    hopping += fruit.hopping;
-    //    rolling += fruit.rolling;
-    //    floating += fruit.floating;
-    //    range += fruit.range;
-    //    hunger -= fruit.satiation * 30;
-    //    fruit.Eat( gameObject.GetComponent<SlimeController>() );
-    //}
 
     private void OnDrawGizmos()
     {
@@ -228,5 +249,22 @@ public class SlimeController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetInShader() {
+        m_Renderer.material.SetFloat("_Amplitude", amplitude); //Property Reference for Amplitude found in the shader.
+        m_Renderer.material.SetFloat("_Frequency", frequency); //Property Reference for Frequency found in the shader.
+        m_Renderer.material.SetFloat("_Brightness", brightness); //Property Reference for Brightness found in the shader.
+        m_Renderer.material.SetFloat("_SpinRate", spinRate); //Property Reference for Spin Rate found in the shader.
+        m_Renderer.material.SetFloat("_CellType", cellType); //Property Reference for Cell Type found in the shader.
+        m_Renderer.material.SetFloat("_CellDensity", cellDensity); //Property Reference for Cell Density found in the shader.
+        m_Renderer.material.SetFloat("_SpeckleDensity", speckleDensity); //Property Reference for Speckle Density found in the shader.
+        m_Renderer.material.SetFloat("_SpeckleBrightness", speckleBrightness); //Property Reference for Speckle Brightness found in the shader.
+        m_Renderer.material.SetColor("_Color", color); //Property Reference for Color found in the shader.
+    }
+
+    public void ChangeFaceTexture(Texture2D face) {
+        if (!face) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
+        m_Renderer.material.SetTexture("_FaceTexture", face);
     }
 }

@@ -43,3 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863e9f1aee552004a84bc534a98929df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slimePrefab: {fileID: 2817580289831993494, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+    type: 3}
+  treePrefabs:
+  - {fileID: 9085589855766262451, guid: dece1a5442a23d34fa262c8c74c8c217, type: 3}
+  - {fileID: 8440383856984511290, guid: 4926ff2d57435b142b538e9ee5420f4b, type: 3}
+  - {fileID: 3005199230669500674, guid: 05216a996dd1cbd44a3b318cf12bf055, type: 3}
+  - {fileID: 460728232204516520, guid: 344f88faea144f944b97117f850367f7, type: 3}
+  toyPrefabs:
+  - {fileID: 3569989922837576556, guid: 0fec24e303ff24d4b875824468fbe404, type: 3}

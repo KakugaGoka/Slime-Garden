@@ -174,6 +174,10 @@ public class PlayerCharacterController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (Input.GetKeyDown("=")) {
+            PlayerPrefs.DeleteAll();
+            Debug.LogWarning("Deleted all save data!");
+        }
         if (!heldItem) { 
             isHolding = false;
             m_Interactable = null;
@@ -232,6 +236,10 @@ public class PlayerCharacterController : MonoBehaviour
         if (!slime) {
             slimeMenu.gameObject.SetActive(false);
             return;
+        }
+        if (Input.GetKeyDown("[")) {
+            SlimeShaderController.ResetAllShaderValues(slime);
+            slime.SetInShader();
         }
         slimeMenu.gameObject.SetActive(true);
         slimeMenu.slimeName.text = slime.gameObject.name;

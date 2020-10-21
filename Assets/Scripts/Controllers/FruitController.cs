@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 [RequireComponent( typeof( InteractHold ) )]
 [RequireComponent( typeof( EdibleController ) )]
-public class FruitController : MonoBehaviour
-{
+[Serializable]
+public class FruitController : MainController {
     private Rigidbody m_RigidBody;
     private EdibleController m_EdibleController;
 
