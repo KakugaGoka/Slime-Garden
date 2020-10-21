@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2817580289831993497}
   - component: {fileID: 2817580289831993496}
   - component: {fileID: 2817580289831993495}
+  - component: {fileID: 8412457964438520198}
+  - component: {fileID: -6238847042047562563}
   m_Layer: 0
   m_Name: Green Slime
   m_TagString: Untagged
@@ -123,6 +125,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e55c381189dfe84abfb48ff005bbd80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hunger: 0
+  radius: 0
+  HungerLimit: 30
+  hopping: 0
   jumpTimer: 5
   wanderRange: 5
   jumpForce: 200
+  rolling: 0
+  floating: 0
+  range: 0
+--- !u!114 &8412457964438520198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2817580289831993494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3ae7ec312d61a48a5b16ee1f531e4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionMessage: Pick Up (E)
+  messageColor: {r: 0.754717, g: 0, b: 0, a: 1}
+  interactable: 0
+--- !u!114 &-6238847042047562563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2817580289831993494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a3ac88730ae8d4e86d3aa1efe0759f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdPosition: {x: 0, y: 0, z: 0}

@@ -183,6 +183,10 @@ public class PlayerCharacterController : MonoBehaviour
         //        }
         //    }
         //}
+        if (!heldItem) { 
+            isHolding = false;
+            m_Interactable = null;
+        }
         HandleInteractionCheck();
         HandleDropObject();
     }

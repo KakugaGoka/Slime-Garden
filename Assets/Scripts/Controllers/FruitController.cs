@@ -11,11 +11,12 @@ public class FruitController : MonoBehaviour
 
     public float currentAge = 0;
     public float maxAge = 600;
-    public float satiation = 1;
-    public float hopping;
-    public float rolling;
-    public float floating;
-    public float range;
+    public float satiation = 30;
+    public float hopping = 0;
+    public float rolling = 0;
+    public float floating = 0;
+    public float range = 0;
+    public bool hasFallen = false;
 
     [HideInInspector]
     public string prefabName;
@@ -41,11 +42,16 @@ public class FruitController : MonoBehaviour
         transform.parent = null;
         if (m_RigidBody != null) {
             m_RigidBody.useGravity = true;
+            hasFallen = true;
         }
     }
 
     public void Eat( SlimeController slime )
     {
-        Destroy( gameObject );
+        slime.hopping += hopping;
+        slime.rolling += rolling;
+        slime.floating += floating;
+        slime.range += range;
+        slime.hunger -= satiation;
     }
 }

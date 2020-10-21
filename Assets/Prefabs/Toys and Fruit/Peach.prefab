@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentAge: 0
   maxAge: 600
-  satiation: 1
+  satiation: 30
   hopping: 0
   rolling: 0
   floating: 1
