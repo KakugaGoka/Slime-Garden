@@ -88,7 +88,7 @@ public class SlimeController : MonoBehaviour
             pathDist = Vector3.Distance( gameObject.Pos(), path[1] );
             goalDist = Vector3.Distance( gameObject.Pos(), targetPosition );
         }
-        if (pathDist < 1 || targetPosition == Vector3.zero) {
+        if (pathDist < 2 || targetPosition == Vector3.zero) {
             if (NavMesh.CalculatePath( gameObject.Pos(), targetPosition, -1, navPath )) {
                 path = navPath.corners;
             }
@@ -157,11 +157,6 @@ public class SlimeController : MonoBehaviour
             rb.AddTorque( cross( transform.forward, lookDir ) );
         }
         rb.AddTorque( cross( transform.up, Vector3.up ) );
-        Squish();
-    }
-
-    private void Squish()
-    {
         if (grounded) {
             float amount = saturate( dot( Vector3.up, gameObject.transform.up ) );
 
@@ -198,7 +193,7 @@ public class SlimeController : MonoBehaviour
             if (chosen != null) {
                 targetPosition = chosen.transform.position;
 
-                if (foodDist < 0.7f) {
+                if (foodDist < 0.6f) {
                     EatFood( chosen.GetComponent<FruitController>() );
                 }
             }
@@ -211,7 +206,7 @@ public class SlimeController : MonoBehaviour
         rolling += fruit.rolling;
         floating += fruit.floating;
         range += fruit.range;
-        hunger -= fruit.satiation * 30;
+        hunger -= fruit.satiation * 60;
         fruit.Eat( gameObject.GetComponent<SlimeController>() );
     }
 
