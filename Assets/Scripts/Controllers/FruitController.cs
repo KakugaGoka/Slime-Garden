@@ -16,6 +16,7 @@ public class FruitController : MainController {
     public float floating = 0;
     public float range = 0;
     public bool hasFallen = false;
+    public GameObject tree;
 
     [HideInInspector]
     public string prefabName;

@@ -65,6 +65,7 @@ MonoBehaviour:
   floating: 0
   range: 0
   hasFallen: 0
+  tree: {fileID: 8440383856984511290, guid: 4926ff2d57435b142b538e9ee5420f4b, type: 3}
   prefabName: 
 --- !u!33 &5048723267375610150
 MeshFilter:
@@ -170,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdPosition: {x: 0, y: 0, z: 0}
+  value: 5
 --- !u!114 &1798668282190201228
 MonoBehaviour:
   m_ObjectHideFlags: 0

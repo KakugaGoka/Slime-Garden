@@ -12,6 +12,7 @@ TagManager:
   - Tree
   - Toy
   - Egg
+  - FertileGround
   layers:
   - Default
   - TransparentFX

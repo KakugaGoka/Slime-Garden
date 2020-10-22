@@ -178,13 +178,47 @@ public class PlayerCharacterController : MonoBehaviour
             PlayerPrefs.DeleteAll();
             Debug.LogWarning("Deleted all save data!");
         }
-        if (!heldItem) { 
+        if (!heldItem) {
             isHolding = false;
             m_Interactable = null;
             slimeMenu.gameObject.SetActive(false);
         }
         HandleInteractionCheck();
+        HandleHeld();
         HandleDropObject();
+    }
+
+    private void HandleHeld() {
+        if (heldItem) {
+            PlantTree();
+        }
+    }
+
+    private void PlantTree() {
+        FruitController fruit = heldItem.GetComponent<FruitController>();
+        if (fruit) {
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Collide)) {
+                if (hit.distance <= playerReach) {
+                    if (hit.collider.gameObject.tag == "FertileGround") {
+                        RaycastHit[] hits = Physics.SphereCastAll(hit.point, 2, Vector3.up, 2);
+                        bool areaClear = true;
+                        foreach (RaycastHit obj in hits) {
+                            GameObject game = obj.collider.gameObject;
+                            if (game.transform.position.y >= hit.point.y + 0.01) {
+                                areaClear = game.tag == "FertileGround";
+                            }
+                        }
+                        if (areaClear) {
+                            m_InteractMessage.Set("Plant Tree (E)", Color.magenta);
+                            if (m_InputHandler.GetInteractInputDown()) {
+                                Instantiate(fruit.tree, hit.point, Quaternion.identity);
+                                Destroy(fruit.gameObject);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void HandleInteractionCheck() {
