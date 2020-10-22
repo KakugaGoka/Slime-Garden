@@ -12,9 +12,11 @@ public class SaveLoadManager : MonoBehaviour
     private static StaticCoroutine instance; 
     public static string savePath;
 
+    public GameObject eggPrefab;
     public GameObject slimePrefab;
     public GameObject[] treePrefabs;
     public GameObject[] toyPrefabs;
+    public GameObject[] foodPrefabs;
 
     private void Start()
     {
@@ -86,13 +88,11 @@ public class SaveLoadManager : MonoBehaviour
             Directory.CreateDirectory(savePath);
         }
 
-        PlayerPrefs.SetInt("SlimeCount", GetTagList("Slime").Length);
-        PlayerPrefs.SetInt("TreeCount", GetTagList("Tree").Length);
-        PlayerPrefs.SetInt("ToyCount", GetTagList("Toy").Length);
-
         SaveObjectType("Slime");
         SaveObjectType("Tree");
         SaveObjectType("Toy");
+        SaveObjectType("Egg");
+        SaveObjectType("Food");
     }
 
     private static GameObject[] GetTagList(string tag) {
@@ -100,6 +100,8 @@ public class SaveLoadManager : MonoBehaviour
     }
 
     private static void SaveObjectType(string tag) {
+        PlayerPrefs.SetInt(tag + "Count", GetTagList(tag).Length);
+
         if (!Directory.Exists(savePath + tag)) {
             Directory.CreateDirectory(savePath + tag);
         }
@@ -127,6 +129,8 @@ public class SaveLoadManager : MonoBehaviour
         LoadObjectType("Slime");
         LoadObjectType("Tree");
         LoadObjectType("Toy");
+        LoadObjectType("Egg");
+        LoadObjectType("Food");
     }
 
     private static void LoadObjectType(string tag) {
@@ -144,22 +148,14 @@ public class SaveLoadManager : MonoBehaviour
                 string fileName = Path.GetFileNameWithoutExtension(info[i]).Replace('_', ' ');
                 GameObject obj;
                 if (tag == "Tree") {
-                    GameObject toSpawn = main.treePrefabs[0];
-                    foreach (GameObject gameObj in main.treePrefabs) {
-                        if (gameObj.name.Contains(fileName)) {
-                            toSpawn = gameObj;
-                        }
-                    }
-                    obj = Instantiate(toSpawn);
+                    obj = InstantiateFromList(main.treePrefabs, fileName);
                 } else if (tag == "Toy") {
-                    GameObject toSpawn = main.toyPrefabs[0];
-                    foreach (GameObject gameObj in main.toyPrefabs) {
-                        if (gameObj.name.Contains(fileName)) {
-                            toSpawn = gameObj;
-                        }
-                    }
-                    obj = Instantiate(toSpawn);
-                } else {
+                    obj = InstantiateFromList(main.toyPrefabs, fileName);
+                } else if (tag == "Food") {
+                    obj = InstantiateFromList(main.foodPrefabs, fileName);
+                } else if (tag == "Egg") {
+                    obj = Instantiate(main.eggPrefab);
+                } else { 
                     obj = Instantiate(main.slimePrefab);
                 }
                 MainController controller = obj.GetComponent<MainController>();
@@ -176,6 +172,17 @@ public class SaveLoadManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public static GameObject InstantiateFromList(GameObject[] prefabs, string fileName) {
+        GameObject toSpawn = prefabs[0];
+        foreach (GameObject gameObj in prefabs) {
+            if (fileName.Contains(gameObj.name)) {
+                toSpawn = gameObj;
+                break;
+            }
+        }
+        return Instantiate(toSpawn);
     }
 
     private static IEnumerator<object> LoadGameEnumerator( string level )

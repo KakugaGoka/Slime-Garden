@@ -21,6 +21,7 @@ public class ShopController : MonoBehaviour
     public Text viewingDescription;
     public Text playerWealth;
     public Button buyButton;
+    public Button sellButton;
 
     List<RenderTexture> textures = new List<RenderTexture>();
     List<Image> itemTiles = new List<Image>();
@@ -52,6 +53,7 @@ public class ShopController : MonoBehaviour
             itemImage.texture = texture;
             textures.Add(texture);
             GameObject item = Instantiate(itemsForSale[i].prefab, camera.gameObject.transform);
+            item.tag = "Untagged";
             Rigidbody rb = item.GetComponent<Rigidbody>();
             if (rb) {
                 rb.useGravity = false;
@@ -84,7 +86,8 @@ public class ShopController : MonoBehaviour
         }
         if (player) {
             playerWealth.text = player.wealth.ToString() + "©";
-            buyButton.interactable = !player.isHolding;
+            buyButton.interactable = player.wealth >= itemsForSale[currentIndex].value && !player.isHolding;
+            sellButton.interactable = player.isHolding;
         }
     }
 
@@ -94,21 +97,23 @@ public class ShopController : MonoBehaviour
 
     public void OnBuy() {
         if (player) {
-            if (player.isHolding) {
-                return;
-            } else {
-                if (player.wealth >= itemsForSale[currentIndex].value) {
-                    GameObject newItem = Instantiate(itemsForSale[currentIndex].prefab);
-                    InteractController interact = newItem.GetComponent<InteractController>();
-                    if (interact) {
-                        interact.onInteract.Invoke(player);
-                        player.wealth -= itemsForSale[currentIndex].value;
-                    } else {
-                        Destroy(newItem);
-                    }
+            if (player.wealth >= itemsForSale[currentIndex].value) {
+                GameObject newItem = Instantiate(itemsForSale[currentIndex].prefab);
+                InteractController interact = newItem.GetComponent<InteractController>();
+                if (interact) {
+                    interact.onInteract.Invoke(player);
+                    player.wealth -= itemsForSale[currentIndex].value;
+                } else {
+                    Destroy(newItem);
                 }
             }
         }
+    }
 
+    public void OnSell() {
+        if (player) {
+            player.wealth += player.heldItem.value;
+            Destroy(player.heldItem.gameObject);
+        }
     }
 }

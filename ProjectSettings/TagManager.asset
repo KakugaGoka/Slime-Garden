@@ -11,6 +11,7 @@ TagManager:
   - Slime
   - Tree
   - Toy
+  - Egg
   layers:
   - Default
   - TransparentFX
