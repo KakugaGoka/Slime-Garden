@@ -24,6 +24,7 @@ Collin Feature Work
 	Interaction System (Complete)
 	Spline System for Races (Complete)
 	Tree and Fruit Interactions (Complete)
-	Main Menu
-	Save/Load System
-	Game Manager
+	Main Menu (Complete)
+	Save/Load System (Complete)
+	Game Manager (Complete)
+	Shop (Complete)

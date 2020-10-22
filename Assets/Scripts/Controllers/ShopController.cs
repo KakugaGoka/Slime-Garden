@@ -20,6 +20,7 @@ public class ShopController : MonoBehaviour
     public RawImage viewingImage;
     public Text viewingDescription;
     public Text playerWealth;
+    public Button buyButton;
 
     List<RenderTexture> textures = new List<RenderTexture>();
     List<Image> itemTiles = new List<Image>();
@@ -83,6 +84,7 @@ public class ShopController : MonoBehaviour
         }
         if (player) {
             playerWealth.text = player.wealth.ToString() + "©";
+            buyButton.interactable = !player.isHolding;
         }
     }
 

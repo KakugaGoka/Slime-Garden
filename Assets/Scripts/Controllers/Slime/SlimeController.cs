@@ -96,9 +96,9 @@ public class SlimeController : MainController
         navPath = new NavMeshPath();
         m_Renderer = GetComponent<MeshRenderer>();
         faces.happy = Resources.Load<Texture2D>("Textures/Smiley");
-        faces.angry = Resources.Load<Texture2D>("Textures/Smiley");
-        faces.sad = Resources.Load<Texture2D>("Textures/Smiley");
-        faces.hungry = Resources.Load<Texture2D>("Textures/Smiley");
+        faces.angry = Resources.Load<Texture2D>("Textures/Smiley-Angry");
+        faces.sad = Resources.Load<Texture2D>("Textures/Smiley-Sad");
+        faces.hungry = Resources.Load<Texture2D>("Textures/Smiley-Hungry");
         if (!shaderSet) {
             SlimeShaderController.ResetAllShaderValues(this);
             shaderSet = true;
@@ -153,9 +153,11 @@ public class SlimeController : MainController
     {
         if (goalDist < 1f) {
             if (hungry) {
+                ChangeFaceTexture(CurrentFace.Hungry);
                 FindFood();
             }
             else {
+                ChangeFaceTexture(CurrentFace.Happy);
                 targetPosition = FindWanderPoint();
             }
         }

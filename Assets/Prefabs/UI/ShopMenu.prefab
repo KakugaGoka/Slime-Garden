@@ -810,6 +810,7 @@ MonoBehaviour:
   viewingImage: {fileID: 2141746749682911041}
   viewingDescription: {fileID: 76832174311165832}
   playerWealth: {fileID: 2775334230105201634}
+  buyButton: {fileID: 2141746749164848164}
 --- !u!1 &3257275803668587118
 GameObject:
   m_ObjectHideFlags: 0
