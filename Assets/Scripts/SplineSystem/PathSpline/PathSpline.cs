@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
-[ExecuteInEditMode]
 [System.Serializable]
 public class PathSpline : MonoBehaviour
 {
@@ -11,10 +11,15 @@ public class PathSpline : MonoBehaviour
     public List<GameObject> points = new List<GameObject>();
 
     public BezierSpline spline;
-    private int resolution = 5;
 
+    [SerializeField]
+    [Range( (int)1, (int)50 )]
+    public int resolution;
+    public int selectedIndex = 0;
+    public bool looping;
     private void Awake()
     {
+        resolution = 5;
         AddPoint( transform.position );
     }
     private void OnEnable()
@@ -33,7 +38,20 @@ public class PathSpline : MonoBehaviour
         //        }
         //    }
         //}
+        Vector3 start;
+        Vector3 end;
+        for (int i = 0; i < points.Count - 1 + Convert.ToInt32( looping ); i++) {
+            PathPoint point = points[i].GetComponent<PathPoint>();
+            PathPoint next = points[(i + 1) % points.Count].GetComponent<PathPoint>();
+            float step = 1 / (float)(resolution);
+            for (float t = 0; t < 1; t += step) {
+                start = Bezier.GetPoint( point.transform.position, point.handleB, next.handleA, next.transform.position, t );
+                end = Bezier.GetPoint( point.transform.position, point.handleB, next.handleA, next.transform.position, t + step );
+                Gizmos.DrawLine( start, end );
+            }
+        }
     }
+
     public void AddPoint( Vector3 point )
     {
         var pointObj = new GameObject();
@@ -49,13 +67,6 @@ public class PathSpline : MonoBehaviour
     }
     public void UpdateCurve()
     {
-        if (spline) {
-        }
-        spline.points.Clear();
-        spline.modes.Clear();
-        for (int i = 0; i < points.Count; i++) {
-            spline.AddCurve( points[i].transform.position );
-        }
     }
 
     public void RenamePoints()
@@ -83,19 +94,5 @@ public class PathSpline : MonoBehaviour
 
     private void Update()
     {
-        if (spline == null) {
-            //AddPoint( Vector3.zero );
-            //AddPoint( Vector3.one );
-
-            spline = new BezierSpline();
-
-            //spline.AddCurve( Vector3.zero );
-            //spline.AddCurve( Vector3.one );
-        }
-        if (points.Count > 2) {
-            UpdateCurve();
-        }
-        else {
-        }
     }
 }

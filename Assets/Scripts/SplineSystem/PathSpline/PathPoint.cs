@@ -7,7 +7,22 @@ using UnityEditor;
 [System.Serializable]
 public class PathPoint : MonoBehaviour
 {
-    private Vector3[] curveHandles = new Vector3[2];
+    public Vector3 handleA {
+        get { return transform.TransformPoint( localA ); }
+        set { localA = transform.InverseTransformPoint( value ); }
+    }
+    public Vector3 handleB {
+        get { return transform.TransformPoint( localB ); }
+        set { localB = transform.InverseTransformPoint( value ); }
+    }
+    public Vector3 localA;
+    public Vector3 localB;
+    public BezierControlPointMode mode = BezierControlPointMode.Mirrored;
+    private void Awake()
+    {
+        localA = Vector3.back;
+        localB = Vector3.forward;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere( transform.position, 0.1f );

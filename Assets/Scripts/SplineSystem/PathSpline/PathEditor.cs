@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
+using static Mathk;
+using System;
+using UnityEditor.ShaderGraph.Internal;
 
 [CustomEditor( typeof( PathSpline ) )]
 public class PathEditor : Editor
@@ -24,44 +28,146 @@ public class PathEditor : Editor
         }
         EditorGUI.EndChangeCheck();
     }
-    public override void OnInspectorGUI()
-    {
-        PathSpline spline = (PathSpline)target;
-        EditorGUI.BeginChangeCheck();
-        if (GUILayout.Button( "Reset" )) {
-            Undo.RecordObject( spline, "Reset" );
-            spline.RemoveAllPoints();
-            EditorUtility.SetDirty( spline );
-        }
-        EditorGUI.EndChangeCheck();
-    }
 
     public static void ShowPoints( PathSpline target )
     {
         PathSpline spline = target;
-
+        float[] distances = new float[spline.points.Count];
         for (int i = 0; i < spline.points.Count; i++) {
-            if (Selection.activeObject != spline.points[i]) {
-                Vector3 point = spline.points[i].transform.position;
-                float size = HandleUtility.GetHandleSize( point );
+            Handles.color = new Color( 1, 1, 1, 0.2f );
 
-                Handles.color = new Color( 1, 1, 1, 0.2f );
-                Vector3 handlePos =
-                    Handles.FreeMoveHandle( point, Quaternion.identity, size * 0.5f, Vector3.zero, Handles.ArrowHandleCap );
+            Vector3 point = spline.points[i].transform.position;
+            float size = HandleUtility.GetHandleSize( point );
+            Vector3 oldpos = spline.points[i].transform.position;
+            Vector3 loc = spline.points[i].transform.position;
+            Quaternion rot = spline.points[i].transform.rotation;
+            Vector3 scale = spline.points[i].transform.localScale;
 
-                //bool moved =
-                //spline.points[i].transform.position != hand
-                //if (true) {
-                //}
-                //spline.points[i].transform.position =
+            if (spline.points[i] != Selection.activeObject) {
+                switch (Tools.current) {
+                    case Tool.View:
+                        break;
 
-                Handles.color = Color.white;
-                if (Handles.Button( point - Vector3.Normalize( Camera.current.transform.position - spline.points[i].transform.position ),
-                                   Quaternion.identity,
-                                   size * 0.1f,
-                                   size * 0.1f,
-                                   Handles.DotHandleCap )) {
-                    Selection.activeObject = spline.points[i];
+                    case Tool.Move:
+                        spline.points[i].transform.position =
+                            Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                        break;
+
+                    case Tool.Rotate:
+                        spline.points[i].transform.rotation =
+                            Handles.FreeRotateHandle( i, rot, loc, size * 0.5f );
+                        break;
+
+                    //case Tool.Scale:
+                    //    float scaleValue =
+                    //        Handles.RadiusHandle( rot, loc, size * 0.5f, false );
+                    //    spline.points[i].transform.localScale = new Vector3( scaleValue, scaleValue, scaleValue );
+                    //break;
+
+                    case Tool.Rect:
+                        spline.points[i].transform.position =
+                            Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                        break;
+
+                    case Tool.Transform:
+                        spline.points[i].transform.position =
+                            Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                        break;
+
+                    case Tool.Custom:
+                        spline.points[i].transform.position =
+                            Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                        break;
+
+                    case Tool.None:
+                        spline.points[i].transform.position =
+                            Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                        break;
+
+                    default:
+                        spline.points[i].transform.position =
+                            Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                        break;
+                }
+
+                DrawHandles( spline, i, new Color( 1, 1, 1, 0.2f ) );
+
+                if (Handles.Button( point,
+                   Quaternion.LookRotation( point - Camera.current.transform.position ),
+                   size * 0.1f,
+                   size * 0.1f,
+                   Handles.DotHandleCap )) {
+                    Selection.activeGameObject = spline.points[i];
+                }
+            }
+            else {
+                if (Tools.current == Tool.Rect) {
+                    spline.points[i].transform.position =
+                        Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                }
+
+                DrawHandles( spline, i, Color.white );
+            }
+        }
+
+        void DrawHandleA( PathPoint point )
+        {
+            point.handleA =
+                Handles.FreeMoveHandle(
+                    point.transform.TransformPoint( point.localA ),
+                    Quaternion.identity,
+                    HandleUtility.GetHandleSize( point.handleA ) * 0.07f,
+                    Vector3.zero,
+                    Handles.DotHandleCap
+                    );
+            point.localB = -point.localA;
+        }
+        void DrawHandleB( PathPoint point )
+        {
+            point.handleB =
+                Handles.FreeMoveHandle(
+                    point.transform.TransformPoint( point.localB ),
+                    Quaternion.identity,
+                    HandleUtility.GetHandleSize( point.handleB ) * 0.07f,
+                    Vector3.zero,
+                    Handles.DotHandleCap
+                    );
+            point.localA = -point.localB;
+        }
+
+        void DrawHandles( PathSpline inSpline, int i, Color color )
+        {
+            Handles.color = color;
+
+            inSpline.selectedIndex = i;
+            int last = inSpline.points.Count - 1;
+
+            PathPoint point = inSpline.points[i].GetComponent<PathPoint>();
+
+            if (inSpline.looping) {
+                DrawHandleA( point );
+                Handles.DrawLine( point.transform.position, point.handleA );
+                DrawHandleB( point );
+                Handles.DrawLine( point.transform.position, point.handleB );
+            }
+            else {
+                switch (i) {
+                    case 0:
+                        DrawHandleB( point );
+                        Handles.DrawLine( point.transform.position, point.handleB );
+                        break;
+
+                    case int p when p == last:
+                        DrawHandleA( point );
+                        Handles.DrawLine( point.transform.position, point.handleA );
+                        break;
+
+                    default:
+                        DrawHandleA( point );
+                        Handles.DrawLine( point.transform.position, point.handleA );
+                        DrawHandleB( point );
+                        Handles.DrawLine( point.transform.position, point.handleB );
+                        break;
                 }
             }
         }
