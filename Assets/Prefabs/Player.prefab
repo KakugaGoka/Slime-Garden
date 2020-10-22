@@ -344,7 +344,8 @@ MonoBehaviour:
   audioSource: {fileID: 1780070650992521982}
   heldObjectLocation: {fileID: 1780070649307323734}
   wallet: {fileID: 0}
-  wealth: 0
+  slimeMenu: {fileID: 0}
+  wealth: 200
   gravityDownForce: 20
   groundCheckLayers:
     serializedVersion: 2

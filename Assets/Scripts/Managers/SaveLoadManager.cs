@@ -26,6 +26,7 @@ public class SaveLoadManager : MonoBehaviour
             Destroy( gameObject );
             return;
         }
+        isMenuOpen = SceneManager.GetActiveScene().buildIndex == 0 ? true : false;
         instance = gameObject.AddComponent<StaticCoroutine>();
         savePath = Application.persistentDataPath + "/Saves/";
     }

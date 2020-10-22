@@ -9,7 +9,8 @@ public enum ClickActions {
     SaveAndQuitToMenu,
     QuitGame,
     ResumeGame,
-    QuitToMenu
+    QuitToMenu,
+    SelectShopItem
 }
 
 public class ButtonController : MonoBehaviour
