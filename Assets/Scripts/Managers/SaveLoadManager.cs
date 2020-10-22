@@ -119,6 +119,16 @@ public class SaveLoadManager : MonoBehaviour
                 info.GetTransformData();
                 string entityJSON = JsonUtility.ToJson(info, true);
                 string filePath = savePath + tag + "/" + objName + ".json";
+                if (File.Exists(filePath)) {
+                    string append = "---";
+                    int index = 0;
+                    string finalPath = filePath + append + index;
+                    while (File.Exists(finalPath)) {
+                        index++;
+                        finalPath = filePath + append + index;
+                    }
+                    filePath = finalPath;
+                }
                 File.WriteAllText(filePath, entityJSON);
                 Debug.Log("Saved :: " + objName + " to JSON");
             }
@@ -135,7 +145,6 @@ public class SaveLoadManager : MonoBehaviour
 
     private static void LoadObjectType(string tag) {
         int count = PlayerPrefs.GetInt(tag + "Count", 0);
-        if (count < 1) { return; }
 
         string[] info = Directory.GetFiles(savePath + tag);
 
