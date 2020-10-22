@@ -66,7 +66,7 @@ PrefabInstance:
         type: 3}
       propertyPath: fruit
       value: 
-      objectReference: {fileID: 5999181461011496003, guid: 42fc44110d2c0c641829654139326f99,
+      objectReference: {fileID: 7460391567618698200, guid: 65ac5e41bd5867b49b3018ff382dc3ae,
         type: 3}
     - target: {fileID: 9085589855766262451, guid: dece1a5442a23d34fa262c8c74c8c217,
         type: 3}

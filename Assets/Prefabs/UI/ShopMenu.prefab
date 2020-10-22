@@ -783,20 +783,19 @@ MonoBehaviour:
   - prefab: {fileID: 1798668282190201229, guid: 04bc93f9a752580408bb386d077bbc18,
       type: 3}
     value: 100
-    position: {x: 0, y: 0, z: 0.1}
+    position: {x: 0, y: 0, z: 0.2}
     rotation: {x: -20, y: 0, z: 0}
     description: A juicy apple.
-  - prefab: {fileID: 6515134544770715014, guid: 4085b4b51bcc31f438868465d5b082be,
-      type: 3}
+  - prefab: {fileID: 150004053684413762, guid: 7678ca8bcc3a2c447b812cb7638fbdd7, type: 3}
     value: 100
-    position: {x: 0, y: 0, z: 0.3}
-    rotation: {x: 0, y: 0, z: 0}
+    position: {x: 0, y: 0, z: 0.2}
+    rotation: {x: -20, y: 0, z: 0}
     description: A very smooth orange.
-  - prefab: {fileID: 5999181461011496003, guid: 42fc44110d2c0c641829654139326f99,
+  - prefab: {fileID: 7460391567618698200, guid: 65ac5e41bd5867b49b3018ff382dc3ae,
       type: 3}
     value: 100
-    position: {x: 0, y: 0, z: 0.3}
-    rotation: {x: 0, y: 0, z: 0}
+    position: {x: 0, y: 0, z: 0.2}
+    rotation: {x: 0, y: 60, z: -30}
     description: A peach without a stem.
   - prefab: {fileID: 3569989922837576556, guid: 0fec24e303ff24d4b875824468fbe404,
       type: 3}
