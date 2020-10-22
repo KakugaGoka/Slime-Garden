@@ -147,7 +147,8 @@ MonoBehaviour:
   RotX: 0
   RotY: 0
   RotZ: 0
-  prefabToSpawn: {fileID: 0}
+  prefabToSpawn: {fileID: 2817580289831993494, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+    type: 3}
 --- !u!64 &295791092886908446
 MeshCollider:
   m_ObjectHideFlags: 0

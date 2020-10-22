@@ -45,13 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452bd00e2e67a904cb14b2c8529332fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HUD: {fileID: 0}
-  pauseMenu: {fileID: 0}
-  sun: {fileID: 0}
-  world: {fileID: 0}
-  clock: {fileID: 0}
-  dayOfTheWeek: {fileID: 0}
-  timeScale: 0.25
+  HUD: {fileID: 3841044537232950891, guid: d39b3d0fb097ff64cb0e62490d80b22a, type: 3}
+  pauseMenu: {fileID: 2003919716951416892, guid: 15069da65e0e88344889889542cfc991,
+    type: 3}
 --- !u!114 &3392915464848947523
 MonoBehaviour:
   m_ObjectHideFlags: 0
