@@ -15,7 +15,7 @@ public class PathEditor : Editor
         Event E = Event.current;
         switch (E.type) {
             case EventType.KeyDown:
-                if (Event.current.keyCode == KeyCode.A) {
+                if (Event.current.keyCode == KeyCode.Tab) {
                     Undo.RecordObject( spline, "Add Point" );
                     spline.AddPoint( new Vector3( 0, 0, 0 ) );
                     EditorUtility.SetDirty( spline );
@@ -46,10 +46,21 @@ public class PathEditor : Editor
                 float size = HandleUtility.GetHandleSize( point );
 
                 Handles.color = new Color( 1, 1, 1, 0.2f );
-                spline.points[i].transform.position =
-                    Handles.FreeMoveHandle( point, Quaternion.identity, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
+                Vector3 handlePos =
+                    Handles.FreeMoveHandle( point, Quaternion.identity, size * 0.5f, Vector3.zero, Handles.ArrowHandleCap );
+
+                //bool moved =
+                //spline.points[i].transform.position != hand
+                //if (true) {
+                //}
+                //spline.points[i].transform.position =
+
                 Handles.color = Color.white;
-                if (Handles.Button( point, Quaternion.identity, size * 0.1f, size * 0.1f, Handles.DotHandleCap )) {
+                if (Handles.Button( point - Vector3.Normalize( Camera.current.transform.position - spline.points[i].transform.position ),
+                                   Quaternion.identity,
+                                   size * 0.1f,
+                                   size * 0.1f,
+                                   Handles.DotHandleCap )) {
                     Selection.activeObject = spline.points[i];
                 }
             }

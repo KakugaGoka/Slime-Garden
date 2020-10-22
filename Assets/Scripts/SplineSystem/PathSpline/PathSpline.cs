@@ -10,9 +10,12 @@ public class PathSpline : MonoBehaviour
     [HideInInspector]
     public List<GameObject> points = new List<GameObject>();
 
-    public BezierSpline spline = new BezierSpline();
+    public BezierSpline spline;
+    private int resolution = 5;
+
     private void Awake()
     {
+        AddPoint( transform.position );
     }
     private void OnEnable()
     {
@@ -20,6 +23,16 @@ public class PathSpline : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        //if (spline.points != null) {
+        //    if (spline.points.Count > 3) {
+        //        Gizmos.color = Color.white;
+
+        //        float step = 1 / (float)(points.Count * resolution);
+        //        for (float t = 0; t < 1; t += step) {
+        //            Gizmos.DrawLine( spline.GetPoint( t ), spline.GetPoint( t + step ) );
+        //        }
+        //    }
+        //}
     }
     public void AddPoint( Vector3 point )
     {
@@ -36,6 +49,13 @@ public class PathSpline : MonoBehaviour
     }
     public void UpdateCurve()
     {
+        if (spline) {
+        }
+        spline.points.Clear();
+        spline.modes.Clear();
+        for (int i = 0; i < points.Count; i++) {
+            spline.AddCurve( points[i].transform.position );
+        }
     }
 
     public void RenamePoints()
@@ -63,5 +83,19 @@ public class PathSpline : MonoBehaviour
 
     private void Update()
     {
+        if (spline == null) {
+            //AddPoint( Vector3.zero );
+            //AddPoint( Vector3.one );
+
+            spline = new BezierSpline();
+
+            //spline.AddCurve( Vector3.zero );
+            //spline.AddCurve( Vector3.one );
+        }
+        if (points.Count > 2) {
+            UpdateCurve();
+        }
+        else {
+        }
     }
 }
