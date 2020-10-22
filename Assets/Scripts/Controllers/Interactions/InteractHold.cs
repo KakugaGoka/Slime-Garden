@@ -11,6 +11,7 @@ public class InteractHold : MonoBehaviour {
     bool isHeld = false;
 
     public Vector3 holdPosition = new Vector3(0, 0, 0);
+    public int value = 5;
 
     public UnityAction<PlayerCharacterController> onDrop;
 

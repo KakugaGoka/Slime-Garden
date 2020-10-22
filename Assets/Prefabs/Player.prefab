@@ -345,7 +345,7 @@ MonoBehaviour:
   heldObjectLocation: {fileID: 1780070649307323734}
   wallet: {fileID: 0}
   slimeMenu: {fileID: 0}
-  wealth: 200
+  wealth: 1000
   gravityDownForce: 20
   groundCheckLayers:
     serializedVersion: 2
