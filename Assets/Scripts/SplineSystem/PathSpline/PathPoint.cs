@@ -23,6 +23,11 @@ public class PathPoint : MonoBehaviour
         localA = Vector3.back;
         localB = Vector3.forward;
     }
+    private void Start()
+    {
+        var spline = transform.parent.GetComponent<PathSpline>();
+        spline.RenamePoints();
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere( transform.position, 0.1f );
@@ -31,6 +36,7 @@ public class PathPoint : MonoBehaviour
     private void OnDestroy()
     {
         var spline = transform.parent.GetComponent<PathSpline>();
+        Undo.RecordObject( spline, "Delete Point" );
         spline.points.Remove( gameObject );
 
         spline.RenamePoints();

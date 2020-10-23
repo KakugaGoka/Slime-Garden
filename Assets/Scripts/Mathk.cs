@@ -4,6 +4,75 @@ using System;
 
 public static class Mathk
 {
+    #region Quaternions
+
+    public static Quaternion Inverse( this Quaternion Q ) => Quaternion.Inverse( Q );
+    public static Vector3 Right( this Quaternion Q ) => Q * Vector3.right;
+    public static Vector3 Up( this Quaternion Q ) => Q * Vector3.up;
+    public static Vector3 Forward( this Quaternion Q ) => Q * Vector3.forward;
+
+    #endregion Quaternions
+
+    #region Vector3
+
+    public static float MeasureByAxis( this Vector3 toMeasure, Vector3 axis ) =>
+        Vector3.Dot( axis.normalized, toMeasure );
+    public static float MeasureByVector( this Vector3 toMeasure, Vector3 axis ) =>
+        Vector3.Dot( axis.normalized, toMeasure ) / axis.magnitude;
+
+    public static bool IsWithinBounds( this Vector3 point, Vector3 loBound, Vector3 hiBound )
+    {
+        Vector3 axis = hiBound - loBound;
+        return InRange( 0, axis.magnitude, point.MeasureByAxis( axis ) );
+    }
+    public static bool IsWithinBounds( this Vector3 point, Vector3 loBound, Vector3 hiBound, out float measure )
+    {
+        Vector3 axis = hiBound - loBound;
+        measure = point.MeasureByAxis( axis );
+        return InRange( 0, axis.magnitude, measure );
+    }
+    public static bool IsAbovePlane( Vector3 point, Vector3 planePoint, Vector3 planeNormal ) => Vector3.Dot( planePoint - point, planeNormal ) < 0;
+
+    public static Vector3 RayPlaneIntersect( Vector3 rayPoint, Vector3 rayNormal, Vector3 planePoint, Vector3 planeNormal )
+    {
+        float distance = RayPlaneDistance( rayPoint, rayNormal, planePoint, planeNormal );
+        return rayPoint + rayNormal * distance;
+    }
+    public static Vector3 RayPlaneIntersect( Ray ray, Vector3 planePoint, Vector3 planeNormal )
+    {
+        float distance = RayPlaneDistance( ray.origin, ray.direction, planePoint, planeNormal );
+        return ray.origin + ray.direction * distance;
+    }
+    public static Vector3 RayPlaneIntersect( Vector3 rayPoint, Vector3 rayNormal, Vector3 planePoint, Vector3 planeNormal, out float distance )
+    {
+        distance = RayPlaneDistance( rayPoint, rayNormal, planePoint, planeNormal );
+        return rayPoint + rayNormal * distance;
+    }
+    public static Vector3 LinePlaneIntersect( Vector3 lineStart, Vector3 lineEnd, Vector3 planePoint, Vector3 planeNormal ) =>
+        RayPlaneIntersect( lineStart, (lineEnd - lineStart).normalized, planePoint, planeNormal );
+    public static float DistanceToPlane( Vector3 point, Vector3 planePoint, Vector3 planeNormal ) =>
+        Vector3.Dot( point - planePoint, planeNormal );
+
+    public static float RayPlaneDistance( Vector3 rayPoint, Vector3 rayNormal, Vector3 planePoint, Vector3 planeNormal )
+    {
+        float denominator = -Vector3.Dot( rayNormal, planeNormal );
+        return DistanceToPlane( rayPoint, planePoint, planeNormal ) / denominator;
+    }
+
+    public static float MeasureBetweenPlaneBounds( Vector3 point,
+                                              Vector3 loboundPoint,
+                                              Vector3 loboundNormal,
+                                              Vector3 hiboundPoint,
+                                              Vector3 hiboundNormal )
+    {
+        Vector3 loIntersect = RayPlaneIntersect( point, (hiboundPoint - loboundPoint).normalized, loboundPoint, loboundNormal, out float distance );
+        float width = RayPlaneDistance( loIntersect, (hiboundPoint - loboundPoint).normalized, hiboundPoint, hiboundNormal );
+
+        return -distance / width;
+    }
+
+    #endregion Vector3
+
     public static float Clamp( float value, float min = 0, float max = 1 )
     {
         if (value > max) {
