@@ -23,7 +23,7 @@ public class PointEditor : Editor
             case EventType.KeyDown:
                 if (Event.current.keyCode == KeyCode.Tab) {
                     Undo.RecordObject( parentSpline, "Add Point" );
-                    parentSpline.AddPoint( new Vector3( 0, 0, 0 ) );
+                    parentSpline.AddPoint();
                     EditorUtility.SetDirty( parentSpline );
                 }
                 break;

@@ -16,8 +16,8 @@ public class BezierSpline : MonoBehaviour
     [SerializeField]
     private bool loop;
 
-    [SerializeField]
-    private int resolution = 5;
+    //[SerializeField]
+    //private int resolution = 5;
 
     public int CurveCount {
         get {
