@@ -153,12 +153,13 @@ MonoBehaviour:
   rolling: 0
   floating: 0
   range: 0
-  slimeName: 
+  npc: 0
   faces:
     happy: {fileID: 2800000, guid: ec7f15d3220de9c4a9ee6bfd7e6253fb, type: 3}
     angry: {fileID: 0}
     sad: {fileID: 0}
     hungry: {fileID: 0}
+  currentFace: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   amplitude: 0
   frequency: 0
@@ -181,8 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3ae7ec312d61a48a5b16ee1f531e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionMessage: Pick Up (E)
-  messageColor: {r: 0.754717, g: 0, b: 0, a: 1}
+  interactionMessage: Pick Up
+  messageColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &-6238847042047562563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,3 +197,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdPosition: {x: 0, y: 0, z: 0}
+  value: 5

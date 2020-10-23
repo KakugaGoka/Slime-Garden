@@ -19,7 +19,7 @@ public class SlimeEggController : MainController
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if(collision.relativeVelocity.magnitude > 10) {
+        if(collision.relativeVelocity.magnitude > 30) {
             if (transform.childCount < 1) { return; }
             GameObject topShell = transform.GetChild(0).gameObject;
             InteractHold hold = topShell.AddComponent<InteractHold>();
@@ -29,7 +29,7 @@ public class SlimeEggController : MainController
             InteractController interact = hold.GetComponent<InteractController>();
             InteractController thisInteract = GetComponent<InteractController>();
             InteractHold thisHold = GetComponent<InteractHold>();
-            string message = "Pick Up Egg Shell (E)";
+            string message = "Pick Up Egg Shell";
             interact.interactionMessage = message;
             thisInteract.interactionMessage = message;
             interact.messageColor = thisInteract.messageColor;
@@ -41,7 +41,8 @@ public class SlimeEggController : MainController
             topShell.tag = "Toy";
             gameObject.AddComponent<ToyController>();
             topShell.AddComponent<ToyController>();
-            Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+            GameObject prefab = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+            prefab.name = "Baby " + prefab.name.Replace("(Clone)", "");
             Destroy(this);
         }
     }

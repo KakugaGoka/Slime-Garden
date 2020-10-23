@@ -46,4 +46,4 @@ MonoBehaviour:
   clock: {fileID: 0}
   currentTimeInGame: 43200
   gameTimeScale: 1
-  cycleTimeScale: 1
+  cycleTimeScale: 60
