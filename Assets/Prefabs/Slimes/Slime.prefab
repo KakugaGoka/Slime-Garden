@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8412457964438520198}
   - component: {fileID: -6238847042047562563}
   m_Layer: 0
-  m_Name: Green Slime
+  m_Name: Slime
   m_TagString: Slime
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,5 +196,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a3ac88730ae8d4e86d3aa1efe0759f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdPosition: {x: 0, y: 0, z: 0}
+  holdPosition: {x: 1, y: 0, z: 0.5}
   value: 5

@@ -22,17 +22,6 @@ public class SlimeShaderController : MonoBehaviour {
     private static floatWithBounds cellDensity = new floatWithBounds(0.1f, 1.5f);
     private static floatWithBounds speckleDensity = new floatWithBounds(1f, 10f);
     private static floatWithBounds speckleBrightness = new floatWithBounds(0f, 1f);
-    private static Color[] m_Colors = new Color[] {
-        Color.red,
-        Color.green,
-        Color.blue,
-        Color.cyan,
-        Color.magenta,
-        Color.yellow,
-        Color.white,
-        Color.gray,
-        Color.black
-    };
 
     public static void ResetAllShaderValues(SlimeController slime) {
         slime.amplitude = GetValue(amplitude);
@@ -51,7 +40,7 @@ public class SlimeShaderController : MonoBehaviour {
     }
 
     private static Color GetColor() {
-        return m_Colors[UnityEngine.Random.Range(0, m_Colors.Length)];
+        return new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
     }
 
 }

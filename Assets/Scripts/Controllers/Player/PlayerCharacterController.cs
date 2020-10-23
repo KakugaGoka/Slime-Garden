@@ -109,6 +109,9 @@ public class PlayerCharacterController : MonoBehaviour
     public bool isSprinting { get; set; }
     public InteractHold heldItem;
 
+    [HideInInspector]
+    public SatchelController satchel;
+
     private PlayerInputHandler m_InputHandler;
     private CharacterController m_Controller;
     private InteractController m_Interactable;
@@ -130,6 +133,8 @@ public class PlayerCharacterController : MonoBehaviour
         m_Controller = GetComponent<CharacterController>();
 
         m_InputHandler = GetComponent<PlayerInputHandler>();
+
+        satchel = GetComponent<SatchelController>();
 
         m_InteractMessage = GameObject.FindGameObjectWithTag( "InteractMessage" ).GetComponent<Text>();
         m_DropMessage = GameObject.FindGameObjectWithTag( "DropMessage" ).GetComponent<Text>();
@@ -220,6 +225,7 @@ public class PlayerCharacterController : MonoBehaviour
                             if (m_InputHandler.GetInteractInputDown()) {
                                 Instantiate(fruit.tree, hit.point, Quaternion.identity);
                                 Destroy(fruit.gameObject);
+                                Instantiate(satchel.emptyObject, heldObjectLocation).transform.SetAsFirstSibling();
                             }
                         }
                     }

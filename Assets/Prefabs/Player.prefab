@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 1780070650992521981}
   - component: {fileID: 1780070650992521982}
   - component: {fileID: 1780070650992521983}
+  - component: {fileID: 3553677305416942532}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -371,3 +372,23 @@ MonoBehaviour:
   fallDamageSFX: {fileID: 0}
   playerReach: 3.5
   heldItem: {fileID: 0}
+  satchel: {fileID: 0}
+--- !u!114 &3553677305416942532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780070650992521969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cc4e58414eae8f439b6fabc7883d726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfPockets: 3
+  emptyObject: {fileID: 2188617797441658773, guid: 379173c582d65c646850f02be5235bad,
+    type: 3}
+  playerSachelUI: {fileID: 2489598339681086741, guid: c3cc2c2b7fdc3f14a82635dc08281423,
+    type: 3}
+  pocketPrefab: {fileID: 1012115494457782219, guid: 7ad906ae003caae44b19d2e331c3d1de,
+    type: 3}
