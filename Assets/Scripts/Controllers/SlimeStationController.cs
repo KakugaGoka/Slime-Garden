@@ -47,4 +47,10 @@ public class SlimeStationController : MonoBehaviour
             m_Slime.name = nameField.text;
         }
     }
+
+    public void DeleteSlime() {
+        if (m_Slime) {
+            Destroy(m_Slime.gameObject);
+        }
+    }
 }

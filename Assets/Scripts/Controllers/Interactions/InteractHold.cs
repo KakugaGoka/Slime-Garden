@@ -15,7 +15,7 @@ public class InteractHold : MonoBehaviour {
 
     public UnityAction<PlayerCharacterController> onDrop;
 
-    private void Awake() {
+    private void Start() {
         m_InteractController = GetComponent<InteractController>();
         m_Rigidbody = GetComponent<Rigidbody>();
 
@@ -45,7 +45,12 @@ public class InteractHold : MonoBehaviour {
         if (m_Rigidbody != null) {
             m_Rigidbody.useGravity = true;
             m_Rigidbody.detectCollisions = true;
-            m_Rigidbody.velocity = player.playerCamera.transform.forward * 15 + player.characterVelocity;
+            int rate = 1;
+            if (Input.GetButton(GameConstants.k_ButtonNameSprint)) {
+                rate = 15;
+            }
+            Vector3 velocity = player.playerCamera.transform.forward * rate + player.characterVelocity;
+            m_Rigidbody.velocity = velocity;
         }
         this.gameObject.transform.parent = null;
         isHeld = false;

@@ -18,23 +18,31 @@ public class InteractMenu : MonoBehaviour
         m_InteractController.onInteract += OpenMenu;
     }
 
-    void Update()
-    {
-        
+    public void OpenMenu(PlayerCharacterController player) {
+        if (menuToClose) menuToClose.gameObject.SetActive(false);
+        if (menuToOpen) menuToOpen.gameObject.SetActive(true);
+        SaveLoadManager.isMenuOpen = true;
+        GameFlowManager.paused = true;
+        Cursor.visible = true;
     }
 
-    public void OpenMenu(PlayerCharacterController player) {
-        menuToClose.gameObject.SetActive(false);
-        menuToOpen.gameObject.SetActive(true);
+    public void OpenSubMenu() {
+        if (menuToClose) menuToClose.gameObject.SetActive(false);
+        if (menuToOpen) menuToOpen.gameObject.SetActive(true);
         SaveLoadManager.isMenuOpen = true;
         GameFlowManager.paused = true;
         Cursor.visible = true;
     }
 
     public void CloseMenu() {
-        menuToClose.gameObject.SetActive(true);
-        menuToOpen.gameObject.SetActive(false);
+        if (menuToClose) menuToClose.gameObject.SetActive(true);
+        if (menuToOpen) menuToOpen.gameObject.SetActive(false);
         SaveLoadManager.isMenuOpen = false;
         GameFlowManager.paused = false;
+    }
+
+    public void CloseSubMenu() {
+        if (menuToClose) menuToClose.gameObject.SetActive(true);
+        if (menuToOpen) menuToOpen.gameObject.SetActive(false);
     }
 }

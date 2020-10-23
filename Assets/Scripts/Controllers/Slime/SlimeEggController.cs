@@ -19,7 +19,7 @@ public class SlimeEggController : MainController
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if(collision.relativeVelocity.magnitude > 10) {
+        if(collision.relativeVelocity.magnitude > 30) {
             if (transform.childCount < 1) { return; }
             GameObject topShell = transform.GetChild(0).gameObject;
             InteractHold hold = topShell.AddComponent<InteractHold>();
