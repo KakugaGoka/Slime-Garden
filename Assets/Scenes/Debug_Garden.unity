@@ -1619,6 +1619,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1776937574827532527, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776937574827532527, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776937574827532527, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776937574827532527, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1891719352350592928, guid: d39b3d0fb097ff64cb0e62490d80b22a,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1802,6 +1822,26 @@ PrefabInstance:
     - target: {fileID: 3432323846582712868, guid: d39b3d0fb097ff64cb0e62490d80b22a,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3841044535732836622, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3841044535732836622, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3841044535732836622, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3841044535732836622, guid: d39b3d0fb097ff64cb0e62490d80b22a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3841044537232950804, guid: d39b3d0fb097ff64cb0e62490d80b22a,
@@ -5962,8 +6002,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3ae7ec312d61a48a5b16ee1f531e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionMessage: Shop  (E)
-  messageColor: {r: 0, g: 1, b: 0.9505663, a: 1}
+  interactionMessage: Open Shop
+  messageColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1649221773262184152
 PrefabInstance:
   m_ObjectHideFlags: 0

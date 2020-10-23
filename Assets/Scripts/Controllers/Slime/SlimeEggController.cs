@@ -29,7 +29,7 @@ public class SlimeEggController : MainController
             InteractController interact = hold.GetComponent<InteractController>();
             InteractController thisInteract = GetComponent<InteractController>();
             InteractHold thisHold = GetComponent<InteractHold>();
-            string message = "Pick Up Egg Shell (E)";
+            string message = "Pick Up Egg Shell";
             interact.interactionMessage = message;
             thisInteract.interactionMessage = message;
             interact.messageColor = thisInteract.messageColor;

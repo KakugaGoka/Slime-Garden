@@ -114,8 +114,6 @@ public class PlayerCharacterController : MonoBehaviour
     private InteractController m_Interactable;
     private Text m_InteractMessage;
     private Text m_DropMessage;
-    private Text m_CrouchMessage;
-    private Text m_SprintMessage;
     private Vector3 m_GroundNormal;
     private Vector3 m_LatestImpactSpeed;
     private float m_LastTimeJumped = 0f;
@@ -135,8 +133,6 @@ public class PlayerCharacterController : MonoBehaviour
 
         m_InteractMessage = GameObject.FindGameObjectWithTag( "InteractMessage" ).GetComponent<Text>();
         m_DropMessage = GameObject.FindGameObjectWithTag( "DropMessage" ).GetComponent<Text>();
-        m_CrouchMessage = GameObject.FindGameObjectWithTag("CrouchMessage").GetComponent<Text>();
-        m_SprintMessage = GameObject.FindGameObjectWithTag("SprintMessage").GetComponent<Text>();
 
         m_Controller.enableOverlapRecovery = true;
 
@@ -179,8 +175,6 @@ public class PlayerCharacterController : MonoBehaviour
         HandleCharacterMovement();
 
         m_DropMessage.text = isHolding ? isSprinting ? "Throw" : "Drop" : "";
-        m_CrouchMessage.text = isCrouching ? "Stand" : "Crouch";
-        m_SprintMessage.text = isSprinting ? "Release to Walk" : "Hold to Sprint";
 
     }
 
