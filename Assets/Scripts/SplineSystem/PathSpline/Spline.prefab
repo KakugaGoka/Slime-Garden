@@ -43,4 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c097e74bb5f0ea478972414dc6d209b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: []
   spline: {fileID: 0}
+  resolution: 20
+  selectedIndex: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.PlayerLoop;
 
 [CustomEditor( typeof( PathPoint ) )]
 public class PointEditor : Editor
@@ -20,7 +21,7 @@ public class PointEditor : Editor
         Event E = Event.current;
         switch (E.type) {
             case EventType.KeyDown:
-                if (Event.current.keyCode == KeyCode.A) {
+                if (Event.current.keyCode == KeyCode.Tab) {
                     Undo.RecordObject( parentSpline, "Add Point" );
                     parentSpline.AddPoint( new Vector3( 0, 0, 0 ) );
                     EditorUtility.SetDirty( parentSpline );

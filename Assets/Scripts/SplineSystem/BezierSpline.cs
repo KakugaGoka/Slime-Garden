@@ -6,10 +6,12 @@ using System.Collections.Generic;
 public class BezierSpline : MonoBehaviour
 {
     [SerializeField]
-    private List<Vector3> points;
+    [HideInInspector]
+    public List<Vector3> points = new List<Vector3>();
 
     [SerializeField]
-    private List<BezierControlPointMode> modes;
+    [HideInInspector]
+    public List<BezierControlPointMode> modes = new List<BezierControlPointMode>();
 
     [SerializeField]
     private bool loop;
@@ -42,15 +44,6 @@ public class BezierSpline : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.white;
-
-        float step = 1 / (float)(points.Count * resolution);
-        for (float t = 0; t < 1; t += step) {
-            Gizmos.DrawLine( GetPoint( t ), GetPoint( t + step ) );
-        }
-    }
     public Vector3 GetControlPoint( int index )
     {
         return points[index];
@@ -189,31 +182,40 @@ public class BezierSpline : MonoBehaviour
 
     public void Reset()
     {
-        points = new List<Vector3> {
-            new Vector3(1f, 0f, 0f),
-            new Vector3(2f, 0f, 0f),
-            new Vector3(3f, 0f, 0f),
-            new Vector3(4f, 0f, 0f)
-        };
+        //points = new List<Vector3> {
+        //    new Vector3(1f, 0f, 0f),
+        //    new Vector3(2f, 0f, 0f),
+        //    new Vector3(3f, 0f, 0f),
+        //    new Vector3(4f, 0f, 0f)
+        //};
 
-        modes = new List<BezierControlPointMode> {
-            BezierControlPointMode.Mirrored,
-            BezierControlPointMode.Mirrored
-        };
+        //modes = new List<BezierControlPointMode> {
+        //    BezierControlPointMode.Mirrored,
+        //    BezierControlPointMode.Mirrored
+        //};
     }
 
-    public void AddCurve()
+    public void AddCurve( Vector3 point )
     {
-        Vector3 point = points[points.Count - 1];
-        Vector3 direction = GetVelocity( 1 ) / 3f;
-        point += direction;
+        //Vector3 point = Vector3.Lerp( points[index], points[index + 1], 0.5f );
+        //Vector3 point = points[points.Count - 1];
+        //Vector3 direction = GetVelocity( 1 ) / 3f;
+        //point -= direction;
+        if (points.Count == 0) {
+            points.Add( point );
+        }
         points.Add( point );
-        point += direction;
+        //point += direction;
         points.Add( point );
-        point += direction;
+        //point += direction;
         points.Add( point );
 
-        modes.Add( modes[modes.Count - 2] );
+        if (modes.Count == 0) {
+            modes.Add( BezierControlPointMode.Mirrored );
+        }
+
+        modes.Add( BezierControlPointMode.Mirrored );
+
         EnforceMode( points.Count - 4 );
 
         if (loop) {
