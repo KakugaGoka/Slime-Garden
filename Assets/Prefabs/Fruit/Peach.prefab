@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 3079480357653191368}
   - component: {fileID: 2827524800659666722}
   - component: {fileID: 5462912355025631897}
+  - component: {fileID: 7775851395205461016}
   m_Layer: 0
   m_Name: Peach
   m_TagString: Food
@@ -333,8 +334,6 @@ MonoBehaviour:
   RotX: 0
   RotY: 0
   RotZ: 0
-  currentAge: 0
-  maxAge: 600
   satiation: 30
   hopping: 0
   rolling: 0
@@ -359,3 +358,23 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &7775851395205461016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460391567618698200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feee22f0f9932144c983d75ead6146a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAge: 0
+  fullGrown: 400
+  deathAge: 600
+  minScale: 0.5
+  maxScale: 1
+  scaleSteps: 10
+  destroyOnDieAge: 1
+  customAging: 0

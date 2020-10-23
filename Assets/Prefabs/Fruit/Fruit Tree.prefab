@@ -215,6 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9085589855766262449}
   - component: {fileID: 9085589855766262450}
+  - component: {fileID: -6331947093935092760}
   m_Layer: 0
   m_Name: Fruit Tree
   m_TagString: Tree
@@ -256,9 +257,6 @@ MonoBehaviour:
   RotX: 0
   RotY: 0
   RotZ: 0
-  startingAge: 0
-  maxAge: 300
-  currentAge: 0
   fruitSpots: []
   fruit: {fileID: 0}
   timeBetweenProduction: 5
@@ -267,3 +265,21 @@ MonoBehaviour:
   canProduceFruit: 0
   canDropFruit: 0
   didDropFruit: 0
+--- !u!114 &-6331947093935092760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9085589855766262451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feee22f0f9932144c983d75ead6146a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAge: 0
+  fullGrown: 300
+  deathAge: 0
+  maxScale: 1
+  destroyOnDieAge: 0
+  customAging: 0

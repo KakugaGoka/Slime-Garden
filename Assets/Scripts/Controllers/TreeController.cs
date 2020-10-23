@@ -2,20 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AgeController))]
 [Serializable]
 public class TreeController : MainController {
-
-    [Tooltip("The starting age of the tree.")]
-    [SerializeField]
-    public float startingAge = 30;
-
-    [Tooltip("The age that the tree will begin to produce fruit.")]
-    [SerializeField]
-    public float maxAge = 300;
-
-    [Tooltip("The age that the tree is currently.")]
-    [SerializeField]
-    public float currentAge = 0;
 
     [Tooltip("To positions along the leaves mesh that fruit will grow.")]
     [SerializeField]
@@ -39,7 +28,6 @@ public class TreeController : MainController {
 
     private MeshFilter treeLeavesMesh;
     private Transform treeLeavesTransform;
-    private float currentScale = 0.1f;
     [HideInInspector]
     public bool canProduceFruit = false;
     [HideInInspector]
@@ -47,48 +35,40 @@ public class TreeController : MainController {
     [HideInInspector]
     public bool didDropFruit = false;
     private float timer = 0;
+    private AgeController m_Age;
 
     void Start() {
         treeLeavesTransform = transform.Find("Leaves");
         treeLeavesMesh = treeLeavesTransform.GetComponent<MeshFilter>();
         treeLeavesTransform.localPosition = new Vector3(0, UnityEngine.Random.Range(1.5f, 2.5f), 0);
+        m_Age = GetComponent<AgeController>();
         FruitPlacement();
         GameFlowManager.AddTree(this);
     }
 
     void Update() {
-        if (currentAge <= maxAge) { currentAge = Mathf.Clamp(AddTime(ref currentAge), 0, maxAge + 1); }
-        if (currentScale != 1f) { GetScale(); }
-        if (currentAge >= maxAge && fruit != null) {
-            if (canProduceFruit) {
-                if (didDropFruit) {
+        if (m_Age.currentAge >= m_Age.fullGrown && fruit != null) {
+            if (didDropFruit) {
+                if (canProduceFruit) {
                     SpawnFruit();
                 } else {
-                    if (canDropFruit) {
-                        if (timer >= timeInbetweenFalls) {
-                            timer = 0;
-                            if (treeLeavesTransform.childCount > 0) {
-                                DropFruit();
-                            } else {
-                                didDropFruit = true;
-                            }
-                        } else {
-                            AddTime(ref timer);
-                        }
-                    } else {
-                        if (timer >= timeBeforeFalls) {
-                            timer = 0;
-                            canDropFruit = true;
-                        } else {
-                            AddTime(ref timer);
-                        }
+                    timer += Time.deltaTime;
+                    if (timer >= timeBetweenProduction) {
+                        canProduceFruit = true;
+                        timer = 0;
                     }
                 }
             } else {
-                AddTime(ref timer);
-                if (timer >= timeBetweenProduction) {
-                    canProduceFruit = true;
-                    timer = 0;
+                if (treeLeavesTransform.childCount < 1) {
+                    didDropFruit = true;
+                }
+            }
+            for (int i = 0; i < treeLeavesTransform.childCount; i++) {
+                AgeController age = treeLeavesTransform.GetChild(i).GetComponent<AgeController>();
+                if (age) {
+                    if (age.currentAge >= age.fullGrown) {
+                        DropFruit(i);
+                    }
                 }
             }
         }
@@ -101,7 +81,6 @@ public class TreeController : MainController {
             fruitList.Add(treeLeavesMesh.mesh.GetRandomPointOnMesh());
         }
         fruitSpots = fruitList.ToArray();
-        currentAge = startingAge;
     }
 
     void SpawnFruit() {
@@ -120,8 +99,7 @@ public class TreeController : MainController {
         FruitPlacement();
     }
 
-    void DropFruit() {
-        int fruitToDrop = UnityEngine.Random.Range(0, treeLeavesTransform.childCount - 1);
+    void DropFruit(int fruitToDrop) {
         var fruit = treeLeavesTransform.GetChild(fruitToDrop);
         fruit.transform.parent = null;
         Rigidbody rigidbody = fruit.gameObject.GetComponent<Rigidbody>();
@@ -129,14 +107,4 @@ public class TreeController : MainController {
             rigidbody.useGravity = true;
         }
     }
-
-    void GetScale() {
-        float value = (currentAge / maxAge) * 10;
-        value = Mathf.Ceil(value) / 10;
-        currentScale = Mathf.Clamp(value, 0.1f, 1);
-        gameObject.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
-    }
-
-    float AddTime(ref float value) => value += Time.deltaTime * UnityEngine.Random.Range(0.1f, 1);
-
 }

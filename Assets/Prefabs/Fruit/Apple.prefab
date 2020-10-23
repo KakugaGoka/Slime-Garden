@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1798668282190201230}
   - component: {fileID: 1798668282190201231}
   - component: {fileID: 1798668282190201228}
+  - component: {fileID: 4934225851052864521}
   m_Layer: 0
   m_Name: Apple
   m_TagString: Food
@@ -57,8 +58,6 @@ MonoBehaviour:
   RotX: 0
   RotY: 0
   RotZ: 0
-  currentAge: 0
-  maxAge: 600
   satiation: 30
   hopping: 1
   rolling: 0
@@ -184,6 +183,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3440a4842dbd2fa459c375caa0726d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4934225851052864521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798668282190201229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feee22f0f9932144c983d75ead6146a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAge: 0
+  fullGrown: 400
+  deathAge: 600
+  minScale: 0.5
+  maxScale: 1
+  scaleSteps: 10
+  destroyOnDieAge: 1
+  customAging: 0
 --- !u!1 &3499037880604954937
 GameObject:
   m_ObjectHideFlags: 0

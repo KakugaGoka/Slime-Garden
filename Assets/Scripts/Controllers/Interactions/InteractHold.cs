@@ -15,7 +15,7 @@ public class InteractHold : MonoBehaviour {
 
     public UnityAction<PlayerCharacterController> onDrop;
 
-    private void Start() {
+    private void Awake() {
         m_InteractController = GetComponent<InteractController>();
         m_Rigidbody = GetComponent<Rigidbody>();
 

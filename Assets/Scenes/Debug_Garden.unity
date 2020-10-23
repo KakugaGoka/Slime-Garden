@@ -7208,7 +7208,7 @@ PrefabInstance:
     - target: {fileID: 6938151711735302819, guid: 0d2422d9a2f04454eabc99e08a0da05c,
         type: 3}
       propertyPath: m_Name
-      value: Slime Name Machine
+      value: Slime Station
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d2422d9a2f04454eabc99e08a0da05c, type: 3}
