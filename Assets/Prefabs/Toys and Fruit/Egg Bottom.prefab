@@ -96,8 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3ae7ec312d61a48a5b16ee1f531e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionMessage: Pick Up Egg Shell (E)
-  messageColor: {r: 1, g: 0, b: 1, a: 1}
+  interactionMessage: Pick Up Egg Shell
+  messageColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &6983193024938954339
 MonoBehaviour:
   m_ObjectHideFlags: 0

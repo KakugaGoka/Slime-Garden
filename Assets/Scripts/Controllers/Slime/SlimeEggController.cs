@@ -41,7 +41,8 @@ public class SlimeEggController : MainController
             topShell.tag = "Toy";
             gameObject.AddComponent<ToyController>();
             topShell.AddComponent<ToyController>();
-            Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+            GameObject prefab = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
+            prefab.name = "Baby " + prefab.name.Replace("(Clone)", "");
             Destroy(this);
         }
     }

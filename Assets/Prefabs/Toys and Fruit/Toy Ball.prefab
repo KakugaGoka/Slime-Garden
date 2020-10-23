@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3569989922837576553}
   - component: {fileID: 3569989922837576555}
   m_Layer: 0
-  m_Name: HoldableBall
+  m_Name: Toy Ball
   m_TagString: Toy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,6 @@ MonoBehaviour:
   RotX: 0
   RotY: 0
   RotZ: 0
-  ThisItemsPrefab: {fileID: 3569989922837576556}
 --- !u!114 &3569989922837576554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,8 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3ae7ec312d61a48a5b16ee1f531e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionMessage: Pick Up Ball (E)
-  messageColor: {r: 0, g: 0.8584906, b: 0.1727717, a: 1}
+  interactionMessage: Pick Up Ball
+  messageColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &3569989922837576553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdPosition: {x: 0, y: 0, z: 0}
+  value: 5
 --- !u!54 &3569989922837576555
 Rigidbody:
   m_ObjectHideFlags: 0

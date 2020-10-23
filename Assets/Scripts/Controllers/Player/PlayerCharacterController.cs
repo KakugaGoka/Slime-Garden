@@ -106,12 +106,16 @@ public class PlayerCharacterController : MonoBehaviour
     public bool isDead { get; private set; }
     public bool isCrouching { get; private set; }
     public bool isHolding { get; set; }
+    public bool isSprinting { get; set; }
     public InteractHold heldItem;
 
     private PlayerInputHandler m_InputHandler;
     private CharacterController m_Controller;
     private InteractController m_Interactable;
     private Text m_InteractMessage;
+    private Text m_DropMessage;
+    private Text m_CrouchMessage;
+    private Text m_SprintMessage;
     private Vector3 m_GroundNormal;
     private Vector3 m_LatestImpactSpeed;
     private float m_LastTimeJumped = 0f;
@@ -130,6 +134,9 @@ public class PlayerCharacterController : MonoBehaviour
         m_InputHandler = GetComponent<PlayerInputHandler>();
 
         m_InteractMessage = GameObject.FindGameObjectWithTag( "InteractMessage" ).GetComponent<Text>();
+        m_DropMessage = GameObject.FindGameObjectWithTag( "DropMessage" ).GetComponent<Text>();
+        m_CrouchMessage = GameObject.FindGameObjectWithTag("CrouchMessage").GetComponent<Text>();
+        m_SprintMessage = GameObject.FindGameObjectWithTag("SprintMessage").GetComponent<Text>();
 
         m_Controller.enableOverlapRecovery = true;
 
@@ -170,6 +177,11 @@ public class PlayerCharacterController : MonoBehaviour
         UpdateCharacterHeight( false );
 
         HandleCharacterMovement();
+
+        m_DropMessage.text = isHolding ? isSprinting ? "Throw" : "Drop" : "";
+        m_CrouchMessage.text = isCrouching ? "Stand" : "Crouch";
+        m_SprintMessage.text = isSprinting ? "Release to Walk" : "Hold to Sprint";
+
     }
 
     private void LateUpdate()
@@ -189,9 +201,10 @@ public class PlayerCharacterController : MonoBehaviour
     }
 
     private void HandleHeld() {
-        if (heldItem) {
+        if (isHolding) {
             PlantTree();
         }
+
     }
 
     private void PlantTree() {
@@ -209,7 +222,7 @@ public class PlayerCharacterController : MonoBehaviour
                             }
                         }
                         if (areaClear) {
-                            m_InteractMessage.Set("Plant Tree (E)", Color.magenta);
+                            m_InteractMessage.Set("Plant Tree (E)", Color.white);
                             if (m_InputHandler.GetInteractInputDown()) {
                                 Instantiate(fruit.tree, hit.point, Quaternion.identity);
                                 Destroy(fruit.gameObject);
@@ -336,80 +349,79 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         // character movement handling
-        bool isSprinting = m_InputHandler.GetSprintInputHeld();
-        {
-            if (isSprinting) {
-                isSprinting = SetCrouchingState( false, false );
-            }
+        isSprinting = m_InputHandler.GetSprintInputHeld();
 
-            float speedModifier = isSprinting ? sprintSpeedModifier : 1f;
+        if (isSprinting) {
+            isSprinting = SetCrouchingState( false, false );
+        }
 
-            // converts move input to a worldspace vector based on our character's transform orientation
-            Vector3 worldspaceMoveInput = transform.TransformVector( m_InputHandler.GetMoveInput() );
+        float speedModifier = isSprinting ? sprintSpeedModifier : 1f;
 
-            // handle grounded movement
-            if (isGrounded) {
-                // calculate the desired velocity from inputs, max speed, and current slope
-                Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
-                // reduce speed if crouching by crouch speed ratio
-                if (isCrouching)
-                    targetVelocity *= maxSpeedCrouchedRatio;
-                targetVelocity = GetDirectionReorientedOnSlope( targetVelocity.normalized, m_GroundNormal ) * targetVelocity.magnitude;
+        // converts move input to a worldspace vector based on our character's transform orientation
+        Vector3 worldspaceMoveInput = transform.TransformVector( m_InputHandler.GetMoveInput() );
 
-                // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
-                characterVelocity = Vector3.Lerp( characterVelocity, targetVelocity, movementSharpnessOnGround * Time.deltaTime );
+        // handle grounded movement
+        if (isGrounded) {
+            // calculate the desired velocity from inputs, max speed, and current slope
+            Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
+            // reduce speed if crouching by crouch speed ratio
+            if (isCrouching)
+                targetVelocity *= maxSpeedCrouchedRatio;
+            targetVelocity = GetDirectionReorientedOnSlope( targetVelocity.normalized, m_GroundNormal ) * targetVelocity.magnitude;
 
-                // jumping
-                if (isGrounded && m_InputHandler.GetJumpInputDown()) {
-                    // force the crouch state to false
-                    if (SetCrouchingState( false, false )) {
-                        // start by canceling out the vertical component of our velocity
-                        characterVelocity = new Vector3( characterVelocity.x, 0f, characterVelocity.z );
+            // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
+            characterVelocity = Vector3.Lerp( characterVelocity, targetVelocity, movementSharpnessOnGround * Time.deltaTime );
 
-                        // then, add the jumpSpeed value upwards
-                        characterVelocity += Vector3.up * jumpForce;
+            // jumping
+            if (isGrounded && m_InputHandler.GetJumpInputDown()) {
+                // force the crouch state to false
+                if (SetCrouchingState( false, false )) {
+                    // start by canceling out the vertical component of our velocity
+                    characterVelocity = new Vector3( characterVelocity.x, 0f, characterVelocity.z );
 
-                        // play sound
-                        if (jumpSFX) {
-                            audioSource.PlayOneShot( jumpSFX );
-                        }
+                    // then, add the jumpSpeed value upwards
+                    characterVelocity += Vector3.up * jumpForce;
 
-                        // remember last time we jumped because we need to prevent snapping to ground for a short time
-                        m_LastTimeJumped = Time.time;
-                        hasJumpedThisFrame = true;
-
-                        // Force grounding to false
-                        isGrounded = false;
-                        m_GroundNormal = Vector3.up;
+                    // play sound
+                    if (jumpSFX) {
+                        audioSource.PlayOneShot( jumpSFX );
                     }
+
+                    // remember last time we jumped because we need to prevent snapping to ground for a short time
+                    m_LastTimeJumped = Time.time;
+                    hasJumpedThisFrame = true;
+
+                    // Force grounding to false
+                    isGrounded = false;
+                    m_GroundNormal = Vector3.up;
                 }
+            }
 
-                // footsteps sound
-                float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
-                if (m_footstepDistanceCounter >= 1f / chosenFootstepSFXFrequency) {
-                    m_footstepDistanceCounter = 0f;
-                    if (footstepSFX) {
-                        audioSource.PlayOneShot( footstepSFX );
-                    }
+            // footsteps sound
+            float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
+            if (m_footstepDistanceCounter >= 1f / chosenFootstepSFXFrequency) {
+                m_footstepDistanceCounter = 0f;
+                if (footstepSFX) {
+                    audioSource.PlayOneShot( footstepSFX );
                 }
-
-                // keep track of distance traveled for footsteps sound
-                m_footstepDistanceCounter += characterVelocity.magnitude * Time.deltaTime;
             }
-            // handle air movement
-            else {
-                // add air acceleration
-                characterVelocity += worldspaceMoveInput * accelerationSpeedInAir * Time.deltaTime;
 
-                // limit air speed to a maximum, but only horizontally
-                float verticalVelocity = characterVelocity.y;
-                Vector3 horizontalVelocity = Vector3.ProjectOnPlane( characterVelocity, Vector3.up );
-                horizontalVelocity = Vector3.ClampMagnitude( horizontalVelocity, maxSpeedInAir * speedModifier );
-                characterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
+            // keep track of distance traveled for footsteps sound
+            m_footstepDistanceCounter += characterVelocity.magnitude * Time.deltaTime;
+        }
+        // handle air movement
+        else {
+            // add air acceleration
+            characterVelocity += worldspaceMoveInput * accelerationSpeedInAir * Time.deltaTime;
 
-                // apply the gravity to the velocity
-                characterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
-            }
+            // limit air speed to a maximum, but only horizontally
+            float verticalVelocity = characterVelocity.y;
+            Vector3 horizontalVelocity = Vector3.ProjectOnPlane( characterVelocity, Vector3.up );
+            horizontalVelocity = Vector3.ClampMagnitude( horizontalVelocity, maxSpeedInAir * speedModifier );
+            characterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
+
+            // apply the gravity to the velocity
+            characterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
         }
 
         // apply the final calculated velocity value as a character movement
