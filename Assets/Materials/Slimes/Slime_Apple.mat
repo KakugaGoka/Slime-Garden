@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Blue_Slime
+  m_Name: Slime_Apple
   m_Shader: {fileID: -6465566751694194690, guid: 5dc0e54931fcaf34db4471e7f275f087,
     type: 3}
   m_ShaderKeywords: 
@@ -41,7 +41,7 @@ Material:
     - Vector1_CACC174B: 0.22
     - Vector1_F061520B: 6.68
     - Vector1_FBA06674: 1
-    - _Amplitude: 0.2
+    - _Amplitude: 0.05
     - _Brightness: 0.2
     - _CellDensity: 1
     - _CellType: 1
@@ -51,4 +51,4 @@ Material:
     - _SpinRate: 1
     m_Colors:
     - Color_8A28B5E1: {r: 0, g: 0.0716755, b: 0.4056604, a: 1}
-    - _Color: {r: 0, g: 0.14416838, b: 0.6627451, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}

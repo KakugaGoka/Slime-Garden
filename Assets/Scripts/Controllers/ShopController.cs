@@ -37,35 +37,44 @@ public class ShopController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacterController>();
         for (int i = 0; i < itemsForSale.Length; i++) {
             GameObject itemTile = Instantiate(itemTilePrefab, forSaleList.transform);
-            itemTiles.Add(itemTile.GetComponent<Image>());
             Text itemText = itemTile.GetComponentInChildren<Text>();
             Text itemValue = itemText.transform.GetChild(0).GetComponent<Text>();
             RawImage itemImage = itemTile.GetComponentInChildren<RawImage>();
-            itemText.text = itemsForSale[i].prefab.name;
-            itemValue.text = itemsForSale[i].value.ToString() + "©";
             RenderTexture texture = new RenderTexture(300, 300, 40);
             Camera camera = new GameObject().AddComponent<Camera>();
+            GameObject item = Instantiate(itemsForSale[i].prefab, camera.gameObject.transform);
+
+            itemText.text = itemsForSale[i].prefab.name;
+            itemValue.text = itemsForSale[i].value.ToString() + "©";
             camera.clearFlags = CameraClearFlags.Color;
             camera.backgroundColor = Color.clear;
             camera.transform.position = new Vector3(0, 500 + (50 * i), 0);
             camera.nearClipPlane = 0.01f;
             camera.targetTexture = texture;
             itemImage.texture = texture;
-            textures.Add(texture);
-            GameObject item = Instantiate(itemsForSale[i].prefab, camera.gameObject.transform);
             item.tag = "Untagged";
+            item.transform.localPosition = itemsForSale[i].position;
+            item.transform.localRotation = Quaternion.Euler(itemsForSale[i].rotation);
+
             Rigidbody rb = item.GetComponent<Rigidbody>();
             if (rb) {
                 rb.useGravity = false;
                 rb.freezeRotation = true;
                 rb.detectCollisions = false;
             }
-            item.transform.localPosition = itemsForSale[i].position;
-            item.transform.localRotation = Quaternion.Euler(itemsForSale[i].rotation);
+
             MeshRenderer mesh = item.GetComponent<MeshRenderer>();
             if (mesh) {
                 mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             }
+
+            AgeController age = item.GetComponent<AgeController>();
+            if (age) {
+                age.currentScale = age.maxScale;
+            }
+
+            textures.Add(texture);
+            itemTiles.Add(itemTile.GetComponent<Image>());
         }
     }
 
@@ -101,6 +110,10 @@ public class ShopController : MonoBehaviour
                 GameObject newItem = Instantiate(itemsForSale[currentIndex].prefab);
                 InteractController interact = newItem.GetComponent<InteractController>();
                 if (interact) {
+                    AgeController age = newItem.GetComponent<AgeController>();
+                    if (age) {
+                        age.currentScale = age.maxScale;
+                    }
                     interact.onInteract.Invoke(player);
                     player.wealth -= itemsForSale[currentIndex].value;
                 } else {

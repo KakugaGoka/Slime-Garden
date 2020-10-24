@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 295791092886908434}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.0367651, y: 0.5734128, z: 2.835}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 93433280630658572}
   m_Father: {fileID: 0}
@@ -148,6 +148,10 @@ MonoBehaviour:
   RotY: 0
   RotZ: 0
   prefabToSpawn: {fileID: 2817580289831993494, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+    type: 3}
+  shellTop: {fileID: 4316359705112477818, guid: e9082bc498071034b86c51519470d9a6,
+    type: 3}
+  shellBottom: {fileID: 6983193024938954338, guid: e8dc7efcdb330e947b41ac31afce81b1,
     type: 3}
 --- !u!64 &295791092886908446
 MeshCollider:

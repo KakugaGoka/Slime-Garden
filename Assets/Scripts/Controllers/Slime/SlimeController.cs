@@ -13,19 +13,12 @@ public class SlimeController : MainController
 {
     private Rigidbody rb;
     private SphereCollider sphereCollider;
-
     private float maxJumpForce;
     private GameObject player;
     private NavMeshPath navPath;
     private Vector3[] path;
-
     private Vector3 targetPosition;
     private Vector3 pathTarget;
-
-    [SerializeField]
-    public float hunger;
-
-    public float HungerLimit = 30;
     private bool hungry { get { return hunger > HungerLimit; } }
     private float pathDist = 0;
     private float goalDist = 0;
@@ -49,16 +42,26 @@ public class SlimeController : MainController
     public bool npc = false;
 
     private float lastHopTimer;
-
     private bool grounded {
         get {
-            bool g = Physics.Raycast( gameObject.Pos(), Vector3.down, out RaycastHit hit, 0.6f, -1 );
+            bool g = Physics.Raycast(gameObject.Pos(), Vector3.down, out RaycastHit hit, 0.6f, -1);
             groundDist = hit.distance;
             return g;
         }
     }
-
     private float groundDist;
+
+    public string slimeName = "Baby Slime";
+    public float hunger;
+    public float HungerLimit = 30;
+    public float jumpTimer = 5;
+    public float wanderRange = 5;
+    public float jumpForce = 100;
+    public float hopping;
+    public float rolling;
+    public float floating;
+    public float range;
+    public bool npc = false;
 
     private MeshRenderer m_Renderer;
 

@@ -15,7 +15,7 @@ public class InteractHold : MonoBehaviour {
 
     public UnityAction<PlayerCharacterController> onDrop;
 
-    private void Start() {
+    private void Awake() {
         m_InteractController = GetComponent<InteractController>();
         m_Rigidbody = GetComponent<Rigidbody>();
 
@@ -35,6 +35,10 @@ public class InteractHold : MonoBehaviour {
             m_Rigidbody.detectCollisions = false;
         }
         this.gameObject.transform.parent = player.heldObjectLocation;
+        if (!player.heldItem) {
+            Destroy(player.heldObjectLocation.GetChild(0).gameObject);
+        }
+        this.gameObject.transform.SetAsFirstSibling();
         this.gameObject.transform.localPosition = holdPosition;
         isHeld = true;
         player.isHolding = true;
@@ -52,6 +56,7 @@ public class InteractHold : MonoBehaviour {
             Vector3 velocity = player.playerCamera.transform.forward * rate + player.characterVelocity;
             m_Rigidbody.velocity = velocity;
         }
+        Instantiate(player.satchel.emptyObject, player.heldObjectLocation).transform.SetAsFirstSibling();
         this.gameObject.transform.parent = null;
         isHeld = false;
         player.isHolding = false;

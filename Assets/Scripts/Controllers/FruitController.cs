@@ -3,13 +3,13 @@ using UnityEngine;
 
 [RequireComponent( typeof( InteractHold ) )]
 [RequireComponent( typeof( EdibleController ) )]
+[RequireComponent(typeof(AgeController))]
 [Serializable]
 public class FruitController : MainController {
     private Rigidbody m_RigidBody;
     private EdibleController m_EdibleController;
+    private AgeController m_AgeController;
 
-    public float currentAge = 0;
-    public float maxAge = 600;
     public float satiation = 30;
     public float hopping = 0;
     public float rolling = 0;
@@ -25,20 +25,14 @@ public class FruitController : MainController {
     {
         m_RigidBody = GetComponent<Rigidbody>();
         m_EdibleController = GetComponent<EdibleController>();
+        m_AgeController = GetComponent<AgeController>();
 
         m_EdibleController.onEat += Eat;
     }
 
-    private void Update()
-    {
-        currentAge += Time.deltaTime;
-        if (currentAge >= maxAge) {
-            Destroy( gameObject );
-        }
-    }
-
     private void OnCollisionEnter( Collision collision )
     {
+        m_AgeController.customAging = true;
         transform.parent = null;
         if (m_RigidBody != null) {
             m_RigidBody.useGravity = true;

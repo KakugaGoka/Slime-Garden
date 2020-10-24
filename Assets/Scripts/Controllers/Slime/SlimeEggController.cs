@@ -4,46 +4,21 @@ using UnityEngine;
 
 public class SlimeEggController : MainController
 {
-
-    private Rigidbody m_RigidBody;
     public GameObject prefabToSpawn;
-
-    void Start()
-    {
-        m_RigidBody = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        
-    }
+    public GameObject shellTop;
+    public GameObject shellBottom;
+    private bool hasCracked = false;
 
     private void OnCollisionEnter(Collision collision) {
-        if(collision.relativeVelocity.magnitude > 30) {
+        if(collision.relativeVelocity.magnitude > 30 && !hasCracked) {
+            hasCracked = true;
             if (transform.childCount < 1) { return; }
             GameObject topShell = transform.GetChild(0).gameObject;
-            InteractHold hold = topShell.AddComponent<InteractHold>();
-            Rigidbody rigidBody = topShell.AddComponent<Rigidbody>();
-            rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
-            rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
-            InteractController interact = hold.GetComponent<InteractController>();
-            InteractController thisInteract = GetComponent<InteractController>();
-            InteractHold thisHold = GetComponent<InteractHold>();
-            string message = "Pick Up Egg Shell";
-            interact.interactionMessage = message;
-            thisInteract.interactionMessage = message;
-            interact.messageColor = thisInteract.messageColor;
-            hold.value = 20;
-            thisHold.value = 20;
-            topShell.transform.parent = null;
-            name = "Egg Bottom";
-            tag = "Toy";
-            topShell.tag = "Toy";
-            gameObject.AddComponent<ToyController>();
-            topShell.AddComponent<ToyController>();
+            GameObject newTop = Instantiate(shellTop, topShell.transform.position, topShell.transform.rotation);
+            GameObject newBottom = Instantiate(shellBottom, transform.position, transform.rotation);
             GameObject prefab = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
-            prefab.name = "Baby " + prefab.name.Replace("(Clone)", "");
-            Destroy(this);
+            Destroy(topShell);
+            Destroy(this.gameObject);
         }
     }
 }
