@@ -31,7 +31,7 @@ public class SlimeController : MainController
     private float goalDist = 0;
 
     [SerializeField]
-    public float hopping;
+    public float hopping = 1;
 
     public float jumpTimer = 5;
     public float wanderRange = 5;
@@ -61,22 +61,40 @@ public class SlimeController : MainController
     private float groundDist;
 
     private MeshRenderer m_Renderer;
+
     [Serializable]
-    public struct Faces {
+    public struct Faces
+    {
         public Texture2D happy;
         public Texture2D angry;
         public Texture2D sad;
         public Texture2D hungry;
     }
-    public enum CurrentFace { 
+
+    public enum CurrentFace
+    {
         Happy,
         Angry,
         Sad,
         Hungry,
     }
+    public enum Activity
+    {
+        Garden,
+        Racing,
+        Waiting
+    }
+    public enum MoveType
+    {
+        Hop,
+        Roll,
+        Float
+    }
     [HideInInspector]
     public Faces faces;
     public CurrentFace currentFace = CurrentFace.Happy;
+    public Activity activity = Activity.Garden;
+    public MoveType movement = MoveType.Hop;
     public Color color;
     public float amplitude;
     public float frequency;
@@ -95,16 +113,18 @@ public class SlimeController : MainController
         player = GameObject.FindGameObjectWithTag( "Player" );
         navPath = new NavMeshPath();
         m_Renderer = GetComponent<MeshRenderer>();
-        faces.happy = Resources.Load<Texture2D>("Textures/Smiley");
-        faces.angry = Resources.Load<Texture2D>("Textures/Smiley-Angry");
-        faces.sad = Resources.Load<Texture2D>("Textures/Smiley-Sad");
-        faces.hungry = Resources.Load<Texture2D>("Textures/Smiley-Hungry");
+        faces.happy = Resources.Load<Texture2D>( "Textures/Smiley" );
+        faces.angry = Resources.Load<Texture2D>( "Textures/Smiley-Angry" );
+        faces.sad = Resources.Load<Texture2D>( "Textures/Smiley-Sad" );
+        faces.hungry = Resources.Load<Texture2D>( "Textures/Smiley-Hungry" );
         if (!shaderSet) {
-            SlimeShaderController.ResetAllShaderValues(this);
+            SlimeShaderController.ResetAllShaderValues( this );
             shaderSet = true;
         }
         SetInShader();
-        ChangeFaceTexture(currentFace);
+        ChangeFaceTexture( currentFace );
+
+        //movement = UnityEngine.Random.value*1.99f
     }
 
     private void Update()
@@ -114,17 +134,59 @@ public class SlimeController : MainController
         }
         hunger += Time.deltaTime;
         lastHopTimer -= Time.deltaTime;
-        Wander();
-        Navigate();
+        switch (activity) {
+            case Activity.Garden:
+                Wander();
+                Navigate();
+                break;
+
+            case Activity.Racing:
+                Race();
+                break;
+
+            case Activity.Waiting:
+                break;
+
+            default:
+                break;
+        }
     }
 
+    private void OnDrawGizmos()
+    {
+        DebugPath( path );
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere( debugPoint, 0.1f );
+        Gizmos.DrawLine( transform.position, debugPoint );
+    }
+    private Vector3 debugPoint;
+    private void Race()
+    {
+        var track = GameObject.FindGameObjectWithTag( "RaceLine" ).GetComponent<PathSpline>();
+
+        track.GetClosestPoint( transform.position, out targetPosition );
+        targetPosition += transform.position;
+        Hop( targetPosition, UnityEngine.Random.value * 0.5f + 1f + (1f / (float)hopping) );
+        debugPoint = targetPosition;
+        if (grounded) {
+            Roll( targetPosition );
+        }
+    }
+    private void Roll( Vector3 target )
+    {
+        rb.angularDrag = 0.02f;
+        //rb.AddTorque( Vector3.Cross( Vector3.up, target - transform.position ).normalized * 1000 );
+        rb.maxAngularVelocity = 10;
+        rb.angularVelocity += Vector3.Cross( Vector3.up, target - transform.position ).normalized * 10;
+        //rb.AddForce( (target - transform.position).normalized * 300 * Time.deltaTime );
+    }
     private void Navigate()
     {
         if (path != null) {
             if (path.Length > 1) {
-                path[0] = ProjectToNavMesh(gameObject.Pos(), 10f);
-                pathDist = Vector3.Distance(gameObject.Pos(), path[1]);
-                goalDist = Vector3.Distance(gameObject.Pos(), targetPosition);
+                path[0] = ProjectToNavMesh( gameObject.Pos(), 10f );
+                pathDist = Vector3.Distance( gameObject.Pos(), path[1] );
+                goalDist = Vector3.Distance( gameObject.Pos(), targetPosition );
             }
         }
         if (pathDist < 2 || targetPosition == Vector3.zero) {
@@ -141,23 +203,18 @@ public class SlimeController : MainController
             }
         }
 
-        if (lastHopTimer < 0) {
-            if (grounded) {
-                Hop( path[1] );
-            }
-            lastHopTimer = jumpTimer * UnityEngine.Random.value + 0.5f;
-        }
+        Hop( path[1], jumpTimer * UnityEngine.Random.value + 0.5f );
     }
 
     private void Wander()
     {
         if (goalDist < 1f) {
             if (hungry) {
-                ChangeFaceTexture(CurrentFace.Hungry);
+                ChangeFaceTexture( CurrentFace.Hungry );
                 FindFood();
             }
             else {
-                ChangeFaceTexture(CurrentFace.Happy);
+                ChangeFaceTexture( CurrentFace.Happy );
                 targetPosition = FindWanderPoint();
             }
         }
@@ -205,16 +262,21 @@ public class SlimeController : MainController
         }
     }
 
-    private void Hop( Vector3 target )
+    private void Hop( Vector3 target, float setTimer )
     {
-        Vector3 jumpDir = gameObject.lookAt( target );
-        jumpDir = Vector3.ProjectOnPlane( jumpDir, Vector3.up ).normalized;
-        Quaternion jumpRot = Quaternion.LookRotation( jumpDir );
+        if (lastHopTimer < 0) {
+            if (grounded) {
+                Vector3 jumpDir = gameObject.lookAt( target );
+                jumpDir = Vector3.ProjectOnPlane( jumpDir, Vector3.up ).normalized;
+                Quaternion jumpRot = Quaternion.LookRotation( jumpDir );
 
-        Vector3 jumpVector = normalize( float3( 0, 1, 1 ) );
-        jumpVector = jumpRot * jumpVector;
+                Vector3 jumpVector = normalize( float3( 0, 1, 1 ) );
+                jumpVector = jumpRot * jumpVector;
 
-        rb.AddForce( jumpVector * jumpForce );
+                rb.AddForce( jumpVector * jumpForce );
+            }
+            lastHopTimer = setTimer;
+        }
     }
 
     private void FindFood()
@@ -237,18 +299,14 @@ public class SlimeController : MainController
                 if (foodDist < 0.7f) {
                     EdibleController foodComp = chosen.GetComponent<EdibleController>();
                     if (foodComp) {
-                        foodComp.onEat.Invoke(this);
+                        foodComp.onEat.Invoke( this );
                     }
                 }
             }
-        } else {
+        }
+        else {
             targetPosition = FindWanderPoint();
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        DebugPath( path );
     }
 
     private void DebugPath( Vector3[] inPath )
@@ -265,36 +323,41 @@ public class SlimeController : MainController
         }
     }
 
-    public void SetInShader() {
-        m_Renderer.material.SetFloat("_Amplitude", amplitude); //Property Reference for Amplitude found in the shader.
-        m_Renderer.material.SetFloat("_Frequency", frequency); //Property Reference for Frequency found in the shader.
-        m_Renderer.material.SetFloat("_Brightness", brightness); //Property Reference for Brightness found in the shader.
-        m_Renderer.material.SetFloat("_SpinRate", spinRate); //Property Reference for Spin Rate found in the shader.
-        m_Renderer.material.SetFloat("_CellType", cellType); //Property Reference for Cell Type found in the shader.
-        m_Renderer.material.SetFloat("_CellDensity", cellDensity); //Property Reference for Cell Density found in the shader.
-        m_Renderer.material.SetFloat("_SpeckleDensity", speckleDensity); //Property Reference for Speckle Density found in the shader.
-        m_Renderer.material.SetFloat("_SpeckleBrightness", speckleBrightness); //Property Reference for Speckle Brightness found in the shader.
-        m_Renderer.material.SetColor("_Color", color); //Property Reference for Color found in the shader.
-        ChangeFaceTexture(currentFace);
+    public void SetInShader()
+    {
+        m_Renderer.material.SetFloat( "_Amplitude", amplitude ); //Property Reference for Amplitude found in the shader.
+        m_Renderer.material.SetFloat( "_Frequency", frequency ); //Property Reference for Frequency found in the shader.
+        m_Renderer.material.SetFloat( "_Brightness", brightness ); //Property Reference for Brightness found in the shader.
+        m_Renderer.material.SetFloat( "_SpinRate", spinRate ); //Property Reference for Spin Rate found in the shader.
+        m_Renderer.material.SetFloat( "_CellType", cellType ); //Property Reference for Cell Type found in the shader.
+        m_Renderer.material.SetFloat( "_CellDensity", cellDensity ); //Property Reference for Cell Density found in the shader.
+        m_Renderer.material.SetFloat( "_SpeckleDensity", speckleDensity ); //Property Reference for Speckle Density found in the shader.
+        m_Renderer.material.SetFloat( "_SpeckleBrightness", speckleBrightness ); //Property Reference for Speckle Brightness found in the shader.
+        m_Renderer.material.SetColor( "_Color", color ); //Property Reference for Color found in the shader.
+        ChangeFaceTexture( currentFace );
     }
 
-    public void ChangeFaceTexture(CurrentFace face) {
+    public void ChangeFaceTexture( CurrentFace face )
+    {
         switch (face) {
             case CurrentFace.Happy:
-                if (!faces.happy) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
-                m_Renderer.material.SetTexture("_FaceTexture", faces.happy);
+                if (!faces.happy) { Debug.LogError( "Face passed in for SlimeShaderController is null" ); }
+                m_Renderer.material.SetTexture( "_FaceTexture", faces.happy );
                 return;
+
             case CurrentFace.Angry:
-                if (!faces.angry) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
-                m_Renderer.material.SetTexture("_FaceTexture", faces.angry);
+                if (!faces.angry) { Debug.LogError( "Face passed in for SlimeShaderController is null" ); }
+                m_Renderer.material.SetTexture( "_FaceTexture", faces.angry );
                 return;
+
             case CurrentFace.Sad:
-                if (!faces.sad) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
-                m_Renderer.material.SetTexture("_FaceTexture", faces.sad);
+                if (!faces.sad) { Debug.LogError( "Face passed in for SlimeShaderController is null" ); }
+                m_Renderer.material.SetTexture( "_FaceTexture", faces.sad );
                 return;
+
             case CurrentFace.Hungry:
-                if (!faces.hungry) { Debug.LogError("Face passed in for SlimeShaderController is null"); }
-                m_Renderer.material.SetTexture("_FaceTexture", faces.hungry);
+                if (!faces.hungry) { Debug.LogError( "Face passed in for SlimeShaderController is null" ); }
+                m_Renderer.material.SetTexture( "_FaceTexture", faces.hungry );
                 return;
         }
     }

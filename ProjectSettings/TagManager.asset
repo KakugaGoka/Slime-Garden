@@ -16,6 +16,7 @@ TagManager:
   - DropMessage
   - CrouchMessage
   - SprintMessage
+  - RaceLine
   layers:
   - Default
   - TransparentFX

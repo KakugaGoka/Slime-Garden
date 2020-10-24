@@ -23,16 +23,16 @@ public class PathSpline : MonoBehaviour
     public int resolution;
     public int selectedIndex = 0;
     public bool looping;
-    public bool showGizmo;
+    public bool showGizmo = true;
     private void Awake()
     {
-        resolution = 5;
-        AddPoint();
     }
     private void OnEnable()
     {
     }
-
+    private void Update()
+    {
+    }
     private void OnDrawGizmos()
     {
         //if (spline.points != null) {
@@ -49,20 +49,43 @@ public class PathSpline : MonoBehaviour
             Vector3 start;
             Vector3 end;
             for (int i = 0; i < points.Count - 1 + Convert.ToInt32( looping ); i++) {
-                PathPoint point = points[i].GetComponent<PathPoint>();
-                PathPoint next = points[(i + 1) % points.Count].GetComponent<PathPoint>();
-                float res = 1 / (float)(resolution);
-                for (float t = 0; t < 1; t += res) {
-                    start = Bezier.GetPoint( point.transform.position, point.handleB, next.handleA, next.transform.position, t );
-                    end = Bezier.GetPoint( point.transform.position, point.handleB, next.handleA, next.transform.position, t + res );
-                    Gizmos.DrawLine( start, end );
+                if (points[i] != null && points[i + 1] != null) {
+                    PathPoint point = points[i].GetComponent<PathPoint>();
+                    PathPoint next = points[(i + 1) % points.Count].GetComponent<PathPoint>();
+                    float res = 1 / (float)(resolution);
+                    for (float t = 0; t < 1; t += res) {
+                        start = Bezier.GetPoint( point.transform.position, point.handleB, next.handleA, next.transform.position, t );
+                        end = Bezier.GetPoint( point.transform.position, point.handleB, next.handleA, next.transform.position, t + res );
+                        Gizmos.DrawLine( start, end );
+                    }
+                }
+                else {
+                    RemoveNullPoints();
                 }
             }
         }
     }
-
+    public void RemoveNullPoints()
+    {
+        for (int i = points.Count - 1; i >= 0; i--) {
+            if (points[i] == null) {
+                points.RemoveAt( i );
+            }
+        }
+        RenamePoints();
+    }
+    public void RenamePoints()
+    {
+        if (points != null) {
+            for (int i = 0; i < points.Count; i++) {
+                points[i].transform.SetSiblingIndex( i );
+                points[i].name = i.ToString();
+            }
+        }
+    }
     public void AddPoint()
     {
+        RemoveNullPoints();
         var pointObj = new GameObject();
         var pointCom = pointObj.AddComponent<PathPoint>();
         pointObj.name = (points.Count + 1).ToString();
@@ -74,9 +97,11 @@ public class PathSpline : MonoBehaviour
             case -1:
                 point = gameObject.transform.position;
                 points.Add( pointObj );
+                pointCom.localB = Vector3.forward;
+                pointCom.localA = -pointCom.localB;
                 break;
 
-            case int i when i == points.Count:
+            case int i when i == points.Count - 1:
                 point = points[selectedIndex].transform.position;
                 pointCom.localB = GetDx( selectedIndex + 0.5f );
                 pointCom.localA = -pointCom.localB;
@@ -97,28 +122,24 @@ public class PathSpline : MonoBehaviour
 
         RenamePoints();
     }
-    public void RenamePoints()
-    {
-        for (int i = 0; i < points.Count; i++) {
-            points[i].transform.SetSiblingIndex( i );
-            points[i].name = i.ToString();
-        }
-    }
+
     public void RemovePoint( int index )
     {
-        //var point = points[index];
+        //points.RemoveAt( index );
 
-        Destroy( points[index] );
+        RemoveNullPoints();
+
+        //Destroy( points[index] );
         points.TrimExcess();
-
-        RenamePoints();
     }
 
     public void RemoveAllPoints()
     {
         for (int i = points.Count - 1; i >= 0; i--) {
             RemovePoint( i );
+            Destroy( points[i] );
         }
+        RemoveNullPoints();
     }
 
     public Vector3 GetPoint( float t )
@@ -163,10 +184,15 @@ public class PathSpline : MonoBehaviour
     private Vector3 hiBoundNormal;
     private float t;
     public int subd = 3;
-    public Vector3 GetClosestPoint( Vector3 WSPoint )
+    private List<float> distances = new List<float>();
+    private List<Vector3> localMinima = new List<Vector3>();
+    private List<Vector3> localDx = new List<Vector3>();
+    public Vector3 GetClosestPoint( Vector3 WSPoint, out Vector3 Derivative )
     {
-        List<float> distances = new List<float>();
-        List<Vector3> localMinima = new List<Vector3>();
+        Derivative = Vector3.zero;
+        distances.Clear();
+        localMinima.Clear();
+        localDx.Clear();
         float res = 1 / (float)resolution;
         for (int i = 0; i < points.Count - 1; i++) {
             for (float n = i; n < i + 1; n += res) {
@@ -189,6 +215,7 @@ public class PathSpline : MonoBehaviour
                                                                            loBoundNormal,
                                                                            hiBoundPoint,
                                                                            hiBoundNormal );
+                                            localDx.Add( Vector3.Lerp( GetDx( l ), GetDx( l + res / (float)(subd * subd * subd) ), t ) );
 
                                             localMinima.Add( Vector3.LerpUnclamped( loBoundPoint, hiBoundPoint, t ) );
                                         }
@@ -204,12 +231,16 @@ public class PathSpline : MonoBehaviour
         localMinima.Add( this[0].transform.position );
         localMinima.Add( this[points.Count - 1].transform.position );
 
+        localDx.Add( GetDx( 0 ) );
+        localDx.Add( GetDx( points.Count - 1 ) );
+
         for (int i = 0; i < localMinima.Count; i++) {
             distances.Add( Vector3.Distance( localMinima[i], WSPoint ) );
         }
 
         for (int i = 0; i < localMinima.Count; i++) {
             if (i == distances.FindIndex( ( x ) => x == Min( distances ) )) {
+                Derivative = localDx[i];
                 return localMinima[i];
             }
         }
@@ -223,5 +254,12 @@ public class PathSpline : MonoBehaviour
             hiBoundPoint = GetPoint( t + step );
             hiBoundNormal = GetDx( t + step ).normalized;
         }
+    }
+    public Vector3 GetClosestPoint( Vector3 WSPoint ) => GetClosestPoint( WSPoint, out Vector3 garbage );
+    public Vector3 GetClosestDx( Vector3 WSPoint )
+    {
+        Vector3 Dx;
+        GetClosestPoint( WSPoint, out Dx );
+        return Dx;
     }
 }

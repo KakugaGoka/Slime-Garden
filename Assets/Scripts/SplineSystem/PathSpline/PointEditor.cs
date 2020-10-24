@@ -13,7 +13,10 @@ public class PointEditor : Editor
         PathPoint point = (PathPoint)target;
 
         int pointIndex = point.transform.GetSiblingIndex();
+
         PathSpline parentSpline = point.transform.parent.GetComponent<PathSpline>();
+
+        parentSpline.selectedIndex = pointIndex;
 
         PathEditor.ShowPoints( parentSpline );
 
