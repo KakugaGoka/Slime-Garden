@@ -43,12 +43,12 @@ Material:
     - Vector1_FBA06674: 1
     - _Amplitude: 0.05
     - _Brightness: 0.2
-    - _CellDensity: 1
-    - _CellType: 1
+    - _CellDensity: 0.1
+    - _CellType: 0.1
     - _Frequency: 4
-    - _SpeckleBrightness: 1
+    - _SpeckleBrightness: 0.1
     - _SpeckleDensity: 5
-    - _SpinRate: 1
+    - _SpinRate: 0.1
     m_Colors:
     - Color_8A28B5E1: {r: 0, g: 0.0716755, b: 0.4056604, a: 1}
     - _Color: {r: 1, g: 0.5, b: 0, a: 1}

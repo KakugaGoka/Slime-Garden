@@ -37,7 +37,8 @@ public class SlimeEggController : MainController
 
     private void OnCollisionEnter(Collision collision) {
         if(collision.relativeVelocity.magnitude > 30 && !hasCracked) {
-            cellDensity = 0.7f;
+            frequency = 10f;
+            cellDensity = 0.5f;
             HatchEgg();
         }
     }

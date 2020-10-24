@@ -153,14 +153,14 @@ MonoBehaviour:
   activity: 0
   movement: 0
   color: {r: 1, g: 0.33305168, b: 0, a: 1}
-  amplitude: 0
+  amplitude: 0.1
   frequency: 4
   brightness: 0.2
-  spinRate: 1
-  cellType: 1
-  cellDensity: 1
+  spinRate: 0.1
+  cellType: 0.1
+  cellDensity: 0.1
   speckleDensity: 5
-  speckleBrightness: 1
+  speckleBrightness: 0.1
   lockColor: 0
   lockAmplitude: 0
   lockFrequency: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
   lockCellDensity: 0
   lockSpeckleDensity: 0
   lockSpeckleBrightness: 0
-  lockAllShaderValues: 0
+  lockAllShaderValues: 1
 --- !u!114 &7926034295729559994
 MonoBehaviour:
   m_ObjectHideFlags: 0
