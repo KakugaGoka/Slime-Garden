@@ -23,28 +23,10 @@ public class SlimeController : MainController
     private float pathDist = 0;
     private float goalDist = 0;
 
-    [SerializeField]
-    public float hopping = 1;
-
-    public float jumpTimer = 5;
-    public float wanderRange = 5;
-    public float jumpForce = 100;
-
-    [SerializeField]
-    public float rolling;
-
-    [SerializeField]
-    public float floating;
-
-    [SerializeField]
-    public float range;
-
-    public bool npc = false;
-
     private float lastHopTimer;
     private bool grounded {
         get {
-            bool g = Physics.Raycast(gameObject.Pos(), Vector3.down, out RaycastHit hit, 0.6f, -1);
+            bool g = Physics.Raycast( gameObject.Pos(), Vector3.down, out RaycastHit hit, 0.6f, -1 );
             groundDist = hit.distance;
             return g;
         }
@@ -57,10 +39,10 @@ public class SlimeController : MainController
     public float jumpTimer = 5;
     public float wanderRange = 5;
     public float jumpForce = 100;
-    public float hopping;
-    public float rolling;
-    public float floating;
-    public float range;
+    public float hopping = 1;
+    public float rolling = 1;
+    public float floating = 1;
+    public float range = 1;
     public bool npc = false;
 
     private MeshRenderer m_Renderer;
