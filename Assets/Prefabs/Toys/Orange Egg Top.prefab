@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1533567191401023713}
   - component: {fileID: 372168115845192582}
   m_Layer: 0
-  m_Name: Egg Top
+  m_Name: Orange Egg Top
   m_TagString: Toy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 4316359705112477818}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.0367651, y: 0.5734128, z: 2.835}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8992edf0cbb7fcd489ec39b326ec0bcb, type: 2}
+  - {fileID: 2100000, guid: b09a3f9805d62a04fbcbfd728a79bb82, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

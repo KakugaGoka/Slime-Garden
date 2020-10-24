@@ -882,6 +882,21 @@ MonoBehaviour:
     position: {x: 0, y: -0.06, z: 0.7}
     rotation: {x: 0, y: 0, z: 0}
     description: Can't raise a bunch of slimes with out breaking a few eggs.
+  - prefab: {fileID: 295791092886908434, guid: f4c341ee14afcfe41955bb43b876fe56, type: 3}
+    value: 500
+    position: {x: 0, y: -0.06, z: 0.7}
+    rotation: {x: 0, y: 0, z: 0}
+    description: A slime that looks liek an apple.
+  - prefab: {fileID: 295791092886908434, guid: ff7076474a84d5f44be6f013cff1f8fc, type: 3}
+    value: 500
+    position: {x: 0, y: -0.06, z: 0.7}
+    rotation: {x: 0, y: 0, z: 0}
+    description: A slime that looks like an orange.
+  - prefab: {fileID: 295791092886908434, guid: 6967574e7bdb00f4394a2c1e98975567, type: 3}
+    value: 500
+    position: {x: 0, y: -0.06, z: 0.7}
+    rotation: {x: 0, y: 0, z: 0}
+    description: A slime that looks like a peach.
   itemTilePrefab: {fileID: 6612251171008961732, guid: 56389548fdb91bb45863ec24b2820edf,
     type: 3}
   forSaleList: {fileID: 2141746748716389682}

@@ -43,7 +43,7 @@ public class SlimeStationController : MonoBehaviour
     }
 
     private void OnFound(SlimeController slime) {
-        nameField.text = slime.name;
+        nameField.text = slime.slimeName;
         nameField.interactable = true;
         nameButton.interactable = true;
         goodbyeButton.interactable = true;
@@ -51,7 +51,7 @@ public class SlimeStationController : MonoBehaviour
 
     public void Rename() {
         if (m_Slime) {
-            m_Slime.name = nameField.text;
+            m_Slime.slimeName = nameField.text;
         }
     }
 

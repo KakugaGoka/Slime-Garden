@@ -12,8 +12,8 @@ public class SaveLoadManager : MonoBehaviour
     private static StaticCoroutine instance; 
     public static string savePath;
 
-    public GameObject eggPrefab;
-    public GameObject slimePrefab;
+    public GameObject[] eggPrefab;
+    public GameObject[] slimePrefab;
     public GameObject[] treePrefabs;
     public GameObject[] toyPrefabs;
     public GameObject[] foodPrefabs;
@@ -175,9 +175,9 @@ public class SaveLoadManager : MonoBehaviour
                 } else if (tag == "Food") {
                     obj = InstantiateFromList(main.foodPrefabs, fileName);
                 } else if (tag == "Egg") {
-                    obj = Instantiate(main.eggPrefab);
+                    obj = InstantiateFromList(main.eggPrefab, fileName);
                 } else { 
-                    obj = Instantiate(main.slimePrefab);
+                    obj = InstantiateFromList(main.slimePrefab, fileName);
                 }
                 MainController controller = obj.GetComponent<MainController>();
                 JsonUtility.FromJsonOverwrite(File.ReadAllText(info[i]), controller);

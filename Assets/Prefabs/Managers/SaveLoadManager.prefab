@@ -43,10 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863e9f1aee552004a84bc534a98929df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eggPrefab: {fileID: 295791092886908434, guid: aebdeaa36b9d0334b9f04e217d1d5c25,
-    type: 3}
-  slimePrefab: {fileID: 2817580289831993494, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
-    type: 3}
+  eggPrefab:
+  - {fileID: 295791092886908434, guid: aebdeaa36b9d0334b9f04e217d1d5c25, type: 3}
+  - {fileID: 295791092886908434, guid: f4c341ee14afcfe41955bb43b876fe56, type: 3}
+  - {fileID: 295791092886908434, guid: ff7076474a84d5f44be6f013cff1f8fc, type: 3}
+  - {fileID: 295791092886908434, guid: 6967574e7bdb00f4394a2c1e98975567, type: 3}
+  slimePrefab:
+  - {fileID: 2817580289831993494, guid: 610a5a88b8ebedf458a2ca5c83ce992d, type: 3}
+  - {fileID: 236461946998748030, guid: 68b3cee2d62437b4c8cb787379eab8bc, type: 3}
+  - {fileID: 4493446291620206762, guid: 847aa6355eae2e947b7409f2556a74ad, type: 3}
+  - {fileID: 1277787281115600425, guid: 6ffab7f48771221449cab36942fb0eb0, type: 3}
   treePrefabs:
   - {fileID: 9085589855766262451, guid: dece1a5442a23d34fa262c8c74c8c217, type: 3}
   - {fileID: 8440383856984511290, guid: 4926ff2d57435b142b538e9ee5420f4b, type: 3}
@@ -56,6 +62,12 @@ MonoBehaviour:
   - {fileID: 3569989922837576556, guid: 0fec24e303ff24d4b875824468fbe404, type: 3}
   - {fileID: 4316359705112477818, guid: e9082bc498071034b86c51519470d9a6, type: 3}
   - {fileID: 6983193024938954338, guid: e8dc7efcdb330e947b41ac31afce81b1, type: 3}
+  - {fileID: 4316359705112477818, guid: 19bf6bcd2fd5af1439e8b687061529e8, type: 3}
+  - {fileID: 6983193024938954338, guid: ba8eaaeadf796b14692fd483af869831, type: 3}
+  - {fileID: 4316359705112477818, guid: 1b8c29fce4cd1fc4e942d050f3e0a1f8, type: 3}
+  - {fileID: 6983193024938954338, guid: 05ccb5ff98a9ffa4c8b565851a313051, type: 3}
+  - {fileID: 4316359705112477818, guid: 3e25c3f7429c0df48ad5fae357b371d3, type: 3}
+  - {fileID: 6983193024938954338, guid: 981d401cb5e82654cbad1313a1527b77, type: 3}
   foodPrefabs:
   - {fileID: 1798668282190201229, guid: 04bc93f9a752580408bb386d077bbc18, type: 3}
   - {fileID: 150004053684413762, guid: 7678ca8bcc3a2c447b812cb7638fbdd7, type: 3}
