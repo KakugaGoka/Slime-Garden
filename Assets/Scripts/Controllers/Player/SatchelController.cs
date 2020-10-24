@@ -81,7 +81,7 @@ public class SatchelController : MonoBehaviour
     void SwapItem(int index) {
         if (player) {
             if (player.heldItem) {
-                if (player.heldItem.GetComponent<SlimeController>()) {
+                if (!player.heldItem.canBeStowed) {
                     return;
                 }
             }

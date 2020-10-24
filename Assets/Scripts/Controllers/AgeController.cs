@@ -11,7 +11,7 @@ public class AgeController : MonoBehaviour {
     public bool destroyOnDieAge = false;
     public bool customAging = false;
     public float currentScale;
-    private Vector3 startingScale;
+    public Vector3 startingScale;
     private float step {  get { return (maxScale - minScale); } }
 
     void Awake() {

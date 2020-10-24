@@ -7,12 +7,14 @@ using UnityEngine.Events;
 public class InteractHold : MonoBehaviour {
 
     InteractController m_InteractController;
+    PlayerCharacterController m_Player;
     Rigidbody m_Rigidbody;
     bool isHeld = false;
+    Vector3 lastPosition;
 
+    public bool canBeStowed = true;
     public Vector3 holdPosition = new Vector3(0, 0, 0);
     public int value = 5;
-
     public UnityAction<PlayerCharacterController> onDrop;
 
     private void Awake() {
@@ -30,9 +32,10 @@ public class InteractHold : MonoBehaviour {
     }
 
     public void OnInteract(PlayerCharacterController player) {
+        m_Player = player;
         if (m_Rigidbody != null) {
             m_Rigidbody.useGravity = false;
-            m_Rigidbody.detectCollisions = false;
+            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
         this.gameObject.transform.parent = player.heldObjectLocation;
         if (!player.heldItem) {
@@ -46,9 +49,10 @@ public class InteractHold : MonoBehaviour {
     }
 
     public void OnDrop(PlayerCharacterController player) {
+        m_Player = null;
         if (m_Rigidbody != null) {
             m_Rigidbody.useGravity = true;
-            m_Rigidbody.detectCollisions = true;
+            m_Rigidbody.constraints = RigidbodyConstraints.None;
             int rate = 1;
             if (Input.GetButton(GameConstants.k_ButtonNameSprint)) {
                 rate = 15;

@@ -11,9 +11,11 @@ public class GameConstants
     public const string k_ButtonNameFire                    = "Fire";
     public const string k_ButtonNameSprint                  = "Sprint";
     public const string k_ButtonNameCrouch                  = "Crouch";
-    public const string k_ButtonNameSwitchWeapon            = "Mouse ScrollWheel";
     public const string k_ButtonNameSubmit                  = "Submit";
     public const string k_ButtonNameCancel                  = "Cancel";
     public const string k_ButtonNameInteract                = "Interact";
     public const string k_ButtonNameDrop                    = "Drop";
+    public const string k_ButtonNameRotateLeft              = "RotateLeft";
+    public const string k_ButtonNameRotateRight             = "RotateRight";
+    public const string k_ButtonNameRoll                    = "Mouse ScrollWheel";
 }

@@ -93,22 +93,6 @@ public class PlayerInputHandler : MonoBehaviour {
         return false;
     }
 
-    //public bool GetFireInputDown() {
-    //    return GetFireInputHeld() && !m_FireInputWasHeld;
-    //}
-
-    //public bool GetFireInputReleased() {
-    //    return !GetFireInputHeld() && m_FireInputWasHeld;
-    //}
-
-    //public bool GetFireInputHeld() {
-    //    if (CanProcessInput()) {
-    //        return Input.GetButton(GameConstants.k_ButtonNameFire);
-    //    }
-
-    //    return false;
-    //}
-
     public bool GetSprintInputHeld() {
         if (CanProcessInput()) {
             return Input.GetButton(GameConstants.k_ButtonNameSprint);
@@ -133,10 +117,10 @@ public class PlayerInputHandler : MonoBehaviour {
         return false;
     }
 
-    public int GetSwitchWeaponInput() {
+    public int GetRollItemInput() {
         if (CanProcessInput()) {
 
-            string axisName = GameConstants.k_ButtonNameSwitchWeapon;
+            string axisName = GameConstants.k_ButtonNameRoll;
 
             if (Input.GetAxis(axisName) > 0f)
                 return -1;
@@ -144,6 +128,16 @@ public class PlayerInputHandler : MonoBehaviour {
                 return 1;
         }
 
+        return 0;
+    }
+
+    public int GetRotateItemInput() {
+        if (CanProcessInput()) {
+            if (Input.GetButton(GameConstants.k_ButtonNameRotateLeft))
+                return -1;
+            else if (Input.GetButton(GameConstants.k_ButtonNameRotateRight))
+                return 1;
+        }
         return 0;
     }
 

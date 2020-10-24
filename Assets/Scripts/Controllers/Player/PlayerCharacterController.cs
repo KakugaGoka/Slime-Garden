@@ -179,6 +179,8 @@ public class PlayerCharacterController : MonoBehaviour
 
         HandleCharacterMovement();
 
+        HandleItemMovement();
+
         m_DropMessage.text = isHolding ? isSprinting ? "Throw" : "Drop" : "";
 
     }
@@ -223,7 +225,12 @@ public class PlayerCharacterController : MonoBehaviour
                         if (areaClear) {
                             m_InteractMessage.Set("Plant Tree", Color.white);
                             if (m_InputHandler.GetInteractInputDown()) {
-                                Instantiate(fruit.tree, hit.point, Quaternion.identity);
+                                Transform dirt = hit.collider.transform;
+                                GameObject tree = Instantiate(fruit.tree, hit.point, Quaternion.identity, dirt);
+                                AgeController age = tree.GetComponent<AgeController>();
+                                if (age) {
+                                    age.startingScale = new Vector3(1 / dirt.localScale.x, 1 / dirt.localScale.y, 1 / dirt.localScale.z);
+                                }
                                 Destroy(fruit.gameObject);
                                 Instantiate(satchel.emptyObject, heldObjectLocation).transform.SetAsFirstSibling();
                             }
@@ -439,6 +446,19 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
+    private void HandleItemMovement() {
+        if (heldItem) {
+            float rotX = m_InputHandler.GetRollItemInput() * Time.deltaTime * 180;
+            float rotY = m_InputHandler.GetRotateItemInput() * Time.deltaTime * 180;
+            if (m_InputHandler.GetSprintInputHeld()) {
+                heldItem.transform.Rotate(new Vector3(0, rotY, rotX), Space.World);
+            } else {
+                heldItem.transform.Rotate(new Vector3(rotX, rotY, 0), Space.World);
+            }
+
+        }
+    }
+
     // Returns true if the slope angle represented by the given normal is under the slope angle limit of the character controller
     private bool IsNormalUnderSlopeLimit( Vector3 normal )
     {
@@ -521,4 +541,6 @@ public class PlayerCharacterController : MonoBehaviour
     {
         m_CameraVerticalAngle = angle;
     }
+
+    public CharacterController GetController() => m_Controller;
 }

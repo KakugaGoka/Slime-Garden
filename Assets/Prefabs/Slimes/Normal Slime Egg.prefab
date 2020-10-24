@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 295791092886908447}
   - component: {fileID: 295791092886908446}
   m_Layer: 0
-  m_Name: Slime Egg
+  m_Name: Normal Slime Egg
   m_TagString: Egg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a3ac88730ae8d4e86d3aa1efe0759f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdPosition: {x: 0, y: 0, z: 0}
+  canBeStowed: 1
+  holdPosition: {x: 0, y: 0, z: 0.1}
   value: 100
 --- !u!54 &295791092886908445
 Rigidbody:
