@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
+[Serializable]
 public class AgeController : MonoBehaviour {
     public float currentAge = 0;
     public float fullGrown = 300;
@@ -46,5 +46,5 @@ public class AgeController : MonoBehaviour {
                                                       currentScale * startingScale.z);
     }
 
-    public void Age() => currentAge += Time.deltaTime * Random.Range(0.1f, 1);
+    public void Age() => currentAge += Time.deltaTime * UnityEngine.Random.Range(0.1f, 1);
 }

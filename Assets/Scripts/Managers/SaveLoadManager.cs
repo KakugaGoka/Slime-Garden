@@ -114,21 +114,28 @@ public class SaveLoadManager : MonoBehaviour
 
         foreach (var obj in objs) {
             string objName = obj.name.Replace(' ', '_');
+            string filePath = savePath + tag + "/" + objName + ".json";
+            if (File.Exists(filePath)) {
+                string append = "---";
+                int index = 0;
+                string finalPath = filePath + append + index;
+                while (File.Exists(finalPath)) {
+                    index++;
+                    finalPath = filePath + append + index;
+                }
+                filePath = finalPath;
+            }
             MainController info = obj.GetComponent<MainController>();
             if (info) {
                 info.GetTransformData();
                 string entityJSON = JsonUtility.ToJson(info, true);
-                string filePath = savePath + tag + "/" + objName + ".json";
-                if (File.Exists(filePath)) {
-                    string append = "---";
-                    int index = 0;
-                    string finalPath = filePath + append + index;
-                    while (File.Exists(finalPath)) {
-                        index++;
-                        finalPath = filePath + append + index;
-                    }
-                    filePath = finalPath;
-                }
+                File.WriteAllText(filePath, entityJSON);
+                Debug.Log("Saved :: " + objName + " to JSON");
+            }
+            AgeController age = obj.GetComponent<AgeController>();
+            if (age) {
+                string entityJSON = JsonUtility.ToJson(age, true);
+                filePath = filePath.Replace(".json", "_Age.json");
                 File.WriteAllText(filePath, entityJSON);
                 Debug.Log("Saved :: " + objName + " to JSON");
             }
@@ -146,14 +153,19 @@ public class SaveLoadManager : MonoBehaviour
     private static void LoadObjectType(string tag) {
         int count = PlayerPrefs.GetInt(tag + "Count", 0);
 
-        string[] info = Directory.GetFiles(savePath + tag);
+        List<string> info = new List<string>();
+        foreach (string path in Directory.GetFiles(savePath + tag)) {
+            if (!path.Contains("_Age.json")) {
+                info.Add(path);
+            }
+        }
 
         foreach (var item in GetTagList(tag)) {
             Destroy(item);
         }
 
         for (int i = 0; i < count; i++) {
-            if (i < info.Length) {
+            if (i < info.Count) {
                 string fileName = Path.GetFileNameWithoutExtension(info[i]).Replace('_', ' ');
                 GameObject obj;
                 if (tag == "Tree") {
@@ -169,6 +181,12 @@ public class SaveLoadManager : MonoBehaviour
                 }
                 MainController controller = obj.GetComponent<MainController>();
                 JsonUtility.FromJsonOverwrite(File.ReadAllText(info[i]), controller);
+                if (File.Exists(info[i].Replace(".json", "_Age.json"))) {
+                    AgeController age = obj.GetComponent<AgeController>();
+                    if (age) {
+                        JsonUtility.FromJsonOverwrite(File.ReadAllText(info[i].Replace(".json", "_Age.json")), age);
+                    }
+                }
                 obj.transform.position = new Vector3(controller.PosX, controller.PosY, controller.PosZ);
                 obj.transform.rotation = Quaternion.Euler(controller.RotX, controller.RotY + 1, controller.RotZ);
                 obj.name = fileName;
