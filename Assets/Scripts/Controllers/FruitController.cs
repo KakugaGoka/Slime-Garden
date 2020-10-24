@@ -25,6 +25,7 @@ public class FruitController : MainController {
     {
         m_RigidBody = GetComponent<Rigidbody>();
         m_EdibleController = GetComponent<EdibleController>();
+        m_AgeController = GetComponent<AgeController>();
 
         m_EdibleController.onEat += Eat;
     }
