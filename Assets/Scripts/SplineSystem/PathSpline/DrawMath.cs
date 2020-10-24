@@ -19,6 +19,21 @@ public class DrawMath : MonoBehaviour
     private List<float> distances = new List<float>();
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere( spline.GetClosestPoint( transform.position ), 0.2f );
+
+        DebugSpline();
+    }
+    private Vector3 loBoundPoint;
+    private Vector3 loBoundNormal;
+    private Vector3 hiBoundPoint;
+    private Vector3 hiBoundNormal;
+    private float t;
+    private Vector3 result;
+    private Ray ray;
+
+    private void DebugSpline()
+    {
         localMinima.Clear();
         distances.Clear();
         Vector3 WSPoint = transform.position;
@@ -81,18 +96,7 @@ public class DrawMath : MonoBehaviour
                 Gizmos.DrawSphere( localMinima[i], 0.1f );
             }
         }
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere( spline.GetClosestPoint( transform.position ), 0.2f );
     }
-    private Vector3 loBoundPoint;
-    private Vector3 loBoundNormal;
-    private Vector3 hiBoundPoint;
-    private Vector3 hiBoundNormal;
-    private float t;
-    private Vector3 result;
-    private Ray ray;
-
     private void GetSplineBounds( float step, float t )
     {
         loBoundPoint = spline.GetPoint( t );

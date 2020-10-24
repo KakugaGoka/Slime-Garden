@@ -20,8 +20,6 @@ public class PathPoint : MonoBehaviour
     public BezierControlPointMode mode = BezierControlPointMode.Mirrored;
     private void Awake()
     {
-        localA = Vector3.back;
-        localB = Vector3.forward;
     }
     private void Start()
     {
@@ -32,12 +30,11 @@ public class PathPoint : MonoBehaviour
     {
         Gizmos.DrawSphere( transform.position, 0.1f );
     }
-
     private void OnDestroy()
     {
         var spline = transform.parent.GetComponent<PathSpline>();
         Undo.RecordObject( spline, "Delete Point" );
-        spline.points.Remove( gameObject );
+        spline.RemovePoint( gameObject.transform.GetSiblingIndex() );
 
         spline.RenamePoints();
     }
