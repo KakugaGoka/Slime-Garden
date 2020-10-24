@@ -70,7 +70,7 @@ public class ShopController : MonoBehaviour
 
             AgeController age = item.GetComponent<AgeController>();
             if (age) {
-                age.currentScale = age.maxScale;
+                age.currentAge = age.fullGrown;
             }
 
             textures.Add(texture);
@@ -112,7 +112,7 @@ public class ShopController : MonoBehaviour
                 if (interact) {
                     AgeController age = newItem.GetComponent<AgeController>();
                     if (age) {
-                        age.currentScale = age.maxScale;
+                        age.currentAge = age.fullGrown;
                     }
                     interact.onInteract.Invoke(player);
                     player.wealth -= itemsForSale[currentIndex].value;

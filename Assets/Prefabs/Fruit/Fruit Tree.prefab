@@ -278,8 +278,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentAge: 0
-  fullGrown: 300
+  fullGrown: 1440
   deathAge: 0
+  minScale: 0.1
   maxScale: 1
   destroyOnDieAge: 0
   customAging: 0
+  currentScale: 0

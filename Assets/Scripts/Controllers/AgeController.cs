@@ -8,24 +8,22 @@ public class AgeController : MonoBehaviour {
     public float deathAge = 300;
     public float minScale = 0.1f;
     public float maxScale = 1f;
-    public int scaleSteps = 10;
     public bool destroyOnDieAge = false;
     public bool customAging = false;
     public float currentScale;
     private Vector3 startingScale;
-    private float previousGrowth = 0;
+    private float step {  get { return (maxScale - minScale); } }
 
     void Awake() {
         startingScale = gameObject.transform.localScale;
         currentScale = minScale;
-        SetScale();
+        GetScale();
     }
 
     void Update() {
         if (!customAging) {
             Age();
             GetScale();
-            SetScale();
         }
         if (destroyOnDieAge && currentAge >= deathAge) {
             Destroy(gameObject);
@@ -33,14 +31,8 @@ public class AgeController : MonoBehaviour {
     }
 
     void GetScale() {
-        if (currentAge - previousGrowth >= fullGrown / scaleSteps) {
-            previousGrowth = currentAge;
-            float step = (maxScale - minScale) / scaleSteps;
-            currentScale = Mathf.Clamp(currentScale + step, minScale, maxScale);
-        }
-    }
-
-    public void SetScale() {
+        float value = (currentAge / fullGrown) * step;
+        currentScale = Mathf.Clamp(minScale + value, minScale, maxScale);
         gameObject.transform.localScale = new Vector3(currentScale * startingScale.x,
                                                       currentScale * startingScale.y,
                                                       currentScale * startingScale.z);

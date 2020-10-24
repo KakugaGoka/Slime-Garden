@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using static Unity.Mathematics.math;
 using static Mathk;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent( typeof( Rigidbody ) )]
 [RequireComponent( typeof( SphereCollider ) )]
@@ -14,7 +14,7 @@ public class SlimeController : MainController
     private Rigidbody rb;
     private SphereCollider sphereCollider;
     private float maxJumpForce;
-    private GameObject player;
+    private PlayerCharacterController player;
     private NavMeshPath navPath;
     private Vector3[] path;
     private Vector3 targetPosition;
@@ -76,7 +76,7 @@ public class SlimeController : MainController
     {
         rb = gameObject.GetComponent<Rigidbody>();
         sphereCollider = gameObject.GetComponent<SphereCollider>();
-        player = GameObject.FindGameObjectWithTag( "Player" );
+        player = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<PlayerCharacterController>();
         navPath = new NavMeshPath();
         m_Renderer = GetComponent<MeshRenderer>();
         faces.happy = Resources.Load<Texture2D>("Textures/Smiley");
@@ -203,11 +203,29 @@ public class SlimeController : MainController
 
     private void FindFood()
     {
-        var food = GameObject.FindGameObjectsWithTag( "Food" );
-        if (food.Length > 0) {
-            float[] distances = new float[food.Length];
+        List<GameObject> food = new List<GameObject>();
+        foreach (GameObject foodItem in GameObject.FindGameObjectsWithTag( "Food" )) {
+            bool goodToEat = true;
+            FruitController fruit = foodItem.GetComponent<FruitController>();
+            InteractHold hold = foodItem.GetComponent<InteractHold>();
+            if (fruit) {
+                if (!fruit.hasFallen) {
+                    goodToEat = false;
+                }
+            }
+            if (hold) {
+                if (player.heldItem == hold) {
+                    goodToEat = false;
+                }
+            }
+            if (goodToEat) {
+                food.Add(foodItem);
+            }
+        }
+        if (food.Count > 0) {
+            float[] distances = new float[food.Count];
 
-            for (int i = 0; i < food.Length; i++) {
+            for (int i = 0; i < food.Count; i++) {
                 distances[i] = distance( gameObject.Pos(), food[i].transform.position );
             }
 

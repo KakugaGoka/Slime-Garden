@@ -370,7 +370,7 @@ public class PlayerCharacterController : MonoBehaviour
             targetVelocity = GetDirectionReorientedOnSlope( targetVelocity.normalized, m_GroundNormal ) * targetVelocity.magnitude;
 
             // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
-            characterVelocity = Vector3.Lerp( characterVelocity, targetVelocity, movementSharpnessOnGround * Time.deltaTime );
+            characterVelocity = Vector3.Lerp( characterVelocity, targetVelocity, movementSharpnessOnGround * Time.deltaTime / TimeManager.main.gameTimeScale );
 
             // jumping
             if (isGrounded && m_InputHandler.GetJumpInputDown()) {
@@ -407,12 +407,12 @@ public class PlayerCharacterController : MonoBehaviour
             }
 
             // keep track of distance traveled for footsteps sound
-            m_footstepDistanceCounter += characterVelocity.magnitude * Time.deltaTime;
+            m_footstepDistanceCounter += characterVelocity.magnitude * Time.deltaTime / TimeManager.main.gameTimeScale;
         }
         // handle air movement
         else {
             // add air acceleration
-            characterVelocity += worldspaceMoveInput * accelerationSpeedInAir * Time.deltaTime;
+            characterVelocity += worldspaceMoveInput * accelerationSpeedInAir * Time.deltaTime / TimeManager.main.gameTimeScale;
 
             // limit air speed to a maximum, but only horizontally
             float verticalVelocity = characterVelocity.y;
@@ -421,17 +421,17 @@ public class PlayerCharacterController : MonoBehaviour
             characterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
 
             // apply the gravity to the velocity
-            characterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
+            characterVelocity += Vector3.down * gravityDownForce * Time.deltaTime / TimeManager.main.gameTimeScale;
         }
 
         // apply the final calculated velocity value as a character movement
         Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
         Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere( m_Controller.height );
-        m_Controller.Move( characterVelocity * Time.deltaTime );
+        m_Controller.Move( characterVelocity * Time.deltaTime / TimeManager.main.gameTimeScale);
 
         // detect obstructions to adjust velocity accordingly
         m_LatestImpactSpeed = Vector3.zero;
-        if (Physics.CapsuleCast( capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore )) {
+        if (Physics.CapsuleCast( capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime / TimeManager.main.gameTimeScale, -1, QueryTriggerInteraction.Ignore )) {
             // We remember the last impact speed because the fall damage logic might need it
             m_LatestImpactSpeed = characterVelocity;
 
@@ -475,9 +475,9 @@ public class PlayerCharacterController : MonoBehaviour
         // Update smooth height
         else if (m_Controller.height != m_TargetCharacterHeight) {
             // resize the capsule and adjust camera position
-            m_Controller.height = Mathf.Lerp( m_Controller.height, m_TargetCharacterHeight, crouchingSharpness * Time.deltaTime );
+            m_Controller.height = Mathf.Lerp( m_Controller.height, m_TargetCharacterHeight, crouchingSharpness * Time.deltaTime / TimeManager.main.gameTimeScale);
             m_Controller.center = Vector3.up * m_Controller.height * 0.5f;
-            playerCamera.transform.localPosition = Vector3.Lerp( playerCamera.transform.localPosition, Vector3.up * m_TargetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime );
+            playerCamera.transform.localPosition = Vector3.Lerp( playerCamera.transform.localPosition, Vector3.up * m_TargetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime / TimeManager.main.gameTimeScale);
         }
     }
 
