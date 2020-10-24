@@ -89,7 +89,16 @@ public class SlimeController : MainController
     public float cellDensity;
     public float speckleDensity;
     public float speckleBrightness;
-    public bool shaderSet = false;
+    public bool lockColor = false;
+    public bool lockAmplitude = false;
+    public bool lockFrequency = false;
+    public bool lockBrightness = false;
+    public bool lockSpinRate = false;
+    public bool lockCellType = false;
+    public bool lockCellDensity = false;
+    public bool lockSpeckleDensity = false;
+    public bool lockSpeckleBrightness = false;
+    public bool lockAllShaderValues = false;
 
     private void Start()
     {
@@ -105,9 +114,9 @@ public class SlimeController : MainController
         faces.angry = Resources.Load<Texture2D>( "Textures/Smiley-Angry" );
         faces.sad = Resources.Load<Texture2D>( "Textures/Smiley-Sad" );
         faces.hungry = Resources.Load<Texture2D>( "Textures/Smiley-Hungry" );
-        if (!shaderSet) {
+        if (!lockAllShaderValues) {
             SlimeShaderController.ResetAllShaderValues( this );
-            shaderSet = true;
+            lockAllShaderValues = true;
         }
         SetInShader();
         ChangeFaceTexture( currentFace );

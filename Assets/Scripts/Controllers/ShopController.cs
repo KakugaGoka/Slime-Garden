@@ -71,6 +71,7 @@ public class ShopController : MonoBehaviour
             AgeController age = item.GetComponent<AgeController>();
             if (age) {
                 age.currentAge = age.fullGrown;
+                age.customAging = true;
             }
 
             textures.Add(texture);
@@ -110,9 +111,13 @@ public class ShopController : MonoBehaviour
                 GameObject newItem = Instantiate(itemsForSale[currentIndex].prefab);
                 InteractController interact = newItem.GetComponent<InteractController>();
                 if (interact) {
-                    AgeController age = newItem.GetComponent<AgeController>();
-                    if (age) {
-                        age.currentAge = age.fullGrown;
+                    FruitController fruit = newItem.GetComponent<FruitController>();
+                    if (fruit) {
+                        fruit.hasFallen = true;
+                        AgeController age = newItem.GetComponent<AgeController>();
+                        if (age) {
+                            age.currentAge = age.fullGrown;
+                        }
                     }
                     interact.onInteract.Invoke(player);
                     player.wealth -= itemsForSale[currentIndex].value;
@@ -126,7 +131,6 @@ public class ShopController : MonoBehaviour
     public void OnSell() {
         if (player) {
             player.wealth += player.heldItem.value;
-            Instantiate(player.satchel.emptyObject, player.heldObjectLocation).transform.SetAsFirstSibling();
             Destroy(player.heldItem.gameObject);
         }
     }

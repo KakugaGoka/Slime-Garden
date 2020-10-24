@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 236461946998748019}
   - component: {fileID: 236461946998748018}
   - component: {fileID: 236461946998748017}
-  - component: {fileID: 2025080215440058299}
   - component: {fileID: 236461946998748016}
   - component: {fileID: 236461946998748031}
   - component: {fileID: 5831342697735418478}
@@ -100,18 +99,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2025080215440058299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236461946998748030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b40d089efde76e4ab4a0e8c7c0e7dc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &236461946998748016
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -174,7 +161,16 @@ MonoBehaviour:
   cellDensity: 1
   speckleDensity: 5
   speckleBrightness: 1
-  shaderSet: 1
+  lockColor: 0
+  lockAmplitude: 0
+  lockFrequency: 0
+  lockBrightness: 0
+  lockSpinRate: 0
+  lockCellType: 0
+  lockCellDensity: 0
+  lockSpeckleDensity: 0
+  lockSpeckleBrightness: 0
+  lockAllShaderValues: 0
 --- !u!114 &5831342697735418478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeStowed: 0
+  isHeld: 0
   holdPosition: {x: 0, y: 0, z: 0.5}
   value: 5
 --- !u!114 &8249974521423714245
@@ -223,6 +220,7 @@ MonoBehaviour:
   maxScale: 0.8
   destroyOnDieAge: 0
   customAging: 0
+  showAgeByScaling: 1
   currentScale: 0
   startingScale: {x: 0, y: 0, z: 0}
 --- !u!1 &3029753324549907198

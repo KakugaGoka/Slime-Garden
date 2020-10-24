@@ -877,22 +877,25 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0.6}
     rotation: {x: 0, y: 0, z: 0}
     description: A ball to throw with, or at, your slimes!
-  - prefab: {fileID: 295791092886908434, guid: aebdeaa36b9d0334b9f04e217d1d5c25, type: 3}
+  - prefab: {fileID: 150216237905017848, guid: aebdeaa36b9d0334b9f04e217d1d5c25, type: 3}
     value: 300
     position: {x: 0, y: -0.06, z: 0.7}
     rotation: {x: 0, y: 0, z: 0}
     description: Can't raise a bunch of slimes with out breaking a few eggs.
-  - prefab: {fileID: 295791092886908434, guid: f4c341ee14afcfe41955bb43b876fe56, type: 3}
+  - prefab: {fileID: 5960340782325685651, guid: 3f78fc2f55ef9c4499816a283f9b84b0,
+      type: 3}
     value: 500
     position: {x: 0, y: -0.06, z: 0.7}
     rotation: {x: 0, y: 0, z: 0}
     description: A slime that looks liek an apple.
-  - prefab: {fileID: 295791092886908434, guid: ff7076474a84d5f44be6f013cff1f8fc, type: 3}
+  - prefab: {fileID: 6927817560457684543, guid: eed6cb86b4e3cbf4b940b56faa919541,
+      type: 3}
     value: 500
     position: {x: 0, y: -0.06, z: 0.7}
     rotation: {x: 0, y: 0, z: 0}
     description: A slime that looks like an orange.
-  - prefab: {fileID: 295791092886908434, guid: 6967574e7bdb00f4394a2c1e98975567, type: 3}
+  - prefab: {fileID: 4621171744724189401, guid: 55d6596ea9748d343b76a324667079e4,
+      type: 3}
     value: 500
     position: {x: 0, y: -0.06, z: 0.7}
     rotation: {x: 0, y: 0, z: 0}

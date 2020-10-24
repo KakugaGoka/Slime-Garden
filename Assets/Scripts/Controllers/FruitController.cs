@@ -32,11 +32,13 @@ public class FruitController : MainController {
 
     private void OnCollisionEnter( Collision collision )
     {
-        m_AgeController.customAging = true;
-        transform.parent = null;
-        if (m_RigidBody != null) {
-            m_RigidBody.useGravity = true;
-            hasFallen = true;
+        if (!hasFallen) {
+            m_AgeController.customAging = true;
+            transform.parent = null;
+            if (m_RigidBody != null) {
+                m_RigidBody.useGravity = true;
+                hasFallen = true;
+            }
         }
     }
 

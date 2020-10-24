@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SatchelController : MonoBehaviour
 {
@@ -63,11 +64,12 @@ public class SatchelController : MonoBehaviour
         }
         EnforceBeltSlots();
         SetActiveItem();
+        CleanUpEmpties();
     }
 
     void EnforceBeltSlots() {
         if (player.heldObjectLocation.childCount < numberOfPockets + 1) {
-            Instantiate(emptyObject, player.heldObjectLocation);
+            Instantiate(emptyObject, player.heldObjectLocation).transform.SetAsFirstSibling();
         }
     }
 
@@ -76,6 +78,14 @@ public class SatchelController : MonoBehaviour
             player.heldObjectLocation.GetChild(i).gameObject.SetActive(false);
         }
         player.heldObjectLocation.GetChild(0).gameObject.SetActive(true);
+    }
+
+    void CleanUpEmpties() {
+        foreach( GameObject obj in GameObject.FindGameObjectsWithTag("Empty")) {
+            if (obj.transform.parent == null) {
+                Destroy(obj);
+            }
+        }
     }
 
     void SwapItem(int index) {
@@ -93,7 +103,9 @@ public class SatchelController : MonoBehaviour
             }
             playerItems[index].transform.SetSiblingIndex(0);
             playerItems[0].transform.SetSiblingIndex(index);
+            if (player.heldItem) player.heldItem.isHeld = false;
             player.heldItem = held.GetChild(0).GetComponent<InteractHold>();
+            if (player.heldItem) player.heldItem.isHeld = true;
             player.isHolding = held.GetChild(0).GetComponent<InteractHold>();
 
             GameObject item = Instantiate(held.GetChild(index).gameObject, slotCameras[index-1].transform);
@@ -119,6 +131,11 @@ public class SatchelController : MonoBehaviour
             MeshRenderer rend = item.GetComponent<MeshRenderer>();
             if (rend) {
                 rend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
+
+            AgeController age = item.GetComponent<AgeController>();
+            if (age) {
+                age.customAging = true;
             }
 
             Destroy(slotItems[index - 1]);

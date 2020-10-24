@@ -191,6 +191,7 @@ public class PlayerCharacterController : MonoBehaviour
             PlayerPrefs.DeleteAll();
             Debug.LogWarning("Deleted all save data!");
         }
+        heldItem = heldObjectLocation.GetChild(0).GetComponent<InteractHold>();
         if (!heldItem) {
             isHolding = false;
             m_Interactable = null;
@@ -232,7 +233,6 @@ public class PlayerCharacterController : MonoBehaviour
                                     age.startingScale = new Vector3(1 / dirt.localScale.x, 1 / dirt.localScale.y, 1 / dirt.localScale.z);
                                 }
                                 Destroy(fruit.gameObject);
-                                Instantiate(satchel.emptyObject, heldObjectLocation).transform.SetAsFirstSibling();
                             }
                         }
                     }
@@ -296,7 +296,7 @@ public class PlayerCharacterController : MonoBehaviour
             slime.SetInShader();
         }
         slimeMenu.gameObject.SetActive(true);
-        slimeMenu.slimeName.text = slime.gameObject.name;
+        slimeMenu.slimeName.text = slime.slimeName;
         slimeMenu.hunger.Set(slime.hunger, slime.HungerLimit * 5);
         slimeMenu.hopping.Set(slime.hopping, 100);
         slimeMenu.rolling.Set(slime.rolling, 100);
