@@ -95,7 +95,10 @@ public class SlimeController : MainController
     {
         rb = gameObject.GetComponent<Rigidbody>();
         sphereCollider = gameObject.GetComponent<SphereCollider>();
-        player = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<PlayerCharacterController>();
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj) {
+            player = playerObj.GetComponent<PlayerCharacterController>();
+        }
         navPath = new NavMeshPath();
         m_Renderer = GetComponent<MeshRenderer>();
         faces.happy = Resources.Load<Texture2D>( "Textures/Smiley" );

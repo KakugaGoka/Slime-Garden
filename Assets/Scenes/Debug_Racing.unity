@@ -602,6 +602,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: shaderSet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.r
+      value: 0.6627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.g
+      value: 0.28571334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: amplitude
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: frequency
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: brightness
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: spinRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: cellType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: cellDensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: speckleDensity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: speckleBrightness
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2817580289831993500, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -656,6 +716,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210418423096026157, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: currentAge
+      value: 3000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 610a5a88b8ebedf458a2ca5c83ce992d, type: 3}
@@ -764,6 +829,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: shaderSet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: amplitude
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: frequency
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: brightness
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: spinRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: cellType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: cellDensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: speckleDensity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: speckleBrightness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.r
+      value: 0.6627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.g
+      value: 0.28571334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2817580289831993500, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -818,6 +943,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210418423096026157, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: currentAge
+      value: 3000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 610a5a88b8ebedf458a2ca5c83ce992d, type: 3}
@@ -1412,6 +1542,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: shaderSet
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.r
+      value: 0.6627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.g
+      value: 0.28571334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: amplitude
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: frequency
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: brightness
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: spinRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: cellType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: cellDensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: speckleDensity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2817580289831993495, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: speckleBrightness
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2817580289831993500, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1466,6 +1656,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210418423096026157, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+        type: 3}
+      propertyPath: currentAge
+      value: 3000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 610a5a88b8ebedf458a2ca5c83ce992d, type: 3}
