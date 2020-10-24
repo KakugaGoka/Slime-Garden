@@ -302,7 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a3ac88730ae8d4e86d3aa1efe0759f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdPosition: {x: 0, y: 0, z: 0}
+  canBeStowed: 1
+  holdPosition: {x: 0, y: 0.1, z: 0.3}
   value: 5
 --- !u!114 &3079480357653191368
 MonoBehaviour:
@@ -378,3 +379,4 @@ MonoBehaviour:
   destroyOnDieAge: 1
   customAging: 0
   currentScale: 0
+  startingScale: {x: 0, y: 0, z: 0}

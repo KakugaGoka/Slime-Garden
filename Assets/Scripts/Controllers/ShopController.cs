@@ -126,6 +126,7 @@ public class ShopController : MonoBehaviour
     public void OnSell() {
         if (player) {
             player.wealth += player.heldItem.value;
+            Instantiate(player.satchel.emptyObject, player.heldObjectLocation).transform.SetAsFirstSibling();
             Destroy(player.heldItem.gameObject);
         }
     }

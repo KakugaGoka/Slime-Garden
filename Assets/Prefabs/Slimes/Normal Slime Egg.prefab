@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeStowed: 1
-  holdPosition: {x: 0, y: 0, z: 0.1}
+  holdPosition: {x: 0, y: 0, z: 0.3}
   value: 100
 --- !u!54 &295791092886908445
 Rigidbody:

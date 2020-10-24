@@ -164,6 +164,8 @@ MonoBehaviour:
     sad: {fileID: 0}
     hungry: {fileID: 0}
   currentFace: 0
+  activity: 0
+  movement: 0
   color: {r: 1, g: 0.36320752, b: 0.6246446, a: 1}
   amplitude: 0
   frequency: 4
@@ -201,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeStowed: 0
-  holdPosition: {x: 1, y: 0, z: 0.5}
+  holdPosition: {x: 0, y: 0, z: 0.5}
   value: 5
 --- !u!114 &1277787281115600424
 MonoBehaviour:
@@ -223,6 +225,7 @@ MonoBehaviour:
   destroyOnDieAge: 0
   customAging: 0
   currentScale: 0
+  startingScale: {x: 0, y: 0, z: 0}
 --- !u!1 &2617536150159574931
 GameObject:
   m_ObjectHideFlags: 0

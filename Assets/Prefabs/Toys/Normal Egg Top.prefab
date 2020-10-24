@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1533567191401023713}
   - component: {fileID: 372168115845192582}
   m_Layer: 0
-  m_Name: Egg Top
+  m_Name: Normal Egg Top
   m_TagString: Toy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a3ac88730ae8d4e86d3aa1efe0759f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdPosition: {x: 0, y: 0, z: 0}
+  canBeStowed: 1
+  holdPosition: {x: 0, y: 0, z: 0.3}
   value: 20
 --- !u!54 &1533567191401023713
 Rigidbody:
