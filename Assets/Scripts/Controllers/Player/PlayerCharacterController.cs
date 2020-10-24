@@ -221,7 +221,7 @@ public class PlayerCharacterController : MonoBehaviour
                             }
                         }
                         if (areaClear) {
-                            m_InteractMessage.Set("Plant Tree (E)", Color.white);
+                            m_InteractMessage.Set("Plant Tree", Color.white);
                             if (m_InputHandler.GetInteractInputDown()) {
                                 Instantiate(fruit.tree, hit.point, Quaternion.identity);
                                 Destroy(fruit.gameObject);

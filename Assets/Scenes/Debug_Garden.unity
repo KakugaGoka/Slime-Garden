@@ -5258,6 +5258,18 @@ Transform:
   m_Father: {fileID: 2030267577}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1929576601 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5722869894037484546, guid: c15459bd971e9f146b9c4eead10bda15,
+    type: 3}
+  m_PrefabInstance: {fileID: 8072810409878138730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1977471087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7287,6 +7299,11 @@ PrefabInstance:
       propertyPath: nameButton
       value: 
       objectReference: {fileID: 470270731}
+    - target: {fileID: 5416477091773260718, guid: 0d2422d9a2f04454eabc99e08a0da05c,
+        type: 3}
+      propertyPath: goodbyeButton
+      value: 
+      objectReference: {fileID: 1929576601}
     - target: {fileID: 6938151711735302818, guid: 0d2422d9a2f04454eabc99e08a0da05c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7462,6 +7479,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072810409152819424, guid: c15459bd971e9f146b9c4eead10bda15,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8072810409511280894, guid: c15459bd971e9f146b9c4eead10bda15,
         type: 3}

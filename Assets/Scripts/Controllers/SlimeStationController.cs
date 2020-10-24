@@ -7,9 +7,12 @@ public class SlimeStationController : MonoBehaviour
 {
     public InputField nameField;
     public Button nameButton;
+    public Button goodbyeButton;
 
     private SlimeController m_Slime;
     private InteractController m_InteractController;
+    private GameObject m_EmptyObject;
+    private PlayerCharacterController m_Player;
 
     void Awake() {
         m_InteractController = GetComponent<InteractController>();
@@ -17,6 +20,9 @@ public class SlimeStationController : MonoBehaviour
     }
 
     private void SetUp(PlayerCharacterController player) {
+        m_Player = player;
+        m_EmptyObject = player.satchel.emptyObject;
+
         if (player.heldItem) {
             m_Slime = player.heldItem.GetComponent<SlimeController>();
             if (m_Slime) {
@@ -30,16 +36,17 @@ public class SlimeStationController : MonoBehaviour
     }
 
     private void OnFail() {
-        nameField.text = "No slime detected... Have a nice day!";
+        nameField.text = "No slime detected";
         nameField.interactable = false;
         nameButton.interactable = false;
+        goodbyeButton.interactable = false;
     }
 
     private void OnFound(SlimeController slime) {
-        nameField.placeholder.enabled = false;
         nameField.text = slime.name;
         nameField.interactable = true;
         nameButton.interactable = true;
+        goodbyeButton.interactable = true;
     }
 
     public void Rename() {
@@ -51,6 +58,7 @@ public class SlimeStationController : MonoBehaviour
     public void DeleteSlime() {
         if (m_Slime) {
             Destroy(m_Slime.gameObject);
+            Instantiate(m_EmptyObject, m_Player.heldObjectLocation).transform.SetAsFirstSibling();
         }
     }
 }

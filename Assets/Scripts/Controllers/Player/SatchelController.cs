@@ -102,7 +102,6 @@ public class SatchelController : MonoBehaviour
             Collider collider = item.GetComponent<Collider>();
             if (collider) {
                 Bounds bounds = ColliderBounds(item);
-                Debug.Log(bounds);
                 distance = bounds.extents.x + bounds.extents.y + bounds.extents.z;
             }
 
