@@ -11,7 +11,7 @@ using System.Collections.Generic;
 [Serializable]
 public class SlimeController : MainController
 {
-    private Rigidbody rb;
+    private Rigidbody m_Rigidbody;
     private SphereCollider sphereCollider;
     private float maxJumpForce;
     private PlayerCharacterController player;
@@ -102,7 +102,7 @@ public class SlimeController : MainController
 
     private void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
+        m_Rigidbody = gameObject.GetComponent<Rigidbody>();
         sphereCollider = gameObject.GetComponent<SphereCollider>();
         GameObject playerObj = GameObject.FindGameObjectWithTag( "Player" );
         if (playerObj) {
@@ -165,6 +165,8 @@ public class SlimeController : MainController
     private RaycastHit[] hits;
     private RaycastHit hit;
     private bool didHit;
+    private bool inWater;
+
     private void Race()
     {
         PathSpline track = GameObject.FindGameObjectWithTag( "RaceLine" ).GetComponent<PathSpline>();
@@ -180,16 +182,42 @@ public class SlimeController : MainController
             if (grounded) {
                 Roll( targetPosition );
             }
+            if (inWater) {
+                Float(targetPosition);
+            }
         }
     }
+
+    private void Hop(Vector3 target, float setTimer) {
+        if (lastHopTimer < 0) {
+            if (grounded) {
+                Vector3 jumpDir = gameObject.lookAt(target);
+                jumpDir = Vector3.ProjectOnPlane(jumpDir, Vector3.up).normalized;
+                Quaternion jumpRot = Quaternion.LookRotation(jumpDir);
+
+                Vector3 jumpVector = normalize(float3(0, 1, 1));
+                jumpVector = jumpRot * jumpVector;
+
+                m_Rigidbody.AddForce(jumpVector * (jumpForce * (hopping / 50)));
+            }
+            lastHopTimer = setTimer;
+        }
+    }
+
     private void Roll( Vector3 target )
     {
-        rb.angularDrag = 0.02f;
+        m_Rigidbody.angularDrag = 0.02f;
         //rb.AddTorque( Vector3.Cross( Vector3.up, target - transform.position ).normalized * 1000 );
-        rb.maxAngularVelocity = 10;
-        rb.angularVelocity += Vector3.Cross( Vector3.up, target - transform.position ).normalized * 10;
+        m_Rigidbody.maxAngularVelocity = 10;
+        m_Rigidbody.angularVelocity += Vector3.Cross( Vector3.up, target - transform.position ).normalized * (1 + (rolling / 4));
         //rb.AddForce( (target - transform.position).normalized * 300 * Time.deltaTime );
     }
+
+    private void Float(Vector3 target) {
+        m_Rigidbody.AddForce(-Physics.gravity + (Physics.gravity * -((1 + floating) / 50)));
+        m_Rigidbody.AddForce((target - transform.position) / Vector3.Distance(transform.position, target) * (floating / 50));
+    }
+
     private void Navigate()
     {
         if (path != null) {
@@ -236,7 +264,7 @@ public class SlimeController : MainController
     {
         for (int i = 0; i < collision.contactCount; i++) {
             if (collision.relativeVelocity.magnitude > 0.4f && collision.contacts[i].normal.y > 0.8f) {
-                rb.angularVelocity *= 0f;
+                m_Rigidbody.angularVelocity *= 0f;
                 break;
             }
         }
@@ -262,30 +290,13 @@ public class SlimeController : MainController
     {
         if (path != null && path.Length > 1) {
             Vector3 lookDir = gameObject.lookAt( path[1] );
-            rb.AddTorque( cross( transform.forward, lookDir ) );
+            m_Rigidbody.AddTorque( cross( transform.forward, lookDir ) );
         }
-        rb.AddTorque( cross( transform.up, Vector3.up ) );
+        m_Rigidbody.AddTorque( cross( transform.up, Vector3.up ) );
         if (grounded) {
             float amount = saturate( dot( Vector3.up, gameObject.transform.up ) );
 
-            rb.angularDrag = 0.05f + amount * 5f;
-        }
-    }
-
-    private void Hop( Vector3 target, float setTimer )
-    {
-        if (lastHopTimer < 0) {
-            if (grounded) {
-                Vector3 jumpDir = gameObject.lookAt( target );
-                jumpDir = Vector3.ProjectOnPlane( jumpDir, Vector3.up ).normalized;
-                Quaternion jumpRot = Quaternion.LookRotation( jumpDir );
-
-                Vector3 jumpVector = normalize( float3( 0, 1, 1 ) );
-                jumpVector = jumpRot * jumpVector;
-
-                rb.AddForce( jumpVector * jumpForce );
-            }
-            lastHopTimer = setTimer;
+            m_Rigidbody.angularDrag = 0.05f + amount * 5f;
         }
     }
 
@@ -387,6 +398,27 @@ public class SlimeController : MainController
                 if (!faces.hungry) { Debug.LogError( "Face passed in for SlimeShaderController is null" ); }
                 m_Renderer.material.SetTexture( "_FaceTexture", faces.hungry );
                 return;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "FinishLine") {
+            activity = Activity.Waiting;
+        }
+        if (other.tag == "Water") {
+            inWater = true;
+        }
+    }
+
+    private void OnTriggerStay(Collider other) {
+        if (other.tag == "Water") {
+            inWater = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.tag == "Water") {
+            inWater = false;
         }
     }
 }

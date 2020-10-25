@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class RacingManager : MonoBehaviour
 {
-    private SlimeController[] slimes;
-    private void Start()
-    {
-        slimes = FindObjectsOfType<SlimeController>();
-        for (int i = 0; i < slimes.Length; i++) {
+    public List<SlimeController> slimes;
+
+    private void Start(){
+        foreach (var item in FindObjectsOfType<SlimeController>()) {
+            slimes.Add(item);
+        }
+        StartWaiting();
+        StartCoroutine(Wait(3));
+    }
+
+    public void GetSlime(int numberOfSlimes) {
+
+    }
+
+    public void StartRacing() {
+        for (int i = 0; i < slimes.Count; i++) {
             slimes[i].activity = SlimeController.Activity.Racing;
         }
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
+    public void StartWaiting() {
+        for (int i = 0; i < slimes.Count; i++) {
+            slimes[i].activity = SlimeController.Activity.Waiting;
+        }
+    }
+
+    IEnumerator Wait(int seconds) {
+        yield return new WaitForSeconds(seconds);
+        StartRacing();
     }
 }
