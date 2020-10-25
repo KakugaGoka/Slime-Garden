@@ -127,6 +127,26 @@ public static class Mathk
         }
     }
 
+    public static int Max( int A, int B )
+    {
+        if (A > B) {
+            return A;
+        }
+        else {
+            return B;
+        }
+    }
+
+    public static int Min( int A, int B )
+    {
+        if (A < B) {
+            return A;
+        }
+        else {
+            return B;
+        }
+    }
+
     public static float Max( float[] array )
     {
         float max = -100000000000000000000000000000000000000f;
@@ -163,6 +183,50 @@ public static class Mathk
     public static float Min( List<float> list )
     {
         float min = 100000000000000000000000000000000000000f;
+        for (int i = 0; i < list.Count; i++) {
+            if (list[i] < min) {
+                min = list[i];
+            }
+        }
+        return min;
+    }
+
+    public static int Max( int[] array )
+    {
+        int max = -1000000000;
+        for (int i = 0; i < array.Length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+        }
+        return max;
+    }
+
+    public static int Min( int[] array )
+    {
+        int min = 1000000000;
+        for (int i = 0; i < array.Length; i++) {
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        return min;
+    }
+
+    public static int Max( List<int> list )
+    {
+        int max = -1000000000;
+        for (int i = 0; i < list.Count; i++) {
+            if (list[i] > max) {
+                max = list[i];
+            }
+        }
+        return max;
+    }
+
+    public static int Min( List<int> list )
+    {
+        int min = 1000000000;
         for (int i = 0; i < list.Count; i++) {
             if (list[i] < min) {
                 min = list[i];

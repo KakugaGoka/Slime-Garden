@@ -7,8 +7,10 @@ using static Mathk;
 using System.Runtime.InteropServices.ComTypes;
 using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
+using UnityEngine.Events;
 
 [System.Serializable]
+[ExecuteInEditMode]
 public class PathSpline : MonoBehaviour
 {
     [HideInInspector]
@@ -20,10 +22,12 @@ public class PathSpline : MonoBehaviour
 
     [SerializeField]
     [Range( (int)1, (int)50 )]
-    public int resolution;
+    public int resolution = 5;
+    public int subdivision = 5;
     public int selectedIndex = 0;
     public bool looping;
     public bool showGizmo = true;
+    public bool showRaw = true;
     private void Awake()
     {
     }
@@ -32,7 +36,16 @@ public class PathSpline : MonoBehaviour
     }
     private void Update()
     {
+        if (transform.childCount != points.Count) {
+            points.Clear();
+            for (int i = 0; i < transform.childCount; i++) {
+                if (transform.GetChild( i ).gameObject != null) {
+                    points.Add( transform.GetChild( i ).gameObject );
+                }
+            }
+        }
     }
+
     private void OnDrawGizmos()
     {
         //if (spline.points != null) {
@@ -103,14 +116,14 @@ public class PathSpline : MonoBehaviour
 
             case int i when i == points.Count - 1:
                 point = points[selectedIndex].transform.position;
-                pointCom.localB = GetDx( selectedIndex + 0.5f );
+                pointCom.localB = GetDx( selectedIndex + 0.5f ) * 0.1f;
                 pointCom.localA = -pointCom.localB;
                 points.Add( pointObj );
                 break;
 
             default:
                 point = GetPoint( selectedIndex + 0.5f );
-                pointCom.localB = GetDx( selectedIndex + 0.5f );
+                pointCom.localB = GetDx( selectedIndex + 0.5f ) * 0.1f;
                 pointCom.localA = -pointCom.localB;
                 points.Insert( selectedIndex + 1, pointObj );
                 break;
@@ -176,49 +189,62 @@ public class PathSpline : MonoBehaviour
                                remainder );
     }
 
-    //private List<float> distances = new List<float>();
-    //private List<Vector3> localMinima = new List<Vector3>();
     private Vector3 loBoundPoint;
     private Vector3 loBoundNormal;
     private Vector3 hiBoundPoint;
     private Vector3 hiBoundNormal;
     private float t;
-    public int subd = 3;
+    public int tesselation = 3;
     private List<float> distances = new List<float>();
-    private List<Vector3> localMinima = new List<Vector3>();
-    private List<Vector3> localDx = new List<Vector3>();
-    public Vector3 GetClosestPoint( Vector3 WSPoint, out Vector3 Derivative )
+    //private List<Vector3> localMinima = new List<Vector3>();
+    //private List<Vector3> localDx = new List<Vector3>();
+    //private List<Vector3> debugPoints = new List<Vector3>();
+    //private List<float> ts = new List<float>();
+    private List<Spoint> spoints = new List<Spoint>();
+    public Spoint GetNearestSpoint( Vector3 WSPoint )
     {
-        Derivative = Vector3.zero;
-        distances.Clear();
-        localMinima.Clear();
-        localDx.Clear();
-        float res = 1 / (float)resolution;
-        for (int i = 0; i < points.Count - 1; i++) {
-            for (float n = i; n < i + 1; n += res) {
-                GetSplineBounds( res, n );
-                if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
-                    for (float d = n; d < n + res; d += res / (float)subd) {
-                        GetSplineBounds( res / (float)subd, d );
+        tesselation = Max( tesselation, 1 );
+        subdivision = Max( subdivision, 1 );
+        if (points.Count > 0) {
+            //    localMinima.Clear();
+            //    localDx.Clear();
+            //    ts.Clear();
+            spoints.Clear();
+            distances.Clear();
 
-                        if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
-                            for (float p = d; p < d + (res / (float)subd); p += res / (float)(subd * subd)) {
-                                GetSplineBounds( res / (float)(subd * subd), p );
+            spoints.Add( new Spoint { position = this[0].transform.position, derivative = GetDx( 0 ), tFull = 0, tLocal = 0 } );
+            spoints.Add( new Spoint { position = this[points.Count - 1].transform.position, derivative = GetDx( points.Count - 1 ), tFull = 1, tLocal = points.Count - 1 } );
 
-                                if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
-                                    for (float l = p; l < p + (res / (float)(subd * subd)); l += res / (float)(subd * subd * subd)) {
-                                        GetSplineBounds( res / (float)(subd * subd * subd), l );
+            float res = 1 / (float)subdivision;
+            for (int i = 0; i < points.Count - 1; i++) {
+                for (float n = i; n < i + 1; n += res) {
+                    GetSplineBounds( res, n );
+                    if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
+                        for (float d = n; d < n + res; d += res / (float)tesselation) {
+                            GetSplineBounds( res / (float)tesselation, d );
 
-                                        if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
-                                            t = MeasureBetweenPlaneBounds( WSPoint,
-                                                                           loBoundPoint,
-                                                                           loBoundNormal,
-                                                                           hiBoundPoint,
-                                                                           hiBoundNormal );
-                                            localDx.Add( Vector3.Lerp( GetDx( l ), GetDx( l + res / (float)(subd * subd * subd) ), t ) );
+                            if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
+                                for (float p = d; p < d + (res / (float)tesselation); p += res / (float)(tesselation * tesselation)) {
+                                    GetSplineBounds( res / (float)(tesselation * tesselation), p );
 
-                                            localMinima.Add( Vector3.LerpUnclamped( loBoundPoint, hiBoundPoint, t ) );
-                                        }
+                                    if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
+                                        t = MeasureBetweenPlaneBounds( WSPoint,
+                                                                       loBoundPoint,
+                                                                       loBoundNormal,
+                                                                       hiBoundPoint,
+                                                                       hiBoundNormal );
+                                        t = Lerp( p, p + res / (float)(tesselation * tesselation * tesselation), t );
+                                        //t *= res / (float)(tesselation * tesselation * tesselation);
+                                        //t += l;
+                                        Spoint spoint = new Spoint {
+                                            position = GetPoint( t ),
+                                            derivative = GetDx( t ),
+                                            tLocal = t,
+                                            tFull = t / ((float)points.Count - 1)
+                                        };
+                                        spoints.Add(
+                                            spoint
+                                             );
                                     }
                                 }
                             }
@@ -226,26 +252,28 @@ public class PathSpline : MonoBehaviour
                     }
                 }
             }
+
+            //localMinima.Add( this[0].transform.position );
+            //localMinima.Add( this[points.Count - 1].transform.position );
+
+            //localDx.Add( GetDx( 0 ) );
+            //localDx.Add( GetDx( points.Count - 1 ) );
+
+            //ts.Add( 0 );
+            //ts.Add( points.Count - 1 );
         }
 
-        localMinima.Add( this[0].transform.position );
-        localMinima.Add( this[points.Count - 1].transform.position );
-
-        localDx.Add( GetDx( 0 ) );
-        localDx.Add( GetDx( points.Count - 1 ) );
-
-        for (int i = 0; i < localMinima.Count; i++) {
-            distances.Add( Vector3.Distance( localMinima[i], WSPoint ) );
+        for (int i = 0; i < spoints.Count; i++) {
+            distances.Add( Vector3.Distance( spoints[i].position, WSPoint ) );
         }
 
-        for (int i = 0; i < localMinima.Count; i++) {
+        for (int i = 0; i < spoints.Count; i++) {
             if (i == distances.FindIndex( ( x ) => x == Min( distances ) )) {
-                Derivative = localDx[i];
-                return localMinima[i];
+                return spoints[i];
             }
         }
         Debug.LogWarning( "Closest spline point not found." );
-        return Vector3.zero;
+        return new Spoint();
 
         void GetSplineBounds( float step, float t )
         {
@@ -255,11 +283,25 @@ public class PathSpline : MonoBehaviour
             hiBoundNormal = GetDx( t + step ).normalized;
         }
     }
-    public Vector3 GetClosestPoint( Vector3 WSPoint ) => GetClosestPoint( WSPoint, out Vector3 garbage );
-    public Vector3 GetClosestDx( Vector3 WSPoint )
-    {
-        Vector3 Dx;
-        GetClosestPoint( WSPoint, out Dx );
-        return Dx;
-    }
+    //public Vector3 GetClosestPoint( Vector3 WSPoint ) => GetClosestPoint( WSPoint, out Vector3 garbage );
+    //public Vector3 GetClosestDx( Vector3 WSPoint )
+    //{
+    //    Vector3 Dx;
+    //    GetClosestPoint( WSPoint, out Dx );
+    //    return Dx;
+    //}
+    //public Spoint GetNearestPoint( Vector3 WSPoint, int resolution, int tesselation = 6 )
+    //{
+    //    Spoint spoint = new Spoint();
+
+    //    return spoint;
+    //}
+}
+
+public struct Spoint
+{
+    public Vector3 position;
+    public Vector3 derivative;
+    public float tLocal;
+    public float tFull;
 }

@@ -46,7 +46,9 @@ MonoBehaviour:
   points: []
   spline: {fileID: 0}
   resolution: 5
+  subdivision: 5
   selectedIndex: 0
   looping: 0
   showGizmo: 1
-  subd: 3
+  showRaw: 1
+  tesselation: 3

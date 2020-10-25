@@ -104,7 +104,7 @@ public class SlimeController : MainController
     {
         rb = gameObject.GetComponent<Rigidbody>();
         sphereCollider = gameObject.GetComponent<SphereCollider>();
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObj = GameObject.FindGameObjectWithTag( "Player" );
         if (playerObj) {
             player = playerObj.GetComponent<PlayerCharacterController>();
         }
@@ -153,20 +153,33 @@ public class SlimeController : MainController
     {
         DebugPath( path );
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere( debugPoint, 0.1f );
-        Gizmos.DrawLine( transform.position, debugPoint );
+        Gizmos.DrawSphere( targetPosition, 0.1f );
+        Gizmos.DrawLine( transform.position, targetPosition );
+        if (didHit) {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere( hit.point, 0.2f );
+        }
     }
-    private Vector3 debugPoint;
+    private Vector3 obstactleHit;
+
+    private RaycastHit[] hits;
+    private RaycastHit hit;
+    private bool didHit;
     private void Race()
     {
-        var track = GameObject.FindGameObjectWithTag( "RaceLine" ).GetComponent<PathSpline>();
-
-        track.GetClosestPoint( transform.position, out targetPosition );
-        targetPosition += transform.position;
-        Hop( targetPosition, UnityEngine.Random.value * 0.5f + 1f + (1f / (float)hopping) );
-        debugPoint = targetPosition;
-        if (grounded) {
-            Roll( targetPosition );
+        PathSpline track = GameObject.FindGameObjectWithTag( "RaceLine" ).GetComponent<PathSpline>();
+        if (track) {
+            Spoint spoint = track.GetNearestSpoint( transform.position );
+            targetPosition = spoint.derivative;
+            targetPosition *= 0.2f;
+            targetPosition += transform.position;
+            didHit = Physics.Raycast( transform.position, targetPosition, out hit );
+            if (didHit) {
+            }
+            Hop( targetPosition, UnityEngine.Random.value * 0.5f + 1f );
+            if (grounded) {
+                Roll( targetPosition );
+            }
         }
     }
     private void Roll( Vector3 target )
@@ -294,7 +307,7 @@ public class SlimeController : MainController
                 }
             }
             if (goodToEat) {
-                food.Add(foodItem);
+                food.Add( foodItem );
             }
         }
         if (food.Count > 0) {

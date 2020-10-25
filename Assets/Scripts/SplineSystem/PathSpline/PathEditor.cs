@@ -17,14 +17,15 @@ public class PathEditor : Editor
         PathSpline spline = (PathSpline)target;
 
         ShowPoints( spline );
+
         EditorGUI.BeginChangeCheck();
         Event E = Event.current;
         switch (E.type) {
             case EventType.KeyDown:
                 if (Event.current.keyCode == KeyCode.Tab) {
-                    Undo.RecordObject( spline, "Add Point" );
+                    Undo.RecordObject( spline.gameObject, "Add Point" );
                     spline.AddPoint();
-                    EditorUtility.SetDirty( spline );
+                    EditorUtility.SetDirty( spline.gameObject );
                 }
                 break;
         }
@@ -63,53 +64,16 @@ public class PathEditor : Editor
                     float size = HandleUtility.GetHandleSize( loc );
 
                     if (spline.points[i] != Selection.activeObject) {
-                        switch (Tools.current) {
-                            case Tool.View:
-                                break;
+                        Undo.RecordObject( spline.points[i].gameObject.transform, "Edit Point" );
 
-                            case Tool.Move:
-                                spline.points[i].transform.position =
-                                    Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
-                                break;
+                        spline.points[i].transform.position =
+                        Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
 
-                            case Tool.Rotate:
-                                spline.points[i].transform.rotation =
-                                    Handles.FreeRotateHandle( i, rot, loc, size * 0.5f );
-                                break;
+                        EditorUtility.SetDirty( spline.points[i].gameObject.transform );
 
-                            //case Tool.Scale:
-                            //    float scaleValue =
-                            //        Handles.RadiusHandle( rot, loc, size * 0.5f, false );
-                            //    spline.points[i].transform.localScale = new Vector3( scaleValue, scaleValue, scaleValue );
-                            //break;
-
-                            case Tool.Rect:
-                                spline.points[i].transform.position =
-                                    Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
-                                break;
-
-                            case Tool.Transform:
-                                spline.points[i].transform.position =
-                                    Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
-                                break;
-
-                            case Tool.Custom:
-                                spline.points[i].transform.position =
-                                    Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
-                                break;
-
-                            case Tool.None:
-                                spline.points[i].transform.position =
-                                    Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
-                                break;
-
-                            default:
-                                spline.points[i].transform.position =
-                                    Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
-                                break;
-                        }
-
+                        Undo.RecordObject( spline.points[i].GetComponent<PathPoint>(), "Edit Handles" );
                         DrawHandles( spline, i, new Color( 1, 1, 1, 0.2f ) );
+                        EditorUtility.SetDirty( spline.points[i].GetComponent<PathPoint>() );
 
                         if (Handles.Button( loc,
                             Quaternion.LookRotation( loc - Camera.current.transform.position ),
@@ -120,12 +84,14 @@ public class PathEditor : Editor
                         }
                     }
                     else {
-                        if (Tools.current == Tool.Rect) {
-                            spline.points[i].transform.position =
+                        Undo.RecordObject( spline.points[i].gameObject.transform, "Edit Point" );
+                        spline.points[i].transform.position =
                                 Handles.FreeMoveHandle( i, loc, rot, size * 0.5f, Vector3.zero, Handles.CircleHandleCap );
-                        }
+                        EditorUtility.SetDirty( spline.points[i].gameObject.transform );
 
+                        Undo.RecordObject( spline.points[i].GetComponent<PathPoint>(), "Edit Handles" );
                         DrawHandles( spline, i, Color.white );
+                        EditorUtility.SetDirty( spline.points[i].GetComponent<PathPoint>() );
                     }
                 }
             }

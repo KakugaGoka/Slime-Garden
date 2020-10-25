@@ -5,12 +5,12 @@ using static Mathk;
 
 public class DrawMath : MonoBehaviour
 {
-    public GameObject plane1;
+    public GameObject debugPoint;
     public GameObject plane2;
     public GameObject splineObj;
     public PathSpline spline;
 
-    public int subd = 4;
+    public int tesselation = 4;
 
     private void Awake()
     {
@@ -19,8 +19,10 @@ public class DrawMath : MonoBehaviour
     private List<float> distances = new List<float>();
     private void OnDrawGizmos()
     {
+        spline = GetComponent<PathSpline>();
+
         Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere( spline.GetClosestPoint( transform.position ), 0.2f );
+        Gizmos.DrawSphere( spline.GetNearestSpoint( transform.position ).position, 0.2f );
 
         DebugSpline();
     }
@@ -36,23 +38,23 @@ public class DrawMath : MonoBehaviour
     {
         localMinima.Clear();
         distances.Clear();
-        Vector3 WSPoint = transform.position;
-        spline = splineObj.GetComponent<PathSpline>();
-        float step = 1 / (float)spline.resolution;
+        Vector3 WSPoint = debugPoint.transform.position;
+        float step = 1 / (float)spline.subdivision;
+        tesselation = spline.tesselation;
         for (int i = 0; i < spline.points.Count - 1; i++) {
             for (float n = i; n < i + 1; n += step) {
                 GetSplineBounds( step, n );
                 if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
-                    for (float d = n; d < n + step; d += step / (float)subd) {
-                        GetSplineBounds( step / (float)subd, d );
+                    for (float d = n; d < n + step; d += step / (float)tesselation) {
+                        GetSplineBounds( step / (float)tesselation, d );
 
                         if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
-                            for (float p = d; p < d + (step / (float)subd); p += step / (float)(subd * subd)) {
-                                GetSplineBounds( step / (float)(subd * subd), p );
+                            for (float p = d; p < d + (step / (float)tesselation); p += step / (float)(tesselation * tesselation)) {
+                                GetSplineBounds( step / (float)(tesselation * tesselation), p );
 
                                 if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
-                                    for (float l = p; l < p + (step / (float)(subd * subd)); l += step / (float)(subd * subd * subd)) {
-                                        GetSplineBounds( step / (float)(subd * subd * subd), l );
+                                    for (float l = p; l < p + (step / (float)(tesselation * tesselation)); l += step / (float)(tesselation * tesselation * tesselation)) {
+                                        GetSplineBounds( step / (float)(tesselation * tesselation * tesselation), l );
 
                                         if (IsAbovePlane( WSPoint, loBoundPoint, loBoundNormal ) && IsAbovePlane( WSPoint, hiBoundPoint, -hiBoundNormal )) {
                                             t = MeasureBetweenPlaneBounds( WSPoint,
