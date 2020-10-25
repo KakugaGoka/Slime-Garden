@@ -17,7 +17,6 @@ public class SlimeController : MainController
     private PlayerCharacterController player;
     private NavMeshPath navPath;
     private Vector3[] path;
-    private Vector3 targetPosition;
     private Vector3 pathTarget;
     private bool hungry { get { return hunger > HungerLimit; } }
     private float pathDist = 0;
@@ -77,6 +76,11 @@ public class SlimeController : MainController
     }
     [HideInInspector]
     public Faces faces;
+    [HideInInspector]
+    public Vector3 targetPosition;
+    [HideInInspector]
+    public Spoint spoint;
+
     public CurrentFace currentFace = CurrentFace.Happy;
     public Activity activity = Activity.Garden;
     public MoveType movement = MoveType.Hop;
@@ -142,6 +146,7 @@ public class SlimeController : MainController
                 break;
 
             case Activity.Waiting:
+                m_Rigidbody.angularVelocity = Vector3.zero;
                 break;
 
             default:
@@ -171,7 +176,7 @@ public class SlimeController : MainController
     {
         PathSpline track = GameObject.FindGameObjectWithTag( "RaceLine" ).GetComponent<PathSpline>();
         if (track) {
-            Spoint spoint = track.GetNearestSpoint( transform.position );
+            spoint = track.GetNearestSpoint( transform.position );
             targetPosition = spoint.derivative;
             targetPosition *= 0.2f;
             targetPosition += transform.position;
@@ -214,8 +219,8 @@ public class SlimeController : MainController
     }
 
     private void Float(Vector3 target) {
-        m_Rigidbody.AddForce(-Physics.gravity + (Physics.gravity * -((1 + floating) / 50)));
-        m_Rigidbody.AddForce((target - transform.position) / Vector3.Distance(transform.position, target) * (floating / 50));
+        m_Rigidbody.AddForce(-Physics.gravity + (Physics.gravity * -((1 + floating) / 100)));
+        m_Rigidbody.AddForce((target - transform.position) / Vector3.Distance(transform.position, target) * (floating / 100));
     }
 
     private void Navigate()
@@ -240,8 +245,11 @@ public class SlimeController : MainController
                 targetPosition = Vector3.zero;
             }
         }
-
-        Hop( path[1], jumpTimer * UnityEngine.Random.value + 0.5f );
+        if (inWater) {
+            Float( path[1] );
+        } else {
+            Hop(path[1], jumpTimer * UnityEngine.Random.value + 0.5f);
+        }
     }
 
     private void Wander()

@@ -8,6 +8,7 @@ public class SlimeStationController : MonoBehaviour
     public InputField nameField;
     public Button nameButton;
     public Button goodbyeButton;
+    public Button raceButton;
 
     private SlimeController m_Slime;
     private InteractController m_InteractController;
@@ -35,6 +36,7 @@ public class SlimeStationController : MonoBehaviour
         nameField.interactable = false;
         nameButton.interactable = false;
         goodbyeButton.interactable = false;
+        raceButton.interactable = false;
     }
 
     private void OnFound(SlimeController slime) {
@@ -42,6 +44,7 @@ public class SlimeStationController : MonoBehaviour
         nameField.interactable = true;
         nameButton.interactable = true;
         goodbyeButton.interactable = true;
+        raceButton.interactable = true;
     }
 
     public void Rename() {
