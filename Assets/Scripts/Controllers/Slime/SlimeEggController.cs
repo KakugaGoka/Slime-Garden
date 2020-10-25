@@ -16,6 +16,7 @@ public class SlimeEggController : MainController
     public float cellDensity;
     public float speckleDensity;
     public float speckleBrightness;
+    public bool isInNest = false;
 
     private bool hasCracked = false;
     private InteractHold m_Hold;
@@ -27,7 +28,7 @@ public class SlimeEggController : MainController
     }
 
     private void Update() {
-        if (m_Hold.isHeld) {
+        if (m_Hold.isHeld || isInNest) {
             m_Age.Age();
         }
         if (m_Age.currentAge >= m_Age.fullGrown && !m_Age.customAging) {
@@ -40,6 +41,18 @@ public class SlimeEggController : MainController
             frequency = 10f;
             cellDensity = 0.5f;
             HatchEgg();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "Nest") {
+            isInNest = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.tag == "Nest") {
+            isInNest = false;
         }
     }
 

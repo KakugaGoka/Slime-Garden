@@ -111,6 +111,8 @@ public class PlayerCharacterController : MonoBehaviour
 
     [HideInInspector]
     public SatchelController satchel;
+    [HideInInspector]
+    public Vector3 heldItemRotation = Vector3.zero;
 
     private PlayerInputHandler m_InputHandler;
     private CharacterController m_Controller;
@@ -198,47 +200,8 @@ public class PlayerCharacterController : MonoBehaviour
             slimeMenu.gameObject.SetActive(false);
         }
         HandleInteractionCheck();
-        HandleHeld();
+
         HandleDropObject();
-    }
-
-    private void HandleHeld() {
-        if (isHolding) {
-            PlantTree();
-        }
-
-    }
-
-    private void PlantTree() {
-        FruitController fruit = heldItem.GetComponent<FruitController>();
-        if (fruit) {
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Collide)) {
-                if (hit.distance <= playerReach) {
-                    if (hit.collider.gameObject.tag == "FertileGround") {
-                        RaycastHit[] hits = Physics.SphereCastAll(hit.point, 2, Vector3.up, 2);
-                        bool areaClear = true;
-                        foreach (RaycastHit obj in hits) {
-                            GameObject game = obj.collider.gameObject;
-                            if (game.transform.position.y >= hit.point.y + 0.01) {
-                                areaClear = game.tag == "FertileGround";
-                            }
-                        }
-                        if (areaClear) {
-                            m_InteractMessage.Set("Plant Tree", Color.white);
-                            if (m_InputHandler.GetInteractInputDown()) {
-                                Transform dirt = hit.collider.transform;
-                                GameObject tree = Instantiate(fruit.tree, hit.point, Quaternion.identity, dirt);
-                                AgeController age = tree.GetComponent<AgeController>();
-                                if (age) {
-                                    age.startingScale = new Vector3(1 / dirt.localScale.x, 1 / dirt.localScale.y, 1 / dirt.localScale.z);
-                                }
-                                Destroy(fruit.gameObject);
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private void HandleInteractionCheck() {
@@ -248,6 +211,18 @@ public class PlayerCharacterController : MonoBehaviour
         if (Physics.Raycast( playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Collide )) {
             if (hit.distance <= playerReach) {
                 InteractController interactController = hit.collider.GetComponentInParent<InteractController>();
+                PlanterController plant = hit.collider.GetComponentInParent<PlanterController>();
+                if (plant && isHolding) {
+                    FruitController fruit = heldItem.GetComponent<FruitController>();
+                    if (fruit) {
+                        m_InteractMessage.Set(plant.plantMessage, Color.white);
+                        if (m_InputHandler.GetInteractInputDown()) {
+                            plant.Plant(this);
+                            return;
+                        }
+
+                    }
+                }
                 InteractHold holdController = hit.collider.GetComponentInParent<InteractHold>();
                 if (holdController && isHolding) {
                     SetSlimeMenuData(heldItem.GetComponent<SlimeController>());
@@ -451,9 +426,9 @@ public class PlayerCharacterController : MonoBehaviour
             float rotX = m_InputHandler.GetRollItemInput() * Time.deltaTime * 180;
             float rotY = m_InputHandler.GetRotateItemInput() * Time.deltaTime * 180;
             if (m_InputHandler.GetSprintInputHeld()) {
-                heldItem.transform.Rotate(new Vector3(0, rotY, rotX), Space.World);
+                heldItemRotation += new Vector3(0, rotY, rotX);
             } else {
-                heldItem.transform.Rotate(new Vector3(rotX, rotY, 0), Space.World);
+                heldItemRotation += new Vector3(rotX, rotY, 0);
             }
 
         }

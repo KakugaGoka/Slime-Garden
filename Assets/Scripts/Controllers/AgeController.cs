@@ -16,7 +16,7 @@ public class AgeController : MonoBehaviour {
     private float step {  get { return (maxScale - minScale); } }
 
     void Awake() {
-        startingScale = gameObject.transform.localScale;
+        startingScale = transform.localScale;
         currentScale = minScale;
         if (showAgeByScaling) GetScale();
     }
@@ -32,9 +32,9 @@ public class AgeController : MonoBehaviour {
     void GetScale() {
         float value = (currentAge / fullGrown) * step;
         currentScale = Mathf.Clamp(minScale + value, minScale, maxScale);
-        gameObject.transform.localScale = new Vector3(currentScale * startingScale.x,
-                                                      currentScale * startingScale.y,
-                                                      currentScale * startingScale.z);
+        transform.localScale = new Vector3(currentScale * startingScale.x,
+                                           currentScale * startingScale.y,
+                                           currentScale * startingScale.z);
     }
 
     public void Age() => currentAge += Time.deltaTime * UnityEngine.Random.Range(0.1f, 1);

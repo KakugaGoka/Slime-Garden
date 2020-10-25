@@ -9,7 +9,6 @@ public class InteractHold : MonoBehaviour {
     InteractController m_InteractController;
     PlayerCharacterController m_Player;
     Rigidbody m_Rigidbody;
-    Vector3 lastPosition;
 
     public bool canBeStowed = true;
     public bool isHeld = false;
@@ -29,13 +28,17 @@ public class InteractHold : MonoBehaviour {
         if (gameObject.transform.localPosition != holdPosition && isHeld) {
             gameObject.transform.localPosition = holdPosition;
         }
+        if (m_Player) {
+            if (transform.localRotation.eulerAngles != m_Player.heldItemRotation) {
+                transform.localRotation = Quaternion.Euler(m_Player.heldItemRotation);
+            }
+        }
     }
 
     public void OnInteract(PlayerCharacterController player) {
         m_Player = player;
-        if (m_Rigidbody != null) {
+        if (m_Rigidbody) {
             m_Rigidbody.useGravity = false;
-            m_Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
         }
         this.gameObject.transform.parent = player.heldObjectLocation;
         if (!player.heldItem) {
@@ -46,13 +49,13 @@ public class InteractHold : MonoBehaviour {
         isHeld = true;
         player.isHolding = true;
         player.heldItem = this;
+        player.heldItemRotation = transform.localRotation.eulerAngles;
     }
 
     public void OnDrop(PlayerCharacterController player) {
         m_Player = null;
-        if (m_Rigidbody != null) {
+        if (m_Rigidbody) {
             m_Rigidbody.useGravity = true;
-            m_Rigidbody.constraints = RigidbodyConstraints.None;
             int rate = 1;
             if (Input.GetButton(GameConstants.k_ButtonNameSprint)) {
                 rate = 15;

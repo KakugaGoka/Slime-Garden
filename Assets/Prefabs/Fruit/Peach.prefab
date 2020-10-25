@@ -245,7 +245,7 @@ MeshRenderer:
     firstSubMesh: 0
     subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 460728232204516522, guid: 344f88faea144f944b97117f850367f7,
+  m_ProbeAnchor: {fileID: 1887824600510270284, guid: f4ba40cfa0a275b4da651ae80c4f1f86,
     type: 3}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeStowed: 1
+  isHeld: 0
   holdPosition: {x: 0, y: 0.1, z: 0.3}
   value: 5
 --- !u!114 &3079480357653191368
@@ -341,7 +342,7 @@ MonoBehaviour:
   floating: 1
   range: 0
   hasFallen: 0
-  tree: {fileID: 460728232204516520, guid: 344f88faea144f944b97117f850367f7, type: 3}
+  tree: {fileID: 2651352112061498270, guid: e784b798112642c46a407697d94e613a, type: 3}
   prefabName: 
 --- !u!54 &5462912355025631897
 Rigidbody:
@@ -378,5 +379,6 @@ MonoBehaviour:
   maxScale: 1
   destroyOnDieAge: 1
   customAging: 0
+  showAgeByScaling: 1
   currentScale: 0
   startingScale: {x: 0, y: 0, z: 0}

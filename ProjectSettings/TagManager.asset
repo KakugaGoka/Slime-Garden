@@ -18,6 +18,8 @@ TagManager:
   - SprintMessage
   - RaceLine
   - Empty
+  - Nest
+  - Utility
   layers:
   - Default
   - TransparentFX

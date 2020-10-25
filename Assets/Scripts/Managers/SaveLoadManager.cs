@@ -14,9 +14,9 @@ public class SaveLoadManager : MonoBehaviour
 
     public GameObject[] eggPrefab;
     public GameObject[] slimePrefab;
-    public GameObject[] treePrefabs;
     public GameObject[] toyPrefabs;
     public GameObject[] foodPrefabs;
+    public GameObject[] utilityPrefabs;
 
     private void Start()
     {
@@ -89,10 +89,10 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         SaveObjectType("Slime");
-        SaveObjectType("Tree");
         SaveObjectType("Toy");
         SaveObjectType("Egg");
         SaveObjectType("Food");
+        SaveObjectType("Utility");
     }
 
     private static GameObject[] GetTagList(string tag) {
@@ -144,10 +144,10 @@ public class SaveLoadManager : MonoBehaviour
 
     private static void LoadGardenData() {
         LoadObjectType("Slime");
-        LoadObjectType("Tree");
         LoadObjectType("Toy");
         LoadObjectType("Egg");
         LoadObjectType("Food");
+        LoadObjectType("Utility");
     }
 
     private static void LoadObjectType(string tag) {
@@ -168,8 +168,8 @@ public class SaveLoadManager : MonoBehaviour
             if (i < info.Count) {
                 string fileName = Path.GetFileNameWithoutExtension(info[i]).Replace('_', ' ');
                 GameObject obj;
-                if (tag == "Tree") {
-                    obj = InstantiateFromList(main.treePrefabs, fileName);
+                if (tag == "Utility") {
+                    obj = InstantiateFromList(main.utilityPrefabs, fileName);
                 } else if (tag == "Toy") {
                     obj = InstantiateFromList(main.toyPrefabs, fileName);
                 } else if (tag == "Food") {
@@ -180,7 +180,9 @@ public class SaveLoadManager : MonoBehaviour
                     obj = InstantiateFromList(main.slimePrefab, fileName);
                 }
                 MainController controller = obj.GetComponent<MainController>();
-                JsonUtility.FromJsonOverwrite(File.ReadAllText(info[i]), controller);
+                if (controller) {
+                    JsonUtility.FromJsonOverwrite(File.ReadAllText(info[i]), controller);
+                }
                 if (File.Exists(info[i].Replace(".json", "_Age.json"))) {
                     AgeController age = obj.GetComponent<AgeController>();
                     if (age) {

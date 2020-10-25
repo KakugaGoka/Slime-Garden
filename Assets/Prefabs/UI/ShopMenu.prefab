@@ -900,6 +900,18 @@ MonoBehaviour:
     position: {x: 0, y: -0.06, z: 0.7}
     rotation: {x: 0, y: 0, z: 0}
     description: A slime that looks like a peach.
+  - prefab: {fileID: 5091365440269742493, guid: def1d3df9e8b4a94c81ca2c19e663499,
+      type: 3}
+    value: 200
+    position: {x: 0, y: 0, z: 2}
+    rotation: {x: -30, y: 0, z: 0}
+    description: A box that giese warmth to an egg.
+  - prefab: {fileID: 6744296629946141466, guid: aa26eb710a98b16409b5417217e5fe3e,
+      type: 3}
+    value: 200
+    position: {x: 0, y: 0, z: 2}
+    rotation: {x: -30, y: 0, z: 0}
+    description: A raised garden for planting in.
   itemTilePrefab: {fileID: 6612251171008961732, guid: 56389548fdb91bb45863ec24b2820edf,
     type: 3}
   forSaleList: {fileID: 2141746748716389682}
