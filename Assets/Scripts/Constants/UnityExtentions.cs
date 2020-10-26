@@ -86,6 +86,17 @@ namespace UnityEngine
             return result;
         }
 
+        public static int IndexOf<TKey, TValue>(this SortedDictionary<TKey, TValue> dictionary, TValue value) {
+            int i = 0;
+            foreach (var pair in dictionary) {
+                if (pair.Value.Equals(value)) {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
+
         public static void Set( this Text self, string textSting, Color color )
         {
             self.text = textSting;

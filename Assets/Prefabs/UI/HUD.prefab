@@ -945,7 +945,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Range
+  m_Text: Stamina
 --- !u!114 &3437417564809560157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1674,7 +1674,7 @@ MonoBehaviour:
   floating:
     text: {fileID: 4960939384955975664}
     slider: {fileID: 2244636357935765885}
-  range:
+  stamina:
     text: {fileID: 2513398638427599412}
     slider: {fileID: 8727732499013622969}
 --- !u!1 &4560451797352542779

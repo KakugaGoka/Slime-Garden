@@ -26,5 +26,5 @@ public class SlimeMenuController : MonoBehaviour
     public StatUI hopping;
     public StatUI rolling;
     public StatUI floating;
-    public StatUI range;
+    public StatUI stamina;
 }

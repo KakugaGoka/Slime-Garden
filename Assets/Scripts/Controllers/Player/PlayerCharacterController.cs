@@ -272,11 +272,11 @@ public class PlayerCharacterController : MonoBehaviour
         }
         slimeMenu.gameObject.SetActive(true);
         slimeMenu.slimeName.text = slime.slimeName;
-        slimeMenu.hunger.Set(slime.hunger, slime.HungerLimit * 5);
+        slimeMenu.hunger.Set(slime.hunger, slime.hungerLimit * 5);
         slimeMenu.hopping.Set(slime.hopping, 100);
         slimeMenu.rolling.Set(slime.rolling, 100);
         slimeMenu.floating.Set(slime.floating, 100);
-        slimeMenu.range.Set(slime.range, 100);
+        slimeMenu.stamina.Set(slime.stamina, slime.maxStamina);
     }
 
     private void GroundCheck()

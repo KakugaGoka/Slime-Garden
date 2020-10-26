@@ -21,6 +21,8 @@ TagManager:
   - Nest
   - Utility
   - Obstacle
+  - Water
+  - FinishLine
   layers:
   - Default
   - TransparentFX

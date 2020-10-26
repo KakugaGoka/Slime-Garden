@@ -4,10 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using System;
 using static Mathk;
-using System.Runtime.InteropServices.ComTypes;
-using JetBrains.Annotations;
-using System.Runtime.CompilerServices;
-using UnityEngine.Events;
 
 [System.Serializable]
 [ExecuteInEditMode]
@@ -201,6 +197,7 @@ public class PathSpline : MonoBehaviour
     //private List<Vector3> debugPoints = new List<Vector3>();
     //private List<float> ts = new List<float>();
     private List<Spoint> spoints = new List<Spoint>();
+  
     public Spoint GetNearestSpoint( Vector3 WSPoint )
     {
         tesselation = Max( tesselation, 1 );

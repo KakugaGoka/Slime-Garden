@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4832958943988748753}
   - component: {fileID: 4374865751563412506}
+  - component: {fileID: 1089032614034045589}
+  - component: {fileID: 9051526796005086166}
   m_Layer: 0
   m_Name: RacingManager
   m_TagString: Untagged
@@ -43,3 +45,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 598294fda9576b340b45b4632bad2e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slimes: []
+  racingSlimePrefab: {fileID: 2817580289831993494, guid: 610a5a88b8ebedf458a2ca5c83ce992d,
+    type: 3}
+  numerator: {fileID: 0}
+  denominator: {fileID: 0}
+  countdown: {fileID: 0}
+  numberOfOtherSlimes: 3
+  startingLine: {fileID: 0}
+  finishLine: {fileID: 0}
+  raceCamera: {fileID: 0}
+--- !u!114 &1089032614034045589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8830743979672366104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3ae7ec312d61a48a5b16ee1f531e4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionMessage: Interact
+  messageColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &9051526796005086166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8830743979672366104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a960d41a538b01a479af510fb4e92236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuToOpen: {fileID: 0}
+  menuToClose: {fileID: 0}

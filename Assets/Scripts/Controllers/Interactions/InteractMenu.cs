@@ -29,9 +29,6 @@ public class InteractMenu : MonoBehaviour
     public void OpenSubMenu() {
         if (menuToClose) menuToClose.gameObject.SetActive(false);
         if (menuToOpen) menuToOpen.gameObject.SetActive(true);
-        SaveLoadManager.isMenuOpen = true;
-        GameFlowManager.paused = true;
-        Cursor.visible = true;
     }
 
     public void CloseMenu() {
