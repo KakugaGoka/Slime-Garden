@@ -148,9 +148,9 @@ public class RacingManager : MonoBehaviour
             GameObject newSlime = Instantiate(racingSlimePrefab, startingLine.transform.position + new Vector3(0, 0, (i + 2) * 2), Quaternion.identity);
             SlimeController slime = newSlime.GetComponent<SlimeController>();
             slimes.Add(slime);
-            slime.hopping = 100;
-            slime.rolling = 100;
-            slime.floating = 100;
+            slime.hopping = 10;
+            slime.rolling = 10;
+            slime.floating = 10;
             AgeController age = slime.GetComponent<AgeController>();
             age.currentAge = age.fullGrown;
         }
