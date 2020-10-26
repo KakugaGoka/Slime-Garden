@@ -134,6 +134,7 @@ public class RacingManager : MonoBehaviour
         slimes = new List<SlimeController>();
         finishedSlimes = new List<SlimeController>();
         slimes.Add(mySlime);
+        mySlime.stamina -= 1;
         InteractHold hold = mySlime.GetComponent<InteractHold>();
         hold.onDrop.Invoke(m_Player);
         mySlime.transform.position = startingLine.transform.position + new Vector3(0, 0, 2);
@@ -194,7 +195,7 @@ public class RacingManager : MonoBehaviour
         m_Player.enabled = true;
         for (int i = 0; i < slimes.Count; i++) {
             if (slimes[i] != m_Slime) {
-                Destroy(slimes[i]);
+                Destroy(slimes[i].gameObject);
             }
         }
         slimes = new List<SlimeController>();
@@ -203,5 +204,15 @@ public class RacingManager : MonoBehaviour
         raceCamera = null;
         SceneManager.UnloadSceneAsync(currentTrack);
         m_Slime.activity = SlimeController.Activity.Garden;
+        switch (currentPlace) {
+            case 1:
+                m_Player.wealth += 200; break;
+            case 2:
+                m_Player.wealth += 100; break;
+            case 3:
+                m_Player.wealth += 50; break;
+            default:
+                break;
+        }
     }
 }

@@ -18,7 +18,7 @@ public class SlimeController : MainController
     private NavMeshPath navPath;
     private Vector3[] path;
     private Vector3 pathTarget;
-    private bool hungry { get { return hunger > HungerLimit; } }
+    private bool hungry { get { return hunger > hungerLimit; } }
     private float pathDist = 0;
     private float goalDist = 0;
 
@@ -34,7 +34,9 @@ public class SlimeController : MainController
 
     public string slimeName = "Baby Slime";
     public float hunger;
-    public float HungerLimit = 30;
+    public float hungerLimit = 30;
+    public float stamina = 2;
+    public float maxStamina = 2;
     public float jumpTimer = 5;
     public float wanderRange = 5;
     public float jumpForce = 100;
@@ -125,7 +127,11 @@ public class SlimeController : MainController
         SetInShader();
         ChangeFaceTexture( currentFace );
 
-        //movement = UnityEngine.Random.value*1.99f
+        TimeManager.main.OnTheDay += RestoreStamina;
+    }
+
+    private void RestoreStamina() {
+        stamina = maxStamina;
     }
 
     private void Update()
@@ -133,7 +139,7 @@ public class SlimeController : MainController
         if (npc) {
             return;
         }
-        hunger += Time.deltaTime;
+        hunger += Time.deltaTime / 10;
         lastHopTimer -= Time.deltaTime;
         switch (activity) {
             case Activity.Garden:

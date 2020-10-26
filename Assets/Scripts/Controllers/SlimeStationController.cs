@@ -44,7 +44,7 @@ public class SlimeStationController : MonoBehaviour
         nameField.interactable = true;
         nameButton.interactable = true;
         goodbyeButton.interactable = true;
-        raceButton.interactable = true;
+        raceButton.interactable = slime.stamina >= 1;
     }
 
     public void Rename() {
